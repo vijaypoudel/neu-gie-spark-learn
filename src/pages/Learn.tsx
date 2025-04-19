@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LearningCard from '@/components/LearningCard';
@@ -7,7 +6,7 @@ import Navigation from '@/components/Navigation';
 const Learn = () => {
   const [category, setCategory] = useState('all');
   
-  // Mock curriculum content
+  // Enhanced curriculum content
   const curriculumContent = [
     {
       id: '1',
@@ -23,31 +22,85 @@ const Learn = () => {
     },
     {
       id: '3',
+      title: 'Basic Subtraction',
+      description: 'Learn to subtract using simple examples.',
+      category: 'math' as const,
+    },
+    {
+      id: '4',
       title: 'Animal Lifecycles',
       description: 'Learn how animals grow and change.',
       category: 'science' as const,
     },
     {
-      id: '4',
+      id: '5',
+      title: 'Weather and Seasons',
+      description: 'Explore different types of weather and seasonal changes.',
+      category: 'science' as const,
+    },
+    {
+      id: '6',
+      title: 'Plants Growing',
+      description: 'Discover how plants grow from seeds.',
+      category: 'science' as const,
+    },
+    {
+      id: '7',
       title: 'Alphabet Fun',
       description: 'Practice recognizing and writing letters.',
       category: 'language' as const,
     },
     {
-      id: '5',
+      id: '8',
+      title: 'Sight Words',
+      description: 'Learn common words by sight.',
+      category: 'language' as const,
+    },
+    {
+      id: '9',
+      title: 'Story Time',
+      description: 'Read along with interactive stories.',
+      category: 'language' as const,
+    },
+    {
+      id: '10',
       title: 'Color Mixing',
       description: 'Explore what happens when colors combine.',
       category: 'art' as const,
     },
     {
-      id: '6',
+      id: '11',
+      title: 'Drawing Shapes',
+      description: 'Learn to draw basic shapes and patterns.',
+      category: 'art' as const,
+    },
+    {
+      id: '12',
+      title: 'Creative Crafts',
+      description: 'Make fun art projects with simple materials.',
+      category: 'art' as const,
+    },
+    {
+      id: '13',
       title: 'Rhythm and Beats',
       description: 'Clap and move to different musical patterns.',
+      category: 'music' as const,
+    },
+    {
+      id: '14',
+      title: 'Singing Together',
+      description: 'Learn and sing along to fun children\'s songs.',
+      category: 'music' as const,
+    },
+    {
+      id: '15',
+      title: 'Musical Instruments',
+      description: 'Discover different instruments and their sounds.',
       category: 'music' as const,
     }
   ];
   
-  // Mock passion activities
+  // Enhanced passion activities
   const passionContent = [
     {
       id: '1',
@@ -72,6 +125,18 @@ const Learn = () => {
       title: 'Paper Crafts',
       description: 'Create cool things with just paper and scissors.',
       category: 'art' as const,
+    },
+    {
+      id: '5',
+      title: 'Science Experiments',
+      description: 'Safe and fun experiments to try at home.',
+      category: 'science' as const,
+    },
+    {
+      id: '6',
+      title: 'Storytelling',
+      description: 'Create and tell your own exciting stories.',
+      category: 'language' as const,
     }
   ];
   

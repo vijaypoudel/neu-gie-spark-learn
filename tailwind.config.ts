@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// NeuGie custom colors
+				'neugie-blue': '#4285F4',
+				'neugie-yellow': '#FBBC05',
+				'neugie-green': '#34A853',
+				'neugie-red': '#EA4335',
+				'neugie-purple': '#9b87f5',
+				'neugie-light-blue': '#D3E4FD',
+				'neugie-light-yellow': '#FEF7CD',
+				'neugie-light-green': '#F2FCE2',
+				'neugie-light-red': '#FFDEE2',
+				'neugie-light-purple': '#E5DEFF',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +96,47 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
+				},
+				'wave': {
+					'0%': {
+						transform: 'rotate(0deg)'
+					},
+					'10%': {
+						transform: 'rotate(14deg)'
+					},
+					'20%': {
+						transform: 'rotate(-8deg)'
+					},
+					'30%': {
+						transform: 'rotate(14deg)'
+					},
+					'40%': {
+						transform: 'rotate(-4deg)'
+					},
+					'50%': {
+						transform: 'rotate(10deg)'
+					},
+					'60%': {
+						transform: 'rotate(0deg)'
+					},
+					'100%': {
+						transform: 'rotate(0deg)'
+					},
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'float': 'float 3s ease-in-out infinite',
+				'wave': 'wave 2.5s ease-in-out infinite',
 			}
 		}
 	},

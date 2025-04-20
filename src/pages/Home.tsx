@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import { Book, TrendingUp, Calendar, Users, Inbox } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import SectionCard from '@/components/home/SectionCard';
@@ -53,13 +54,6 @@ const Home = () => {
     }
   ];
 
-  const [flippedCard, setFlippedCard] = useState<number | null>(null);
-  
-  const toggleCardFlip = (index: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setFlippedCard(flippedCard === index ? null : index);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50/50 to-yellow-50/30 pb-20">
       <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-orange-100/20">
@@ -80,8 +74,6 @@ const Home = () => {
             <SectionCard
               key={index}
               {...section}
-              isFlipped={flippedCard === index}
-              onFlip={(e) => toggleCardFlip(index, e)}
             />
           ))}
         </div>

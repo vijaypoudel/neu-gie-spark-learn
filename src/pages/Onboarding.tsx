@@ -1,26 +1,10 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
 import ParentProfileForm from '@/components/ParentProfileForm';
 import ChildProfileForm from '@/components/ChildProfileForm';
-import { toast } from "sonner";
-
-// Form validation schema
-const parentSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  dateOfBirth: z.string(),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  confirmPassword: z.string()
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"]
-});
 
 const Onboarding = () => {
   const navigate = useNavigate();
@@ -29,17 +13,7 @@ const Onboarding = () => {
   const [parentData, setParentData] = useState<any>(null);
   const [spouseData, setSpouseData] = useState<any>(null);
   
-  const form = useForm({
-    resolver: zodResolver(parentSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      dateOfBirth: "",
-      password: "",
-      confirmPassword: ""
-    }
-  });
-
+  // Function to handle parent profile submission
   const handleParentSubmit = (data: any) => {
     setParentData(data);
     if (showSpouseForm) {
@@ -49,16 +23,27 @@ const Onboarding = () => {
     }
   };
 
+  // Function to handle spouse profile submission
   const handleSpouseSubmit = (data: any) => {
     setSpouseData(data);
     setCurrentStep('child');
   };
 
+  // Function to handle child profile submission
   const handleChildSubmit = (data: any) => {
     // Here you would typically save all the data
     console.log({ parentData, spouseData, childData: data });
     toast.success("Profile created successfully!");
     navigate('/');
+  };
+
+  // Function to go back to previous step
+  const handleBack = () => {
+    if (currentStep === 'child' && showSpouseForm) {
+      setCurrentStep('spouse');
+    } else if (currentStep === 'child' || currentStep === 'spouse') {
+      setCurrentStep('parent');
+    }
   };
 
   return (
@@ -67,17 +52,37 @@ const Onboarding = () => {
         <img 
           src="/lovable-uploads/8a2bf812-5023-41f7-aef5-bff84f9a8786.png" 
           alt="CurioBee Mascot" 
-          className="w-24 h-24 mx-auto mb-6 animate-bounce"
+          className="w-24 h-24 mx-auto mb-6"
         />
         
         <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-gray-100 p-6">
+          {/* Step indicator */}
+          <div className="flex justify-between mb-6">
+            <div 
+              className={`h-2 flex-1 rounded-l-full ${
+                currentStep === 'parent' ? 'bg-yellow-500' : 'bg-yellow-300'
+              }`}
+            ></div>
+            <div 
+              className={`h-2 flex-1 ${
+                currentStep === 'spouse' ? 'bg-orange-400' : 
+                currentStep === 'child' ? 'bg-orange-300' : 'bg-gray-200'
+              }`}
+            ></div>
+            <div 
+              className={`h-2 flex-1 rounded-r-full ${
+                currentStep === 'child' ? 'bg-orange-500' : 'bg-gray-200'
+              }`}
+            ></div>
+          </div>
+          
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-2xl font-bold text-gray-800 font-playfair">
               {currentStep === 'parent' && 'Create Your Account'}
               {currentStep === 'spouse' && 'Add Secondary Parent'}
               {currentStep === 'child' && 'Add Your Child'}
             </h1>
-            <p className="text-gray-600 mt-2 text-sm">
+            <p className="text-gray-600 mt-2 text-sm font-playfair">
               {currentStep === 'parent' && 'Start your journey with CurioBee'}
               {currentStep === 'spouse' && 'Optional: Add another parent'}
               {currentStep === 'child' && 'Help us personalize the learning experience'}
@@ -89,7 +94,7 @@ const Onboarding = () => {
               <ParentProfileForm 
                 onSubmit={handleParentSubmit} 
                 showSpouseOption={true}
-                onSpouseOptionChange={(show) => setShowSpouseForm(show)}
+                onSpouseOptionChange={setShowSpouseForm}
               />
             </div>
           )}
@@ -100,11 +105,31 @@ const Onboarding = () => {
                 onSubmit={handleSpouseSubmit}
                 isSpouse={true}
               />
+              <div className="flex justify-center">
+                <Button 
+                  variant="outline" 
+                  onClick={handleBack}
+                  className="mt-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50"
+                >
+                  Back
+                </Button>
+              </div>
             </div>
           )}
 
           {currentStep === 'child' && (
-            <ChildProfileForm onSubmit={handleChildSubmit} />
+            <>
+              <ChildProfileForm onSubmit={handleChildSubmit} />
+              <div className="flex justify-center mt-4">
+                <Button 
+                  variant="outline" 
+                  onClick={handleBack}
+                  className="border-yellow-500 text-yellow-600 hover:bg-yellow-50"
+                >
+                  Back
+                </Button>
+              </div>
+            </>
           )}
         </div>
       </div>

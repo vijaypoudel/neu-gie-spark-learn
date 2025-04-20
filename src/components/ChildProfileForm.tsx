@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -9,6 +11,22 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from 'lucide-react';
 import { Checkbox } from "@/components/ui/checkbox";
 
+// Validation schema for child profile
+const childSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  dateOfBirth: z.string().min(1, "Date of birth is required"),
+  gender: z.string().min(1, "Gender is required"),
+  curriculum: z.string().min(1, "Curriculum is required"),
+  subjects: z.string().optional(),
+  passions: z.array(z.string()).optional(),
+  passcode: z.string().length(8, "Passcode must be 8 digits").regex(/^\d+$/, "Passcode must contain only numbers"),
+  confirmPasscode: z.string().length(8, "Passcode must be 8 digits")
+}).refine(data => data.passcode === data.confirmPasscode, {
+  message: "Passcodes don't match",
+  path: ["confirmPasscode"]
+});
+
+// List of subjects
 const subjects = [
   'Mathematics',
   'Science',
@@ -22,6 +40,7 @@ const subjects = [
   'Environmental Studies'
 ];
 
+// List of passions
 const passions = [
   { id: 'dance', label: 'Dance' },
   { id: 'singing', label: 'Singing' },
@@ -34,7 +53,19 @@ interface ChildProfileFormProps {
 }
 
 const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
-  const form = useForm();
+  const form = useForm<z.infer<typeof childSchema>>({
+    resolver: zodResolver(childSchema),
+    defaultValues: {
+      name: "",
+      dateOfBirth: "",
+      gender: "",
+      curriculum: "",
+      subjects: "",
+      passions: [],
+      passcode: "",
+      confirmPasscode: ""
+    }
+  });
 
   return (
     <Form {...form}>
@@ -61,8 +92,7 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
               <FormLabel className="font-playfair">Date of Birth</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Input type="date" {...field} />
-                  <Calendar className="absolute right-3 top-2.5 h-5 w-5 text-gray-500" />
+                  <Input type="date" {...field} className="h-12 rounded-xl bg-gray-50/50" />
                 </div>
               </FormControl>
               <FormMessage />
@@ -78,7 +108,7 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
               <FormLabel className="font-playfair">Gender</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-12 rounded-xl bg-gray-50/50">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                 </FormControl>
@@ -101,7 +131,7 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
               <FormLabel className="font-playfair">School Curriculum</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-12 rounded-xl bg-gray-50/50">
                     <SelectValue placeholder="Select curriculum" />
                   </SelectTrigger>
                 </FormControl>
@@ -193,6 +223,7 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
                   pattern="[0-9]*" 
                   inputMode="numeric" 
                   placeholder="Enter 8-digit passcode" 
+                  className="h-12 rounded-xl bg-gray-50/50"
                   {...field} 
                 />
               </FormControl>
@@ -214,6 +245,7 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
                   pattern="[0-9]*" 
                   inputMode="numeric" 
                   placeholder="Confirm 8-digit passcode" 
+                  className="h-12 rounded-xl bg-gray-50/50"
                   {...field} 
                 />
               </FormControl>
@@ -221,6 +253,13 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
             </FormItem>
           )}
         />
+
+        <Button 
+          type="submit" 
+          className="w-full h-12 rounded-xl bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-playfair"
+        >
+          Continue
+        </Button>
       </form>
     </Form>
   );

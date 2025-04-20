@@ -10,13 +10,14 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+// Form validation schemas
 const parentSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 const childSchema = z.object({
-  email: z.string().email("Parent's email address"),
+  email: z.string().email("Parent's email address is required"),
   passcode: z.string().length(8, "Passcode must be 8 digits").regex(/^\d+$/, "Passcode must contain only numbers"),
 });
 
@@ -79,10 +80,12 @@ const LoginForm = ({ type }: LoginFormProps) => {
               <FormControl>
                 <div className="relative">
                   <Input 
-                    type={type === 'parent' ? (showPassword ? "text" : "password") : "number"}
+                    type={type === 'parent' ? (showPassword ? "text" : "password") : "password"}
                     placeholder={type === 'parent' ? "Enter your password" : "Enter your 8-digit passcode"} 
                     className="h-12 rounded-xl bg-gray-50/50 pr-10"
                     maxLength={type === 'child' ? 8 : undefined}
+                    pattern={type === 'child' ? "[0-9]*" : undefined}
+                    inputMode={type === 'child' ? "numeric" : undefined}
                     {...field} 
                   />
                   {type === 'parent' && (

@@ -1,73 +1,110 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import ParentProfileForm from '@/components/ParentProfileForm';
 import ChildProfileForm from '@/components/ChildProfileForm';
+import { toast } from "sonner";
+
+// Form validation schema
+const parentSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  dateOfBirth: z.string(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  confirmPassword: z.string()
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"]
+});
 
 const Onboarding = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<'parent' | 'child'>('parent');
   const [showSpouseForm, setShowSpouseForm] = useState(false);
-  const [children, setChildren] = useState<any[]>([]);
+  const [currentStep, setCurrentStep] = useState<'parent' | 'spouse' | 'child'>('parent');
+  const [parentData, setParentData] = useState<any>(null);
+  const [spouseData, setSpouseData] = useState<any>(null);
+  
+  const form = useForm({
+    resolver: zodResolver(parentSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      dateOfBirth: "",
+      password: "",
+      confirmPassword: ""
+    }
+  });
 
   const handleParentSubmit = (data: any) => {
-    setStep('child');
+    setParentData(data);
+    if (showSpouseForm) {
+      setCurrentStep('spouse');
+    } else {
+      setCurrentStep('child');
+    }
+  };
+
+  const handleSpouseSubmit = (data: any) => {
+    setSpouseData(data);
+    setCurrentStep('child');
   };
 
   const handleChildSubmit = (data: any) => {
-    setChildren([...children, data]);
+    // Here you would typically save all the data
+    console.log({ parentData, spouseData, childData: data });
+    toast.success("Profile created successfully!");
     navigate('/');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-10 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+      <div className="max-w-md mx-auto">
         <img 
-          src="/lovable-uploads/8ecc83bb-a689-41dc-a91d-f39d1208c16d.png" 
+          src="/lovable-uploads/8a2bf812-5023-41f7-aef5-bff84f9a8786.png" 
           alt="CurioBee Mascot" 
-          className="w-20 h-20 mx-auto mb-6"
+          className="w-24 h-24 mx-auto mb-6 animate-bounce"
         />
         
-        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-gray-100 p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">
-              {step === 'parent' ? 'Create Your Account' : 'Add Your Child'}
+        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-gray-100 p-6">
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-bold text-gray-800">
+              {currentStep === 'parent' && 'Create Your Account'}
+              {currentStep === 'spouse' && 'Add Secondary Parent'}
+              {currentStep === 'child' && 'Add Your Child'}
             </h1>
-            <p className="text-gray-600 mt-2">
-              {step === 'parent' 
-                ? 'Start your journey with CurioBee' 
-                : 'Help us personalize the learning experience'
-              }
+            <p className="text-gray-600 mt-2 text-sm">
+              {currentStep === 'parent' && 'Start your journey with CurioBee'}
+              {currentStep === 'spouse' && 'Optional: Add another parent'}
+              {currentStep === 'child' && 'Help us personalize the learning experience'}
             </p>
           </div>
 
-          {step === 'parent' && (
-            <div className="space-y-8">
-              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6">
-                <h2 className="text-xl font-semibold text-gray-800 mb-6">Primary Parent</h2>
-                <ParentProfileForm onSubmit={handleParentSubmit} />
-              </div>
-
-              {showSpouseForm ? (
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6">
-                  <h2 className="text-xl font-semibold text-gray-800 mb-6">Secondary Parent</h2>
-                  <ParentProfileForm onSubmit={handleParentSubmit} />
-                </div>
-              ) : (
-                <button
-                  onClick={() => setShowSpouseForm(true)}
-                  className="w-full py-4 rounded-xl border-2 border-dashed border-gray-300 text-gray-600 hover:border-yellow-500 hover:text-yellow-600 transition-colors"
-                >
-                  Add Secondary Parent
-                </button>
-              )}
+          {currentStep === 'parent' && (
+            <div className="space-y-6">
+              <ParentProfileForm 
+                onSubmit={handleParentSubmit} 
+                showSpouseOption={true}
+                onSpouseOptionChange={(show) => setShowSpouseForm(show)}
+              />
             </div>
           )}
 
-          {step === 'child' && (
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6">
-              <ChildProfileForm onSubmit={handleChildSubmit} />
+          {currentStep === 'spouse' && (
+            <div className="space-y-6">
+              <ParentProfileForm 
+                onSubmit={handleSpouseSubmit}
+                isSpouse={true}
+              />
             </div>
+          )}
+
+          {currentStep === 'child' && (
+            <ChildProfileForm onSubmit={handleChildSubmit} />
           )}
         </div>
       </div>

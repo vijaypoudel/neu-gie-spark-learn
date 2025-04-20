@@ -23,7 +23,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
     },
     {
       id: 'ai',
-      label: 'Ask NeuGie',
+      label: 'Ask CurioBee',
       icon: Bug,
       path: '/ai'
     },
@@ -43,8 +43,8 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
           to={item.path}
           className={`flex flex-col items-center justify-center w-full h-full ${
             activeTab === item.id 
-              ? 'text-neugie-blue' 
-              : 'text-gray-400 hover:text-gray-700'
+              ? 'text-orange-500' 
+              : 'text-gray-400 hover:text-yellow-500'
           }`}
         >
           <item.icon className="h-5 w-5 mb-1" />
@@ -56,3 +56,4 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
 };
 
 export default Navigation;
+

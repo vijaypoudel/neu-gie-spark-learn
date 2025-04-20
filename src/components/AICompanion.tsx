@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mic, Send, Image as ImageIcon } from "lucide-react";
+import { Mic, Send, Image as ImageIcon, Sparkles } from "lucide-react";
 import NeugieMascot from './NeugieMascot';
 
 interface Message {
@@ -23,6 +23,7 @@ const AICompanion: React.FC = () => {
     }
   ]);
   const [isRecording, setIsRecording] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
 
   const handleSendMessage = () => {
     if (!input.trim()) return;
@@ -37,6 +38,7 @@ const AICompanion: React.FC = () => {
     
     setMessages(prev => [...prev, userMessage]);
     setInput('');
+    setIsThinking(true);
     
     // Simulate AI response
     setTimeout(() => {
@@ -58,7 +60,8 @@ const AICompanion: React.FC = () => {
       };
       
       setMessages(prev => [...prev, aiMessage]);
-    }, 1000);
+      setIsThinking(false);
+    }, 1500);
   };
 
   const handleRecord = () => {
@@ -90,26 +93,49 @@ const AICompanion: React.FC = () => {
             <div 
               className={`rounded-2xl px-4 py-2 max-w-[80%] ${
                 message.sender === 'user' 
-                  ? 'bg-neugie-blue text-white rounded-tr-none' 
-                  : 'bg-neugie-light-blue rounded-tl-none'
+                  ? 'bg-neugie-blue text-white rounded-tr-none shadow-md' 
+                  : 'bg-gradient-to-r from-neugie-light-yellow to-neugie-light-orange rounded-tl-none shadow-md'
               }`}
             >
-              <p>{message.text}</p>
+              <p className={message.sender === 'user' ? '' : 'font-playfair'}>{message.text}</p>
             </div>
+            
+            {message.sender === 'user' && (
+              <div className="ml-2 self-end opacity-70">
+                <div className="w-8 h-8 bg-neugie-blue rounded-full flex items-center justify-center text-white text-sm">
+                  You
+                </div>
+              </div>
+            )}
           </div>
         ))}
+        
+        {isThinking && (
+          <div className="flex justify-start">
+            <div className="mr-2 self-end">
+              <NeugieMascot size="sm" animated={true} />
+            </div>
+            <div className="bg-neugie-light-yellow rounded-2xl rounded-tl-none px-4 py-2 shadow-md">
+              <div className="flex space-x-2 items-center">
+                <div className="w-2 h-2 bg-neugie-yellow rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-neugie-yellow rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                <div className="w-2 h-2 bg-neugie-yellow rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       
       {/* Input area */}
-      <div className="border-t p-4 bg-white">
+      <div className="border-t p-4 bg-white/80 backdrop-blur-sm">
         <div className="flex items-center gap-2">
           <Button 
             size="icon" 
             variant="outline" 
-            className="rounded-full"
+            className="rounded-full border-neugie-yellow text-neugie-yellow hover:text-neugie-yellow hover:bg-yellow-50 hover:border-neugie-yellow"
             onClick={() => {/* Would open image picker */}}
           >
-            <ImageIcon className="h-5 w-5 text-neugie-blue" />
+            <ImageIcon className="h-5 w-5" />
           </Button>
           
           <Input
@@ -117,13 +143,13 @@ const AICompanion: React.FC = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask NeuGie anything..."
-            className="neugie-input flex-1"
+            className="neugie-input flex-1 border-2 focus:border-neugie-yellow"
           />
           
           <Button 
             size="icon" 
             variant="outline" 
-            className={`rounded-full ${isRecording ? 'bg-neugie-red text-white' : ''}`}
+            className={`rounded-full ${isRecording ? 'bg-neugie-red border-neugie-red text-white' : 'border-neugie-red text-neugie-red hover:text-neugie-red hover:bg-red-50 hover:border-neugie-red'}`}
             onClick={handleRecord}
           >
             <Mic className="h-5 w-5" />
@@ -132,7 +158,7 @@ const AICompanion: React.FC = () => {
           <Button 
             size="icon" 
             onClick={handleSendMessage}
-            className="rounded-full bg-neugie-blue"
+            className="rounded-full bg-gradient-to-r from-neugie-yellow to-neugie-orange hover:opacity-90"
             disabled={!input.trim()}
           >
             <Send className="h-5 w-5" />

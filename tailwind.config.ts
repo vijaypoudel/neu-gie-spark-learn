@@ -68,11 +68,13 @@ export default {
         'neugie-green': '#34A853',
         'neugie-red': '#EA4335',
         'neugie-purple': '#9b87f5',
+        'neugie-orange': '#F87B46',
         'neugie-light-blue': '#D3E4FD',
         'neugie-light-yellow': '#FEF7CD',
         'neugie-light-green': '#F2FCE2',
         'neugie-light-red': '#FFDEE2',
         'neugie-light-purple': '#E5DEFF',
+        'neugie-light-orange': '#FFE8D9',
       },
       backgroundColor: {
         background: 'hsl(var(--background) / <alpha-value>)'

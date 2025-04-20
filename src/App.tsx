@@ -13,6 +13,7 @@ import Learn from "./pages/Learn";
 import AIChat from "./pages/AIChat";
 import KidsHome from "./pages/KidsHome";
 import SetCurriculum from "./pages/SetCurriculum";
+import WorkInProgress from "./pages/WorkInProgress";
 
 const queryClient = new QueryClient();
 
@@ -30,9 +31,17 @@ const App = () => (
           <Route path="/profile" element={<Profile />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/ai" element={<AIChat />} />
-          <Route path="/inbox" element={<Home />} />
+          <Route path="/inbox" element={<WorkInProgress />} />
           <Route path="/kids-home" element={<KidsHome />} />
           <Route path="/set-curriculum" element={<SetCurriculum />} />
+          <Route path="/weekly-curriculum" element={<WorkInProgress />} />
+          <Route path="/my-badges" element={<WorkInProgress />} />
+          <Route path="/my-passion" element={<WorkInProgress />} />
+          <Route path="/funtube" element={<WorkInProgress />} />
+          <Route path="/social" element={<WorkInProgress />} />
+          <Route path="/analytics" element={<WorkInProgress />} />
+          <Route path="/calendar" element={<WorkInProgress />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

@@ -1,5 +1,6 @@
-
 import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Book, TrendingUp, Calendar, Users, Inbox } from 'lucide-react';
 import NeugieMascot from '@/components/NeugieMascot';
 import ProfileSelector from '@/components/ProfileSelector';
 import LearningCard from '@/components/LearningCard';
@@ -47,11 +48,47 @@ const Home = () => {
     // In a real app, this would load the appropriate content
   };
 
+  const sections = [
+    {
+      title: "Weekly Curriculum",
+      description: "Track and manage your child's weekly learning schedule",
+      icon: Book,
+      color: "bg-blue-500",
+    },
+    {
+      title: "Analytics",
+      description: "Monitor progress and performance insights",
+      icon: TrendingUp,
+      color: "bg-green-500",
+    },
+    {
+      title: "Utility Section",
+      description: "Access tools and resources for learning",
+      icon: Calendar,
+      color: "bg-purple-500",
+    },
+    {
+      title: "My Social Circle",
+      description: "Connect with other parents and educators",
+      icon: Users,
+      color: "bg-yellow-500",
+    },
+    {
+      title: "My Inbox",
+      description: "Stay updated with important notifications",
+      icon: Inbox,
+      color: "bg-orange-500",
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 pb-16">
       {/* Header */}
       <div className="bg-white p-4 flex items-center justify-between shadow-sm">
-        <h1 className="text-2xl font-bold text-neugie-blue">NeuGie</h1>
+        <h1 className="text-2xl font-bold">
+          <span className="text-yellow-500">Curio</span>
+          <span className="text-orange-500">Bee</span>
+        </h1>
         <NeugieMascot size="sm" />
       </div>
       

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Book, Award, Heart, Youtube } from 'lucide-react';
 import Navigation from '@/components/Navigation';
@@ -45,20 +44,20 @@ const KidsHome = () => {
   ];
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50/50 to-purple-50/30 pb-20">
-      <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-blue-100/20">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50/50 to-black/5 pb-20">
+      <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-orange-100/20">
         <h1 className="text-2xl font-bold font-playfair">
-          <span className="text-yellow-500">Curio</span>
-          <span className="text-orange-500">Bee</span>
-          <span className="text-blue-500 ml-2">Kids</span>
+          <span className="text-orange-500">Curio</span>
+          <span className="text-black">Bee</span>
+          <span className="text-orange-500 ml-2">Kids</span>
         </h1>
-        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-          <span className="text-blue-500 font-bold">TJ</span>
+        <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+          <span className="text-orange-500 font-bold">TJ</span>
         </div>
       </div>
       
       <div className="p-6 md:p-8 max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold mb-8 font-playfair bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold mb-8 font-playfair bg-gradient-to-r from-orange-600 to-black bg-clip-text text-transparent">
           Hello, Tommy!
         </h2>
         
@@ -78,4 +77,3 @@ const KidsHome = () => {
 };
 
 export default KidsHome;
-

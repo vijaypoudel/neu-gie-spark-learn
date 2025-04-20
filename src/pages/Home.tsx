@@ -55,17 +55,17 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50/50 to-yellow-50/30 pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50/50 to-black/5 pb-20">
       <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-orange-100/20">
         <h1 className="text-2xl font-bold font-playfair">
-          <span className="text-yellow-500">Curio</span>
-          <span className="text-orange-500">Bee</span>
+          <span className="text-orange-500">Curio</span>
+          <span className="text-black">Bee</span>
         </h1>
         <ProfileSheet />
       </div>
       
       <div className="p-6 md:p-8 max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold mb-8 font-playfair bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold mb-8 font-playfair bg-gradient-to-r from-orange-600 to-black bg-clip-text text-transparent">
           Welcome back, Sarah!
         </h2>
         

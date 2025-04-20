@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Home, BugPlay, Inbox } from "lucide-react";
 
 interface NavigationProps {
-  activeTab: 'home' | 'ai' | 'inbox';
+  activeTab: 'home' | 'ai' | 'inbox' | 'learn';
 }
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {

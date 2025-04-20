@@ -43,14 +43,7 @@ const KidsHome = () => {
       bgImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=600&h=400')",
     }
   ];
-
-  const [flippedCard, setFlippedCard] = React.useState<number | null>(null);
   
-  const toggleCardFlip = (index: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setFlippedCard(flippedCard === index ? null : index);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/50 to-purple-50/30 pb-20">
       <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-blue-100/20">
@@ -74,8 +67,6 @@ const KidsHome = () => {
             <SectionCard
               key={index}
               {...section}
-              isFlipped={flippedCard === index}
-              onFlip={(e) => toggleCardFlip(index, e)}
             />
           ))}
         </div>
@@ -87,3 +78,4 @@ const KidsHome = () => {
 };
 
 export default KidsHome;
+

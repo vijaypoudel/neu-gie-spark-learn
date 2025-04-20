@@ -212,15 +212,17 @@ const Home = () => {
       <Navigation activeTab="home" />
       
       {/* Add custom CSS for card flip effect */}
-      <style jsx>{`
-        @keyframes rotate-y-180 {
-          from { transform: rotateY(0deg); }
-          to { transform: rotateY(180deg); }
-        }
-        .rotate-y-180 {
-          transform: rotateY(180deg);
-        }
-      `}</style>
+      <style>
+        {`
+          @keyframes rotate-y-180 {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(180deg); }
+          }
+          .rotate-y-180 {
+            transform: rotateY(180deg);
+          }
+        `}
+      </style>
     </div>
   );
 };

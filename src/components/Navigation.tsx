@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, BookOpen, MessageSquare, User } from "lucide-react";
+import { Home, BookOpen, MessageSquare, Inbox, Bee } from "lucide-react";
 
 interface NavigationProps {
-  activeTab: 'home' | 'learn' | 'ai' | 'profile';
+  activeTab: 'home' | 'learn' | 'ai' | 'inbox';
 }
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
@@ -13,7 +13,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
       id: 'home',
       label: 'Home',
       icon: Home,
-      path: '/'
+      path: '/home'
     },
     {
       id: 'learn',
@@ -23,15 +23,15 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
     },
     {
       id: 'ai',
-      label: 'Ask',
-      icon: MessageSquare,
+      label: 'Ask NeuGie',
+      icon: Bee,
       path: '/ai'
     },
     {
-      id: 'profile',
-      label: 'Profile',
-      icon: User,
-      path: '/profile'
+      id: 'inbox',
+      label: 'Inbox',
+      icon: Inbox,
+      path: '/inbox'
     }
   ];
   

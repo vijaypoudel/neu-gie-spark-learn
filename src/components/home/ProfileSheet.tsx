@@ -1,12 +1,19 @@
 
 import React from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, LogOut } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ProfileSheet = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Here you would handle the logout logic
+    navigate('/');
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -56,7 +63,13 @@ const ProfileSheet = () => {
             </div>
           </div>
           
-          <Button className="w-full bg-neugie-blue hover:bg-neugie-blue/90">Logout</Button>
+          <Button 
+            onClick={handleLogout} 
+            className="w-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center gap-2"
+          >
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
         </div>
       </SheetContent>
     </Sheet>

@@ -74,6 +74,9 @@ export default {
         'neugie-light-red': '#FFDEE2',
         'neugie-light-purple': '#E5DEFF',
       },
+      backgroundColor: {
+        background: 'hsl(var(--background) / <alpha-value>)'
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

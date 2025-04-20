@@ -11,6 +11,7 @@ import Learn from "./pages/Learn";
 import AIChat from "./pages/AIChat";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Onboarding />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/home" element={<Home />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/ai" element={<AIChat />} />

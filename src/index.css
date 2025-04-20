@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -81,7 +82,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-solid border-0;
   }
 
   body {

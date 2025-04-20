@@ -158,6 +158,9 @@ export default {
       },
       textColor: {
         foreground: 'hsl(var(--foreground) / <alpha-value>)'
+      },
+      borderColor: {
+        'neugie-blue': 'hsl(var(--neugie-blue) / <alpha-value>)'
       }
     },
   },

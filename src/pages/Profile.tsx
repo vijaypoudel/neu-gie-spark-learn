@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -103,7 +102,7 @@ const Profile = () => {
         />
       </div>
       
-      <Navigation activeTab="profile" />
+      <Navigation activeTab="learn" />
     </div>
   );
 };

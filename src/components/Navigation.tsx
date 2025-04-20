@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, BookOpen, MessageSquare, Inbox, Bee } from "lucide-react";
+import { Home, BookOpen, Inbox, Bee } from "lucide-react";
 
 interface NavigationProps {
   activeTab: 'home' | 'learn' | 'ai' | 'inbox';

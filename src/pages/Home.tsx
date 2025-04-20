@@ -1,23 +1,10 @@
-
 import React, { useState } from 'react';
-import { Card } from "@/components/ui/card";
-import { 
-  Book, 
-  TrendingUp, 
-  Calendar, 
-  Users, 
-  Inbox, 
-  MoreHorizontal,
-  ChevronRight
-} from 'lucide-react';
+import { Book, TrendingUp, Calendar, Users, Inbox } from 'lucide-react';
 import Navigation from '@/components/Navigation';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Link } from 'react-router-dom';
+import SectionCard from '@/components/home/SectionCard';
+import ProfileSheet from '@/components/home/ProfileSheet';
 
 const Home = () => {
-  // Section data for the home page with added background images
   const sections = [
     {
       title: "Weekly Curriculum",
@@ -81,137 +68,26 @@ const Home = () => {
           <span className="text-yellow-500">Curio</span>
           <span className="text-orange-500">Bee</span>
         </h1>
-        
-        <Sheet>
-          <SheetTrigger asChild>
-            <Avatar className="h-12 w-12 cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-blue-500 transition-all">
-              <AvatarImage src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100" alt="Profile" />
-              <AvatarFallback>P</AvatarFallback>
-            </Avatar>
-          </SheetTrigger>
-          <SheetContent className="w-full sm:w-96 overflow-y-auto">
-            <SheetHeader>
-              <SheetTitle className="text-2xl font-bold font-playfair mb-6">Profile</SheetTitle>
-            </SheetHeader>
-            
-            <div className="flex flex-col items-center mb-8">
-              <Avatar className="h-24 w-24 mb-4">
-                <AvatarImage src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100" alt="Profile" />
-                <AvatarFallback>P</AvatarFallback>
-              </Avatar>
-              <h2 className="text-xl font-semibold">Sarah Johnson</h2>
-              <p className="text-gray-500">sarah.johnson@example.com</p>
-            </div>
-            
-            <div className="space-y-6">
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-medium mb-2">Account Settings</h3>
-                <Button variant="outline" className="w-full justify-between" asChild>
-                  <Link to="/profile">
-                    Update Parent Profile <ChevronRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-              
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-medium mb-2">Child Profile</h3>
-                <Button variant="outline" className="w-full justify-between" asChild>
-                  <Link to="/profile">
-                    Update Child Details <ChevronRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-medium mb-2">Subscription</h3>
-                <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg p-4">
-                  <p className="font-medium">Premium Plan</p>
-                  <p className="text-sm opacity-90">Active until Dec 2025</p>
-                </div>
-              </div>
-              
-              <Button className="w-full bg-neugie-blue">Logout</Button>
-            </div>
-          </SheetContent>
-        </Sheet>
+        <ProfileSheet />
       </div>
       
       <div className="p-4 md:p-6">
         <h2 className="text-2xl font-bold mb-6 font-playfair">Welcome back, Sarah!</h2>
         
-        {/* Premium section cards with flip functionality */}
         <div className="grid grid-cols-1 gap-6">
           {sections.map((section, index) => (
-            <div 
-              key={index} 
-              className={`relative ${flippedCard === index ? 'h-80' : 'h-60'} transition-all duration-500 ease-in-out`}
-            >
-              <div 
-                className={`w-full h-full rounded-2xl overflow-hidden transition-transform duration-500 ${
-                  flippedCard === index ? 'rotate-y-180 absolute invisible' : ''
-                }`}
-                onClick={() => window.location.href = section.path}
-              >
-                <div 
-                  className="w-full h-full p-6 flex flex-col justify-between bg-cover bg-center text-white"
-                  style={{ backgroundImage: section.bgImage }}
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="rounded-full bg-white/20 p-3 backdrop-blur-sm">
-                      <section.icon className="h-8 w-8" />
-                    </div>
-                    <button 
-                      onClick={(e) => toggleCardFlip(index, e)}
-                      className="bg-white/30 hover:bg-white/50 rounded-full p-1.5 backdrop-blur-sm transition-all"
-                      aria-label="Show more details"
-                    >
-                      <MoreHorizontal className="h-5 w-5" />
-                    </button>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold font-playfair mb-1">{section.title}</h3>
-                    <p className="text-white/90">{section.description}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div 
-                className={`w-full h-full rounded-2xl overflow-hidden bg-white shadow-xl transition-transform duration-500 absolute inset-0 ${
-                  flippedCard === index ? '' : 'rotate-y-180 invisible'
-                }`}
-              >
-                <div className="h-full p-6 flex flex-col">
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-bold text-gray-800 font-playfair">{section.title}</h3>
-                    <button 
-                      onClick={(e) => toggleCardFlip(index, e)}
-                      className="bg-gray-100 hover:bg-gray-200 rounded-full p-1.5 transition-all"
-                      aria-label="Hide details"
-                    >
-                      <MoreHorizontal className="h-5 w-5" />
-                    </button>
-                  </div>
-                  
-                  <p className="text-gray-600 mb-6 flex-grow">{section.longDescription}</p>
-                  
-                  <Button 
-                    className={`mt-auto w-full ${section.color.replace('bg-', 'bg-')}`}
-                    asChild
-                  >
-                    <Link to={section.path}>
-                      Open {section.title} <ChevronRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <SectionCard
+              key={index}
+              {...section}
+              isFlipped={flippedCard === index}
+              onFlip={(e) => toggleCardFlip(index, e)}
+            />
           ))}
         </div>
       </div>
       
       <Navigation activeTab="home" />
       
-      {/* Add custom CSS for card flip effect */}
       <style>
         {`
           @keyframes rotate-y-180 {

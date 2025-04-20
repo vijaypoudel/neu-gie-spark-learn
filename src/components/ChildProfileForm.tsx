@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Calendar } from 'lucide-react';
 import { Checkbox } from "@/components/ui/checkbox";
 
 // Validation schema for child profile
@@ -17,8 +14,8 @@ const childSchema = z.object({
   dateOfBirth: z.string().min(1, "Date of birth is required"),
   gender: z.string().min(1, "Gender is required"),
   curriculum: z.string().min(1, "Curriculum is required"),
-  subjects: z.string().optional(),
-  passions: z.array(z.string()).optional(),
+  subjects: z.array(z.string()).min(1, "Select at least one subject"),
+  passions: z.array(z.string()).min(1, "Select at least one passion"),
   passcode: z.string().length(8, "Passcode must be 8 digits").regex(/^\d+$/, "Passcode must contain only numbers"),
   confirmPasscode: z.string().length(8, "Passcode must be 8 digits")
 }).refine(data => data.passcode === data.confirmPasscode, {
@@ -28,16 +25,15 @@ const childSchema = z.object({
 
 // List of subjects
 const subjects = [
-  'Mathematics',
-  'Science',
-  'English',
-  'Social Studies',
-  'Computer Science',
-  'Physical Education',
-  'Art',
-  'Music',
-  'Languages',
-  'Environmental Studies'
+  { id: 'mathematics', label: 'Mathematics' },
+  { id: 'science', label: 'Science' },
+  { id: 'english', label: 'English' },
+  { id: 'social-studies', label: 'Social Studies' },
+  { id: 'computer-science', label: 'Computer Science' },
+  { id: 'physical-education', label: 'Physical Education' },
+  { id: 'art', label: 'Art' },
+  { id: 'languages', label: 'Languages' },
+  { id: 'environmental-studies', label: 'Environmental Studies' }
 ];
 
 // List of passions
@@ -60,7 +56,7 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
       dateOfBirth: "",
       gender: "",
       curriculum: "",
-      subjects: "",
+      subjects: [],
       passions: [],
       passcode: "",
       confirmPasscode: ""
@@ -108,11 +104,11 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
               <FormLabel className="font-playfair">Gender</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12 rounded-xl bg-gray-50/50">
+                  <SelectTrigger className="h-12 rounded-xl bg-white">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent className="bg-white">
                   <SelectItem value="male">Male</SelectItem>
                   <SelectItem value="female">Female</SelectItem>
                   <SelectItem value="other">Other</SelectItem>
@@ -150,24 +146,32 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
           control={form.control}
           name="subjects"
           render={({ field }) => (
-            <FormItem className="space-y-3">
+            <FormItem>
               <FormLabel className="font-playfair">Subjects of Interest</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="grid grid-cols-2 gap-4"
-                >
-                  {subjects.map((subject) => (
-                    <div key={subject} className="flex items-center space-x-2">
-                      <RadioGroupItem value={subject.toLowerCase()} id={subject.toLowerCase()} />
-                      <label htmlFor={subject.toLowerCase()} className="text-sm font-playfair">
-                        {subject}
-                      </label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </FormControl>
+              <div className="grid grid-cols-2 gap-4">
+                {subjects.map((subject) => (
+                  <div key={subject.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={subject.id}
+                      checked={field.value?.includes(subject.id)}
+                      onCheckedChange={(checked) => {
+                        const current = field.value || [];
+                        if (checked) {
+                          field.onChange([...current, subject.id]);
+                        } else {
+                          field.onChange(current.filter((id: string) => id !== subject.id));
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor={subject.id}
+                      className="text-sm font-playfair leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      {subject.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -178,33 +182,31 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
           name="passions"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-playfair">Passions Beyond Curriculum</FormLabel>
-              <FormControl>
-                <div className="grid grid-cols-2 gap-4">
-                  {passions.map((passion) => (
-                    <div key={passion.id} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={passion.id}
-                        checked={field.value?.includes(passion.id)}
-                        onCheckedChange={(checked) => {
-                          const current = field.value || [];
-                          if (checked) {
-                            field.onChange([...current, passion.id]);
-                          } else {
-                            field.onChange(current.filter((id: string) => id !== passion.id));
-                          }
-                        }}
-                      />
-                      <label
-                        htmlFor={passion.id}
-                        className="text-sm font-playfair leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        {passion.label}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </FormControl>
+              <FormLabel className="font-playfair">Passions</FormLabel>
+              <div className="grid grid-cols-2 gap-4">
+                {passions.map((passion) => (
+                  <div key={passion.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={passion.id}
+                      checked={field.value?.includes(passion.id)}
+                      onCheckedChange={(checked) => {
+                        const current = field.value || [];
+                        if (checked) {
+                          field.onChange([...current, passion.id]);
+                        } else {
+                          field.onChange(current.filter((id: string) => id !== passion.id));
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor={passion.id}
+                      className="text-sm font-playfair leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      {passion.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
               <FormMessage />
             </FormItem>
           )}

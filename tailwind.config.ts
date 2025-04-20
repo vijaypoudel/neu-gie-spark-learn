@@ -139,7 +139,20 @@ export default {
       },
       fontFamily: {
         'playfair': ['Playfair Display', 'serif'],
+        'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
       },
+      boxShadow: {
+        'premium': '0 15px 30px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -12px rgba(0, 0, 0, 0.08)',
+        'premium-elevated': '0 25px 50px -15px rgba(0, 0, 0, 0.15), 0 15px 35px -12px rgba(0, 0, 0, 0.1)',
+      },
+      colors: {
+        premium: {
+          background: 'hsl(var(--premium-background))',
+          text: 'hsl(var(--premium-text))',
+          accent: 'hsl(var(--premium-accent))',
+          highlight: 'hsl(var(--premium-highlight))',
+        }
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

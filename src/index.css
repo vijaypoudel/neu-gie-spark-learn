@@ -40,6 +40,12 @@
     --neugie-green: 135 57.8% 43.1%;
     --neugie-purple: 265 57.8% 74.3%;
     --neugie-red: 0 84.2% 60.2%;
+
+    /* Add premium, softer color variations */
+    --premium-background: 40 40% 98%;
+    --premium-text: 220 20% 20%;
+    --premium-accent: 240 60% 70%;
+    --premium-highlight: 210 80% 55%;
   }
 
   .dark {
@@ -79,7 +85,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 
   /* Kid-friendly fonts */
@@ -110,4 +116,14 @@
   height: 15%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.11,130.83,141.14,214.86,113.87,255.72,102,290.19,79.38,321.39,56.44Z' fill='%23ffffff' opacity='0.5'%3E%3C/path%3E%3C/svg%3E");
   background-size: cover;
+}
+
+@layer components {
+  .premium-gradient {
+    background: linear-gradient(
+      to right, 
+      hsla(210, 80%, 95%, 0.6), 
+      hsla(240, 60%, 95%, 0.6)
+    );
+  }
 }

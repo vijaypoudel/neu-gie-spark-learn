@@ -23,27 +23,22 @@ const SectionCard = ({
   icon: Icon,
   color,
   path,
-  bgImage,
   isFlipped,
   onFlip
 }: SectionCardProps) => {
   return (
-    <div className={`relative ${isFlipped ? 'h-80' : 'h-60'} transition-all duration-500 ease-in-out`}>
+    <div className={`relative ${isFlipped ? 'h-80' : 'h-60'} transition-all duration-500 ease-in-out group`}>
       <div 
-        className={`w-full h-full rounded-2xl overflow-hidden transition-transform duration-500 ${
-          isFlipped ? 'rotate-y-180 absolute invisible' : ''
+        className={`w-full h-full rounded-2xl overflow-hidden transition-transform duration-500 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-25px_rgba(0,0,0,0.2)] ${
+          isFlipped ? 'rotate-y-180 absolute invisible' : 'transform-gpu hover:-translate-y-1'
         }`}
         onClick={() => window.location.href = path}
       >
         <div 
-          className="w-full h-full p-6 flex flex-col justify-between bg-cover bg-center"
-          style={{ 
-            backgroundImage: bgImage,
-            backgroundColor: 'rgba(255, 247, 237, 0.9)', // Light orange background
-          }}
+          className="w-full h-full p-6 flex flex-col justify-between bg-gradient-to-br from-orange-50 to-yellow-50/70"
         >
           <div className="flex justify-between items-start">
-            <div className="rounded-full bg-orange-500/20 p-3 backdrop-blur-sm">
+            <div className="rounded-full bg-orange-500/20 p-3 backdrop-blur-sm transform-gpu transition-transform duration-300 group-hover:scale-110">
               <Icon className="h-8 w-8 text-orange-500" />
             </div>
             <button 
@@ -62,11 +57,11 @@ const SectionCard = ({
       </div>
       
       <div 
-        className={`w-full h-full rounded-2xl overflow-hidden bg-white shadow-xl transition-transform duration-500 absolute inset-0 ${
-          isFlipped ? '' : 'rotate-y-180 invisible'
+        className={`w-full h-full rounded-2xl overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] transition-transform duration-500 absolute inset-0 ${
+          isFlipped ? 'transform-gpu hover:-translate-y-1' : 'rotate-y-180 invisible'
         }`}
       >
-        <div className="h-full p-6 flex flex-col bg-gradient-to-br from-orange-50 to-yellow-50">
+        <div className="h-full p-6 flex flex-col bg-gradient-to-br from-orange-50 to-yellow-50/70">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold text-orange-600 font-playfair">{title}</h3>
             <button 
@@ -81,7 +76,7 @@ const SectionCard = ({
           <p className="text-orange-900/80 mb-6 flex-grow">{longDescription}</p>
           
           <Button 
-            className={`mt-auto w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white`}
+            className="mt-auto w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-lg hover:shadow-xl transition-shadow"
             asChild
           >
             <Link to={path}>

@@ -7,8 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Login = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      <div className="container mx-auto px-4 py-12 h-screen flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center p-4">
+      <div className="container mx-auto px-4 py-8 h-full flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-5xl">
         {/* Left side - Branding - Fixed for mobile */}
         <div className="md:w-1/2 text-center md:text-left space-y-6 max-w-sm">
           <img 

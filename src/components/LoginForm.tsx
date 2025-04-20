@@ -39,7 +39,13 @@ const LoginForm = ({ type }: LoginFormProps) => {
 
   const onSubmit = (data: any) => {
     toast.success(`${type === 'parent' ? 'Parent' : 'Child'} login successful`);
-    navigate('/home');
+    
+    // Navigate to the appropriate home page based on user type
+    if (type === 'parent') {
+      navigate('/home');
+    } else {
+      navigate('/kids-home');
+    }
   };
 
   return (

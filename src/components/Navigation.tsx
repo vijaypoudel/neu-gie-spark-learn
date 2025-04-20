@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, BookOpen, Inbox, Bug } from "lucide-react";
+import { Home, BookOpen, BugPlay, Inbox } from "lucide-react";
 
 interface NavigationProps {
   activeTab: 'home' | 'learn' | 'ai' | 'inbox';
@@ -24,7 +23,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
     {
       id: 'ai',
       label: 'Ask CurioBee',
-      icon: Bug,
+      icon: BugPlay,
       path: '/ai'
     },
     {
@@ -56,4 +55,3 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
 };
 
 export default Navigation;
-

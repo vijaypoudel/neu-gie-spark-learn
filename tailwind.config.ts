@@ -155,6 +155,9 @@ export default {
           accent: 'hsl(var(--premium-accent))',
           highlight: 'hsl(var(--premium-highlight))',
         }
+      },
+      textColor: {
+        foreground: 'hsl(var(--foreground) / <alpha-value>)'
       }
     },
   },

@@ -1,18 +1,10 @@
 
 import React, { useState } from 'react';
-import { ChevronLeft, CheckCircle, XCircle, Plus, Save, RotateCw } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { 
-  Collapsible, 
-  CollapsibleContent, 
-  CollapsibleTrigger 
-} from "@/components/ui/collapsible";
 import { toast } from "sonner";
-import WeeklySummary from '@/components/curriculum/WeeklySummary';
-import SubjectSelector from '@/components/curriculum/SubjectSelector';
-import GoalInput from '@/components/curriculum/GoalInput';
+import LastWeekSummaryCard from '@/components/curriculum/LastWeekSummaryCard';
+import NewPlanCard from '@/components/curriculum/NewPlanCard';
 
 const subjects = [
   { id: 'math', name: 'Mathematics', icon: '🧮' },
@@ -25,6 +17,16 @@ const subjects = [
   { id: 'pe', name: 'Physical Education', icon: '🏀' }
 ];
 
+// Mock data for last week's summary
+const lastWeekData = {
+  subjects: ['Mathematics', 'Science', 'Language Arts'],
+  goalsAchieved: 2,
+  totalGoals: 10,
+  summary: "Tommy showed great progress in mathematics, particularly with multiplication tables. Science experiments engaged him well. Reading comprehension needs more attention.",
+  strengths: ["Problem solving", "Scientific curiosity"],
+  weaknesses: ["Reading comprehension", "Sustained focus"]
+};
+
 const SetCurriculum = () => {
   const [isLastWeekOpen, setIsLastWeekOpen] = useState(true);
   const [isNewPlanOpen, setIsNewPlanOpen] = useState(false);
@@ -32,16 +34,6 @@ const SetCurriculum = () => {
   const [customGoals, setCustomGoals] = useState('');
   const [generatedPlan, setGeneratedPlan] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-
-  // Mock data for last week's summary
-  const lastWeekData = {
-    subjects: ['Mathematics', 'Science', 'Language Arts'],
-    goalsAchieved: 2,
-    totalGoals: 10,
-    summary: "Tommy showed great progress in mathematics, particularly with multiplication tables. Science experiments engaged him well. Reading comprehension needs more attention.",
-    strengths: ["Problem solving", "Scientific curiosity"],
-    weaknesses: ["Reading comprehension", "Sustained focus"]
-  };
 
   const handleAddSubject = (subjectId: string) => {
     if (!selectedSubjects.includes(subjectId)) {
@@ -110,124 +102,26 @@ ${customGoals ? `4. ${customGoals}` : ''}
       </div>
       
       <div className="p-6 md:p-8 max-w-3xl mx-auto">
-        {/* Last Week's Summary Section */}
-        <Collapsible 
-          open={isLastWeekOpen} 
+        <LastWeekSummaryCard 
+          isOpen={isLastWeekOpen}
           onOpenChange={setIsLastWeekOpen}
-          className="mb-8"
-        >
-          <Card>
-            <CollapsibleTrigger asChild>
-              <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50">
-                <h2 className="text-xl font-semibold font-playfair">Last Week's Summary</h2>
-                <ChevronLeft className={`transform transition-transform ${isLastWeekOpen ? 'rotate-90' : '-rotate-90'}`} />
-              </div>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <CardContent className="pt-0">
-                <WeeklySummary data={lastWeekData} />
-              </CardContent>
-            </CollapsibleContent>
-          </Card>
-        </Collapsible>
+          data={lastWeekData}
+        />
 
-        {/* New Plan Section */}
-        <Collapsible 
-          open={isNewPlanOpen || !isLastWeekOpen} 
+        <NewPlanCard 
+          isOpen={isNewPlanOpen || !isLastWeekOpen}
           onOpenChange={setIsNewPlanOpen}
-          className="mb-8"
-        >
-          <Card>
-            <CollapsibleTrigger asChild>
-              <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50">
-                <h2 className="text-xl font-semibold font-playfair">Create New Weekly Plan</h2>
-                <ChevronLeft className={`transform transition-transform ${isNewPlanOpen || !isLastWeekOpen ? 'rotate-90' : '-rotate-90'}`} />
-              </div>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <CardContent className="pt-0 space-y-6">
-                {/* Subject Selection */}
-                <div>
-                  <h3 className="font-semibold mb-2">Select Subjects</h3>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {selectedSubjects.map(subjectId => {
-                      const subject = subjects.find(s => s.id === subjectId);
-                      return (
-                        <div key={subjectId} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center gap-1">
-                          <span>{subject?.icon}</span>
-                          <span>{subject?.name}</span>
-                          <button 
-                            onClick={() => handleRemoveSubject(subjectId)}
-                            className="ml-1 text-blue-600 hover:text-blue-800"
-                          >
-                            <XCircle className="h-4 w-4" />
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <SubjectSelector 
-                    subjects={subjects.filter(s => !selectedSubjects.includes(s.id))} 
-                    onSelect={handleAddSubject} 
-                  />
-                </div>
-
-                {/* Custom Goals Input */}
-                <GoalInput 
-                  value={customGoals} 
-                  onChange={(e) => setCustomGoals(e.target.value)} 
-                />
-
-                {/* Generate Plan Button */}
-                {!generatedPlan && (
-                  <Button 
-                    onClick={handleGeneratePlan}
-                    disabled={selectedSubjects.length === 0 || isGenerating}
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-500"
-                  >
-                    {isGenerating ? (
-                      <>
-                        <RotateCw className="mr-2 h-4 w-4 animate-spin" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Generate Weekly Plan
-                      </>
-                    )}
-                  </Button>
-                )}
-
-                {/* Generated Plan */}
-                {generatedPlan && (
-                  <div className="space-y-4">
-                    <div className="border rounded-md bg-gray-50 p-4 whitespace-pre-line">
-                      {generatedPlan}
-                    </div>
-                    <div className="flex gap-4">
-                      <Button 
-                        onClick={handleGeneratePlan} 
-                        variant="outline"
-                        className="flex-1"
-                      >
-                        <RotateCw className="mr-2 h-4 w-4" />
-                        Regenerate
-                      </Button>
-                      <Button 
-                        onClick={handleSavePlan}
-                        className="flex-1 bg-gradient-to-r from-green-500 to-teal-500"
-                      >
-                        <Save className="mr-2 h-4 w-4" />
-                        Save & Publish
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </CollapsibleContent>
-          </Card>
-        </Collapsible>
+          subjects={subjects}
+          selectedSubjects={selectedSubjects}
+          onAddSubject={handleAddSubject}
+          onRemoveSubject={handleRemoveSubject}
+          customGoals={customGoals}
+          onGoalsChange={(e) => setCustomGoals(e.target.value)}
+          generatedPlan={generatedPlan}
+          isGenerating={isGenerating}
+          onGeneratePlan={handleGeneratePlan}
+          onSavePlan={handleSavePlan}
+        />
       </div>
     </div>
   );

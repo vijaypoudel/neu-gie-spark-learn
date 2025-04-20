@@ -61,9 +61,8 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      {/* Header */}
-      <div className="bg-white p-4 flex items-center justify-between shadow-md sticky top-0 z-10">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50/50 to-yellow-50/30 pb-20">
+      <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-orange-100/20">
         <h1 className="text-2xl font-bold font-playfair">
           <span className="text-yellow-500">Curio</span>
           <span className="text-orange-500">Bee</span>
@@ -71,10 +70,12 @@ const Home = () => {
         <ProfileSheet />
       </div>
       
-      <div className="p-4 md:p-6">
-        <h2 className="text-2xl font-bold mb-6 font-playfair">Welcome back, Sarah!</h2>
+      <div className="p-6 md:p-8 max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold mb-8 font-playfair bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent">
+          Welcome back, Sarah!
+        </h2>
         
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-8">
           {sections.map((section, index) => (
             <SectionCard
               key={index}
@@ -87,18 +88,6 @@ const Home = () => {
       </div>
       
       <Navigation activeTab="home" />
-      
-      <style>
-        {`
-          @keyframes rotate-y-180 {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(180deg); }
-          }
-          .rotate-y-180 {
-            transform: rotateY(180deg);
-          }
-        `}
-      </style>
     </div>
   );
 };

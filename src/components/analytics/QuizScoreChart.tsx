@@ -21,7 +21,7 @@ import {
 } from 'recharts';
 
 type Subject = 'Math' | 'Science' | 'Language' | 'Social';
-type TimeRange = 2 | 4 | 6 | 12;
+type TimeRange = 1 | 2 | 3;
 
 interface QuizScore {
   week: string;
@@ -62,12 +62,12 @@ const subjectColors = {
 };
 
 const QuizScoreChart = () => {
-  const [timeRange, setTimeRange] = useState<TimeRange>(6);
+  const [timeRange, setTimeRange] = useState<TimeRange>(3);
   const [subject, setSubject] = useState<Subject | 'All'>('All');
   const data = generateQuizData(timeRange, subject);
   
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex justify-between items-center flex-wrap gap-2">
         <h2 className="text-xl font-bold">Quiz Scores</h2>
         
@@ -90,6 +90,13 @@ const QuizScoreChart = () => {
           
           <div className="flex gap-1">
             <Button 
+              variant={timeRange === 1 ? "default" : "outline"}
+              size="sm"
+              onClick={() => setTimeRange(1)}
+            >
+              1M
+            </Button>
+            <Button 
               variant={timeRange === 2 ? "default" : "outline"}
               size="sm"
               onClick={() => setTimeRange(2)}
@@ -97,37 +104,23 @@ const QuizScoreChart = () => {
               2M
             </Button>
             <Button 
-              variant={timeRange === 4 ? "default" : "outline"}
+              variant={timeRange === 3 ? "default" : "outline"}
               size="sm"
-              onClick={() => setTimeRange(4)}
+              onClick={() => setTimeRange(3)}
             >
-              4M
-            </Button>
-            <Button 
-              variant={timeRange === 6 ? "default" : "outline"}
-              size="sm"
-              onClick={() => setTimeRange(6)}
-            >
-              6M
-            </Button>
-            <Button 
-              variant={timeRange === 12 ? "default" : "outline"}
-              size="sm"
-              onClick={() => setTimeRange(12)}
-            >
-              12M
+              3M
             </Button>
           </div>
         </div>
       </div>
       
-      <Card className="p-4">
-        <div className="mb-4 flex items-center gap-2">
-          <ChartBar className="h-5 w-5 text-orange-500" />
-          <span className="font-medium">Quiz Performance Timeline</span>
+      <Card className="p-6 md:p-8 shadow-xl">
+        <div className="mb-6 flex items-center gap-3">
+          <ChartBar className="h-6 w-6 text-orange-500" />
+          <span className="font-semibold text-lg">Quiz Performance Timeline</span>
         </div>
         
-        <div className="h-[300px] w-full">
+        <div className="h-[380px] md:h-[420px] w-full">
           <ChartContainer
             config={{
               Math: {
@@ -149,26 +142,27 @@ const QuizScoreChart = () => {
             }}
           >
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f5f5f5" />
+              <LineChart data={data} margin={{ top: 30, right: 30, left: 0, bottom: 10 }}>
+                <CartesianGrid strokeDasharray="3 6" vertical={false} stroke="#f0f0f0" />
                 <XAxis 
                   dataKey="week"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: '#888', fontSize: 12 }}
+                  tick={{ fill: '#999', fontSize: 13 }}
                 />
                 <YAxis 
-                  domain={[0, 100]}
+                  domain={[50, 100]}
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: '#888', fontSize: 12 }}
+                  tick={{ fill: '#999', fontSize: 13 }}
+                  width={32}
                 />
                 <ChartTooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (
                         <ChartTooltipContent
-                          className="bg-white shadow rounded-lg p-2 border border-gray-100"
+                          className="bg-white shadow rounded-lg p-3 border border-gray-100"
                           payload={payload}
                         />
                       );
@@ -180,69 +174,73 @@ const QuizScoreChart = () => {
                   <Line 
                     type="monotone" 
                     dataKey="Math" 
-                    stroke={subjectColors.Math} 
-                    strokeWidth={2} 
-                    dot={{ r: 3 }}
+                    stroke={subjectColors.Math}
+                    strokeWidth={3}
+                    dot={{ r: 3.5 }}
                     name="Math"
+                    isAnimationActive={true}
                   />
                 }
                 {(subject === 'All' || subject === 'Science') && 
                   <Line 
                     type="monotone" 
                     dataKey="Science" 
-                    stroke={subjectColors.Science} 
-                    strokeWidth={2} 
-                    dot={{ r: 3 }}
+                    stroke={subjectColors.Science}
+                    strokeWidth={3}
+                    dot={{ r: 3.5 }}
                     name="Science"
+                    isAnimationActive={true}
                   />
                 }
                 {(subject === 'All' || subject === 'Language') && 
                   <Line 
                     type="monotone" 
                     dataKey="Language" 
-                    stroke={subjectColors.Language} 
-                    strokeWidth={2} 
-                    dot={{ r: 3 }}
+                    stroke={subjectColors.Language}
+                    strokeWidth={3}
+                    dot={{ r: 3.5 }}
                     name="Language"
+                    isAnimationActive={true}
                   />
                 }
                 {(subject === 'All' || subject === 'Social') && 
                   <Line 
                     type="monotone" 
                     dataKey="Social" 
-                    stroke={subjectColors.Social} 
-                    strokeWidth={2} 
-                    dot={{ r: 3 }}
+                    stroke={subjectColors.Social}
+                    strokeWidth={3}
+                    dot={{ r: 3.5 }}
                     name="Social"
+                    isAnimationActive={true}
                   />
                 }
-                <Legend />
+                <Legend wrapperStyle={{ paddingTop: 20 }} />
               </LineChart>
             </ResponsiveContainer>
           </ChartContainer>
         </div>
         
-        <div className="mt-4 text-sm text-muted-foreground text-center">
-          Showing quiz scores for the past {timeRange} months
+        <div className="mt-6 text-base text-muted-foreground text-center">
+          Showing quiz scores for the past {timeRange} month{timeRange > 1 ? "s" : ""}
         </div>
       </Card>
       
       {/* Subject performance summary */}
       {subject === 'All' && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
           {['Math', 'Science', 'Language', 'Social'].map((subj) => {
             const avgScore = Math.round(
               data.reduce((acc, item) => acc + (item[subj] || 0), 0) / data.length
             );
             
             return (
-              <Card key={subj} className="p-3 text-center">
+              <Card key={subj} className="p-4 text-center shadow-sm hover:shadow-lg focus:ring-2 focus:ring-orange-300 transition-all">
                 <div 
-                  className="w-4 h-4 rounded-full mx-auto mb-1"
+                  className="w-5 h-5 rounded-full mx-auto mb-2"
                   style={{ backgroundColor: subjectColors[subj as Subject] }}
                 />
-                <div className="text-sm">{subj}</div>
-                <div className="text-xl font-bold">{avgScore}%</div>
+                <div className="text-[15px] font-semibold">{subj}</div>
+                <div className="text-2xl md:text-3xl font-extrabold">{avgScore}%</div>
               </Card>
             );
           })}
@@ -253,3 +251,4 @@ const QuizScoreChart = () => {
 };
 
 export default QuizScoreChart;
+

@@ -14,6 +14,8 @@ import AIChat from "./pages/AIChat";
 import KidsHome from "./pages/KidsHome";
 import SetCurriculum from "./pages/SetCurriculum";
 import WorkInProgress from "./pages/WorkInProgress";
+import Analytics from "./pages/Analytics";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -39,9 +41,9 @@ const App = () => (
           <Route path="/my-passion" element={<WorkInProgress />} />
           <Route path="/funtube" element={<WorkInProgress />} />
           <Route path="/social" element={<WorkInProgress />} />
-          <Route path="/analytics" element={<WorkInProgress />} />
+          <Route path="/analytics" element={<Analytics />} />
           <Route path="/calendar" element={<WorkInProgress />} />
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

@@ -123,116 +123,117 @@ const QuizScoreChart = () => {
   );
 
   return (
-    <div className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow relative">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-            <Star className="h-5 w-5 text-orange-500" />
+    <div className="flex flex-col space-y-2">
+      <div className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow relative">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+              <Star className="h-5 w-5 text-orange-500" />
+            </div>
+            <div>
+              <h3 className="font-bold text-lg text-black">Quiz Scores</h3>
+              <p className="text-xs text-gray-500 -mt-1">Weekly subject quiz performance</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-bold text-lg text-black">Quiz Scores</h3>
-            <p className="text-xs text-gray-500 -mt-1">Weekly subject quiz performance</p>
+          <div className="flex gap-2 ml-3">
+            {timelineOptions.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => setTimeline(opt.value)}
+                className={cn(
+                  "rounded-full px-3 py-1.5 font-semibold text-xs border-2 transition-all shadow-sm min-w-[40px] select-none",
+                  timeline === opt.value
+                    ? "bg-orange-400 text-white border-orange-400"
+                    : "bg-white text-orange-500 border-orange-400 hover:bg-orange-50"
+                )}
+                style={{
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {opt.label}
+              </button>
+            ))}
           </div>
         </div>
-        <div className="flex gap-2 ml-3">
-          {timelineOptions.map(opt => (
-            <button
-              key={opt.value}
-              onClick={() => setTimeline(opt.value)}
-              className={cn(
-                "rounded-full px-3 py-1.5 font-semibold text-xs border-2 transition-all shadow-sm min-w-[40px] select-none",
-                timeline === opt.value
-                  ? "bg-orange-400 text-white border-orange-400"
-                  : "bg-white text-orange-500 border-orange-400 hover:bg-orange-50"
-              )}
-              style={{
-                letterSpacing: "0.02em",
+
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="bg-orange-50/60 p-3 rounded-lg">
+            <div className="text-xl font-bold text-orange-600">{averageScore}%</div>
+            <div className="text-xs text-gray-500">Average</div>
+          </div>
+          <div className="flex-1 col-span-2">
+            <Select
+              value={subject}
+              onValueChange={setSubject}
+            >
+              <SelectTrigger
+                className="w-full border-orange-200 shadow bg-white h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-orange-200 px-3"
+              >
+                <SelectValue placeholder="Subject" />
+              </SelectTrigger>
+              <SelectContent className="z-[1110] mt-2 rounded-xl">
+                {subjectList.map((sub) => (
+                  <SelectItem
+                    key={sub}
+                    value={sub}
+                    className="rounded-md font-semibold text-base px-3 py-2 transition-all hover:bg-orange-50 data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900"
+                  >
+                    {sub}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="h-56 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={avgData}
+              margin={{
+                top: 20,
+                right: 15,
+                left: 5,
+                bottom: 20,
               }}
+              barGap={7}
             >
-              {opt.label}
-            </button>
-          ))}
+              <defs>
+                <linearGradient id="colorBar" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#f97316" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" vertical={false} />
+              <XAxis
+                dataKey="week"
+                tick={{ fill: '#888', fontWeight: 500, fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                domain={[0, 100]}
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: '#888', fontWeight: 500, fontSize: 11 }}
+                width={30}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <ReferenceLine y={averageScore} stroke="#777" strokeDasharray="3 3" />
+              <Bar
+                dataKey={subject}
+                fill="url(#colorBar)"
+                radius={[8, 8, 0, 0]}
+                barSize={28}
+                name={subject}
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
-
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="bg-orange-50/60 p-3 rounded-lg">
-          <div className="text-xl font-bold text-orange-600">{averageScore}%</div>
-          <div className="text-xs text-gray-500">Average</div>
-        </div>
-        <div className="flex-1 col-span-2">
-          <Select
-            value={subject}
-            onValueChange={setSubject}
-          >
-            <SelectTrigger
-              className="w-full border-orange-200 shadow bg-white h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-orange-200 px-3"
-            >
-              <SelectValue placeholder="Subject" />
-            </SelectTrigger>
-            <SelectContent className="z-[1110] mt-2 rounded-xl">
-              {subjectList.map((sub) => (
-                <SelectItem
-                  key={sub}
-                  value={sub}
-                  className="rounded-md font-semibold text-base px-3 py-2 transition-all hover:bg-orange-50 data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900"
-                >
-                  {sub}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      <div className="h-56 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={avgData}
-            margin={{
-              top: 20,
-              right: 15,
-              left: 5,
-              bottom: 20,
-            }}
-            barGap={7}
-          >
-            <defs>
-              <linearGradient id="colorBar" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#f97316" stopOpacity={0.1} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" vertical={false} />
-            <XAxis
-              dataKey="week"
-              tick={{ fill: '#888', fontWeight: 500, fontSize: 11 }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              domain={[0, 100]}
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: '#888', fontWeight: 500, fontSize: 11 }}
-              width={30}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <ReferenceLine y={averageScore} stroke="#777" strokeDasharray="3 3" />
-            <Bar
-              dataKey={subject}
-              fill="url(#colorBar)"
-              radius={[8, 8, 0, 0]}
-              barSize={28}
-              name={subject}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      {/* Removed floating "Showing data for the past 3 months" text here, consider if you want it under the chart */}
+      <p className="text-sm text-gray-500 ml-1">Weekly subject quiz performance</p>
     </div>
   );
 };
 
 export default QuizScoreChart;
-

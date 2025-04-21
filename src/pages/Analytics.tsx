@@ -28,13 +28,7 @@ const Analytics = () => {
           {/* Left Column */}
           <div className="flex flex-col space-y-8">
             <CompletionScoreChart />
-            <p className="text-sm text-gray-500 mt-1 tracking-wide -mt-4 ml-1">
-              Weekly target completion
-            </p>
             <QuizScoreChart />
-            <p className="text-sm text-gray-500 mt-1 tracking-wide -mt-4 ml-1">
-              Weekly subject quiz performance
-            </p>
           </div>
           {/* Right Column */}
           <div className="flex flex-col space-y-8">

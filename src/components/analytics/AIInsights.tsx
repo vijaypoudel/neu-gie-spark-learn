@@ -65,7 +65,7 @@ const mockInsights: Insight[] = [
 const getIcon = (type: Insight['type']) => {
   if (type === 'positive') return <TrendingUp className="h-5 w-5 text-green-600" />;
   if (type === 'negative') return <TrendingDown className="h-5 w-5 text-orange-600" />;
-  return <CircleHelp className="h-5 w-5 text-purple-600" />;
+  return <CircleHelp className="h-5 w-5 text-purple-500" />;
 };
 
 const getBadgeClass = (type: Insight['type']) => {
@@ -75,19 +75,19 @@ const getBadgeClass = (type: Insight['type']) => {
 };
 
 const getCardClass = (type: Insight['type'], expanded: boolean) => {
-  let base = 'p-4 border-l-4 rounded-lg transition-shadow relative cursor-pointer select-none bg-white/60 backdrop-blur-sm hover:shadow-lg';
+  let base = 'p-4 border-l-4 rounded-xl transition-shadow relative cursor-pointer select-none bg-white/95 hover:shadow-lg';
   if (type === 'positive') base += ' border-green-400';
   else if (type === 'negative') base += ' border-orange-400';
   else base += ' border-purple-400';
-  if (expanded) base += ' shadow-xl z-20';
+  if (expanded) base += ' shadow-xl z-10';
   return base;
 };
 
 const AIInsights = () => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
-
-  // Show 5 by default, toggled by user
   const [showMore, setShowMore] = useState(false);
+
+  // Show all if showMore, else show first 5
   const toShow = showMore ? mockInsights : mockInsights.slice(0, 5);
 
   const toggleExpand = (id: number) => {
@@ -95,14 +95,14 @@ const AIInsights = () => {
   };
 
   return (
-    <Card className="p-6 rounded-xl overflow-hidden shadow-sm bg-white/80 backdrop-blur-md border border-purple-200/50">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
-          <Lightbulb className="h-6 w-6 text-purple-600" />
+    <Card className="p-6 rounded-2xl overflow-visible shadow-md bg-white/95 border border-purple-100 neumorphic">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-neugie-blue/30 to-purple-100 flex items-center justify-center shadow">
+          <Lightbulb className="h-7 w-7 text-purple-600" />
         </div>
         <div>
-          <h3 className="font-bold text-lg text-purple-800">AI Insights</h3>
-          <p className="text-xs text-purple-500">Personalized recommendations</p>
+          <h3 className="font-bold text-lg text-purple-800 tracking-tight">AI Insights</h3>
+          <p className="text-xs text-purple-400">Personalized recommendations</p>
         </div>
       </div>
 
@@ -110,8 +110,8 @@ const AIInsights = () => {
         {toShow.map(insight => {
           const expanded = expandedId === insight.id;
           return (
-            <Card 
-              key={insight.id} 
+            <Card
+              key={insight.id}
               onClick={() => toggleExpand(insight.id)}
               className={getCardClass(insight.type, expanded)}
               aria-expanded={expanded}
@@ -121,15 +121,15 @@ const AIInsights = () => {
               <div className="flex">
                 <div className="mr-3 mt-1">
                   <div className={`h-9 w-9 rounded-full flex items-center justify-center ${
-                    insight.type === 'positive' ? 'bg-green-100' : 
-                    insight.type === 'negative' ? 'bg-orange-100' : 
+                    insight.type === 'positive' ? 'bg-green-100' :
+                    insight.type === 'negative' ? 'bg-orange-100' :
                     'bg-purple-100'
                   }`}>
                     {getIcon(insight.type)}
                   </div>
                 </div>
-                <div className="flex-1">
-                  <p className={`text-sm ${expanded ? "font-semibold" : "font-medium"} text-gray-900`}>
+                <div className="flex-1 pr-7">
+                  <p className={`text-sm ${expanded ? "font-semibold" : "font-medium"} text-gray-900 whitespace-pre-line`}>
                     {insight.text}
                   </p>
                   {insight.subject && (
@@ -138,42 +138,47 @@ const AIInsights = () => {
                     </span>
                   )}
                   {expanded && insight.details && (
-                    <div className="mt-3 bg-white/70 border-l-2 border-dashed border-gray-300 p-3 text-xs rounded select-text whitespace-pre-wrap text-gray-800">
+                    <div className="mt-3 bg-white/80 border-l-2 border-dashed border-gray-200 p-3 text-xs rounded select-text whitespace-pre-wrap text-gray-800">
                       {insight.details}
                     </div>
                   )}
                 </div>
-              </div>
-              {/* Replace "Tap to expand" text with subtle expand icon at top right */}
-              <div className="absolute top-3 right-3 text-xs text-purple-500 select-none pointer-events-none" aria-hidden="true">
-                {expanded ? (
-                  <span className="font-bold">−</span>
-                ) : (
-                  <span className="font-bold">+</span>
-                )}
+                {/* Expand/collapse icon only, not text */}
+                <button
+                  className={`absolute top-3 right-3 rounded-full w-6 h-6 flex items-center justify-center bg-purple-50 hover:bg-purple-100 border border-purple-100 focus:outline-none transition`}
+                  aria-label={expanded ? "Collapse insight" : "Expand insight"}
+                  tabIndex={-1}
+                  style={{ boxShadow: expanded ? "0px 2px 8px 0px #9b87f533" : undefined }}
+                >
+                  <span className="text-purple-500 text-xl font-bold pointer-events-none" aria-hidden="true">
+                    {expanded ? "−" : "+"}
+                  </span>
+                </button>
               </div>
             </Card>
           );
         })}
       </div>
 
-      <div className="mt-5 text-center">
+      <div className="mt-7 text-center overflow-visible">
         {!showMore ? (
-          <button 
-            className="text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors focus:outline-none"
+          <button
+            className="text-sm font-bold bg-gradient-to-r from-neugie-blue via-purple-400 to-purple-500 bg-clip-text text-transparent hover:from-purple-500 hover:to-neugie-blue transition-colors px-2"
             onClick={() => setShowMore(true)}
             aria-label="View all insights"
+            style={{ lineHeight: "1.8" }}
           >
             View all insights →
           </button>
         ) : (
-          <button 
-            className="text-sm font-semibold text-purple-400 hover:text-purple-700 transition-colors focus:outline-none"
+          <button
+            className="text-sm font-bold bg-gradient-to-r from-purple-400 via-purple-500 to-neugie-blue bg-clip-text text-transparent hover:from-neugie-blue hover:to-purple-400 transition-colors px-2"
             onClick={() => {
               setShowMore(false);
               setExpandedId(null);
             }}
             aria-label="Show less insights"
+            style={{ lineHeight: "1.8" }}
           >
             Show less ↑
           </button>
@@ -184,4 +189,3 @@ const AIInsights = () => {
 };
 
 export default AIInsights;
-

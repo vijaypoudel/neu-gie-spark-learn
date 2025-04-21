@@ -17,8 +17,9 @@ import {
   SelectContent,
   SelectItem
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
+import ChartCard from "./ChartCard";
+import TimeRangeSelector from "./TimeRangeSelector";
 
 const weekData = [
   { week: "2024-03-18", Math: 78, Science: 66, Language: 80, Social: 70 },
@@ -43,12 +44,6 @@ const subjectColors: Record<string, string> = {
   Language: "#FFC26C",
   Social: "#FFA99F",
 };
-
-const timelineOptions = [
-  { value: "1", label: "1M" },
-  { value: "2", label: "2M" },
-  { value: "3", label: "3M" },
-];
 
 const getWeeksForTimeline = (timeline: number): string[] => {
   return weekData.slice(-timeline * 4).map(row => row.week);
@@ -109,6 +104,12 @@ const QuizScoreChart = () => {
   const [subject, setSubject] = useState(subjectList[0]);
   const [timeline, setTimeline] = useState("3");
 
+  const timelineOptions = [
+    { value: "1", label: "1M" },
+    { value: "2", label: "2M" },
+    { value: "3", label: "3M" },
+  ];
+
   const weeksToShow = useMemo(() => getWeeksForTimeline(Number(timeline)), [timeline]);
   const avgData = useMemo(
     () =>
@@ -122,71 +123,55 @@ const QuizScoreChart = () => {
     averageScoreForTimeline(weekData, subject, weeksToShow), [subject, weeksToShow]
   );
 
+  const statElement = (
+    <div className="grid grid-cols-3 gap-3">
+      <div className="bg-orange-50/60 p-3 rounded-lg">
+        <div className="text-xl font-bold text-orange-600">{averageScore}%</div>
+        <div className="text-xs text-gray-500">Average</div>
+      </div>
+      <div className="flex-1 col-span-2">
+        <Select
+          value={subject}
+          onValueChange={setSubject}
+        >
+          <SelectTrigger
+            className="w-full border-orange-200 shadow bg-white h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-orange-200 px-3"
+          >
+            <SelectValue placeholder="Subject" />
+          </SelectTrigger>
+          <SelectContent className="z-[1110] mt-2 rounded-xl">
+            {subjectList.map((sub) => (
+              <SelectItem
+                key={sub}
+                value={sub}
+                className="rounded-md font-semibold text-base px-3 py-2 transition-all hover:bg-orange-50 data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900"
+              >
+                {sub}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+
   return (
     <div className="flex flex-col space-y-2">
-      <div className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow relative">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-              <Star className="h-5 w-5 text-orange-500" />
-            </div>
-            <div>
-              <h3 className="font-bold text-lg text-black">Quiz Scores</h3>
-              <p className="text-xs text-gray-500 -mt-1">Weekly subject quiz performance</p>
-            </div>
-          </div>
-          <div className="flex gap-2 ml-3">
-            {timelineOptions.map(opt => (
-              <button
-                key={opt.value}
-                onClick={() => setTimeline(opt.value)}
-                className={cn(
-                  "rounded-full px-3 py-1.5 font-semibold text-xs border-2 transition-all shadow-sm min-w-[40px] select-none",
-                  timeline === opt.value
-                    ? "bg-orange-400 text-white border-orange-400"
-                    : "bg-white text-orange-500 border-orange-400 hover:bg-orange-50"
-                )}
-                style={{
-                  letterSpacing: "0.02em",
-                }}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="bg-orange-50/60 p-3 rounded-lg">
-            <div className="text-xl font-bold text-orange-600">{averageScore}%</div>
-            <div className="text-xs text-gray-500">Average</div>
-          </div>
-          <div className="flex-1 col-span-2">
-            <Select
-              value={subject}
-              onValueChange={setSubject}
-            >
-              <SelectTrigger
-                className="w-full border-orange-200 shadow bg-white h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-orange-200 px-3"
-              >
-                <SelectValue placeholder="Subject" />
-              </SelectTrigger>
-              <SelectContent className="z-[1110] mt-2 rounded-xl">
-                {subjectList.map((sub) => (
-                  <SelectItem
-                    key={sub}
-                    value={sub}
-                    className="rounded-md font-semibold text-base px-3 py-2 transition-all hover:bg-orange-50 data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900"
-                  >
-                    {sub}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="h-56 w-full">
+      <ChartCard
+        title="Quiz Scores"
+        icon={Star}
+        timeControls={
+          <TimeRangeSelector 
+            options={timelineOptions} 
+            currentValue={timeline}
+            onChange={setTimeline}
+          />
+        }
+        legend="Weekly subject quiz performance"
+      >
+        {statElement}
+        
+        <div className="h-56 w-full mt-6">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={avgData}
@@ -230,13 +215,9 @@ const QuizScoreChart = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-        {/* Added text legend immediately below the chart inside the card */}
-        <div className="text-[13px] text-gray-500 text-center mt-2">Weekly subject quiz performance</div>
-      </div>
-      {/* Removed the text below the card */}
+      </ChartCard>
     </div>
   );
 };
 
 export default QuizScoreChart;
-

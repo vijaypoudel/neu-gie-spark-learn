@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Card } from '@/components/ui/card';
 import { Youtube } from 'lucide-react';
+import ChartCard from './ChartCard';
 
 const MOCK_CHANNELS = [
   { name: 'Kids Learning TV', minutes: 210 },
@@ -15,17 +15,11 @@ const MOCK_CHANNELS = [
 const total = MOCK_CHANNELS.reduce((sum, ch) => sum + ch.minutes, 0);
 
 const TopYouTubeChannels = () => (
-  <Card className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow">
-    <div className="flex items-center gap-3 mb-6">
-      <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-        <Youtube className="h-5 w-5 text-orange-500" />
-      </div>
-      <div>
-        <h3 className="font-bold text-lg">Top YouTube Channels</h3>
-        <p className="text-xs text-gray-500">Past 14 days</p>
-      </div>
-    </div>
-    
+  <ChartCard
+    title="Top YouTube Channels"
+    subtitle="Past 14 days"
+    icon={Youtube}
+  >
     <ul className="space-y-3">
       {MOCK_CHANNELS.map((channel, idx) => (
         <li 
@@ -57,7 +51,7 @@ const TopYouTubeChannels = () => (
     <div className="mt-4 text-center text-sm text-gray-500 pt-3 border-t border-gray-100">
       Total time: <span className="font-bold text-orange-500">{(total / 60).toFixed(1)} hours</span>
     </div>
-  </Card>
+  </ChartCard>
 );
 
 export default TopYouTubeChannels;

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
@@ -36,7 +35,7 @@ const LastWeekSummaryCard: React.FC<LastWeekSummaryCardProps> = ({
       <Card>
         <CollapsibleTrigger asChild>
           <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50">
-            <h2 className="text-xl font-semibold font-playfair">Last Week's Summary</h2>
+            <h2 className="brand-card-title">Last Week's Summary</h2>
             <ChevronLeft className={`transform transition-transform ${isOpen ? 'rotate-90' : '-rotate-90'}`} />
           </div>
         </CollapsibleTrigger>
@@ -49,5 +48,4 @@ const LastWeekSummaryCard: React.FC<LastWeekSummaryCardProps> = ({
     </Collapsible>
   );
 };
-
 export default LastWeekSummaryCard;

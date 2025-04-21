@@ -1,4 +1,3 @@
-
 import React, { ReactNode } from 'react';
 import { Card } from '@/components/ui/card';
 import { LucideIcon } from 'lucide-react';
@@ -40,7 +39,7 @@ const ChartCard = ({
             <Icon className={`h-5 w-5 ${iconColor}`} />
           </div>
           <div>
-            <h3 className="font-bold text-lg text-black">{title}</h3>
+            <h3 className="brand-card-title">{title}</h3>
             {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
           </div>
         </div>
@@ -55,7 +54,7 @@ const ChartCard = ({
         <div className="grid grid-cols-3 gap-3 mb-6">
           {stats.map((stat, index) => (
             <div key={index} className={`${stat.bgColor || 'bg-orange-50/60'} p-3 rounded-lg`}>
-              <div className="text-xl font-bold text-orange-600">{stat.value}</div>
+              <div className="brand-num">{stat.value}</div>
               <div className="text-xs text-gray-500">{stat.label}</div>
             </div>
           ))}

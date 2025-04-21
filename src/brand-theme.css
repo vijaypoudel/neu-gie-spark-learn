@@ -1,0 +1,50 @@
+
+/* CurioBee Brand Theme Utility Classes - for headings and strong card text */
+
+@layer components {
+  /* Orange and Black Variables - override or use as needed */
+  :root {
+    --curiobee-orange: 28.8 95.7% 54%;   /* #F97316 close */
+    --curiobee-black: 0 0% 8%;           /* #161616 - deep black */
+  }
+  .brand-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    letter-spacing: -0.02em;
+    color: hsl(var(--curiobee-black));
+    line-height: 1.12;
+    margin-bottom: 0.25em;
+  }
+  .brand-heading .brand-accent, 
+  .brand-accent {
+    color: hsl(var(--curiobee-orange));
+  }
+
+  /* Responsive heading for cards, details */
+  .brand-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: hsl(var(--curiobee-black));
+    letter-spacing: -0.01em;
+  }
+  .brand-card-title .brand-accent {
+    color: hsl(var(--curiobee-orange));
+  }
+
+  .brand-card-text {
+    color: hsl(var(--curiobee-orange));
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  /* Card/stat orange-black for numbers/info */
+  .brand-num {
+    color: hsl(var(--curiobee-orange));
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}

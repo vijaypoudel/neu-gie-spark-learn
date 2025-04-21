@@ -54,7 +54,7 @@ const NewPlanCard: React.FC<NewPlanCardProps> = ({
       <Card>
         <CollapsibleTrigger asChild>
           <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50">
-            <h2 className="text-xl font-semibold font-playfair">Create New Weekly Plan</h2>
+            <h2 className="brand-card-title">Create New Weekly Plan</h2>
             <ChevronLeft className={`transform transition-transform ${isOpen ? 'rotate-90' : '-rotate-90'}`} />
           </div>
         </CollapsibleTrigger>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Youtube } from 'lucide-react';
 import ChartCard from './ChartCard';
@@ -37,7 +36,7 @@ const TopYouTubeChannels = () => (
             <span className="font-medium text-sm">{channel.name}</span>
           </div>
           <div className="flex flex-col items-end">
-            <span className="text-sm font-mono font-bold text-orange-500">
+            <span className="brand-num">
               {(channel.minutes / 60).toFixed(1)}h
             </span>
             <span className="text-xs text-gray-400">
@@ -47,9 +46,8 @@ const TopYouTubeChannels = () => (
         </li>
       ))}
     </ul>
-    
-    <div className="mt-4 text-center text-sm text-gray-500 pt-3 border-t border-gray-100">
-      Total time: <span className="font-bold text-orange-500">{(total / 60).toFixed(1)} hours</span>
+    <div className="mt-4 text-center text-sm pt-3 border-t border-gray-100">
+      Total time: <span className="brand-num">{(total / 60).toFixed(1)} hours</span>
     </div>
   </ChartCard>
 );

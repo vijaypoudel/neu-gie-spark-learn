@@ -17,9 +17,10 @@ const Analytics = () => {
           <ChevronLeft className="h-5 w-5 text-neugie-blue" />
           <span className="text-neugie-blue font-semibold ml-1 hidden sm:inline">Back</span>
         </Link>
-        <h1 className="text-3xl font-bold font-playfair tracking-tight text-purple-800">
-          <span className="text-neugie-blue">Learning</span>{" "}
-          <span className="text-purple-800">Analytics</span>
+        {/* Use the brand-heading and accent for orange/punchy effect */}
+        <h1 className="brand-heading">
+          <span className="brand-accent">Learning</span>{" "}
+          <span>Analytics</span>
         </h1>
       </header>
 
@@ -44,5 +45,4 @@ const Analytics = () => {
     </div>
   );
 };
-
 export default Analytics;

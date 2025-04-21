@@ -73,14 +73,14 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        "relative z-[1050] max-h-96 min-w-[9rem] overflow-hidden rounded-2xl border border-purple-100 bg-white/95 text-base shadow-xl focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out transition-all",
+        "relative z-[1150] max-h-96 min-w-[9rem] overflow-hidden rounded-2xl border border-purple-100 bg-white/95 text-base shadow-xl focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out transition-all",
         position === "popper" &&
           "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
         className
       )}
       style={{
         background: "linear-gradient(135deg, #fff 90%, #ede9fe 100%)",
-        boxShadow: "0 6px 24px 0 rgba(155,135,245,0.13), 0 1.5px 5px 0 rgba(0,0,0,0.08)"
+        boxShadow: "0 12px 38px 0 rgba(155,135,245,0.18), 0 1.5px 5px 0 rgba(0,0,0,0.11)",
       }}
       position={position}
       {...props}

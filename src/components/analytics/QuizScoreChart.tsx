@@ -1,5 +1,6 @@
+
 import React, { useMemo, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import {
   Select,
   SelectTrigger,
@@ -111,17 +112,44 @@ const QuizScoreChart = () => {
 
   return (
     <div className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-          <Star className="h-5 w-5 text-orange-500" />
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+            <Star className="h-5 w-5 text-orange-500" />
+          </div>
+          <div>
+            <h3 className="font-bold text-lg text-black">Quiz Scores</h3>
+            <p className="text-xs text-gray-500 -mt-1">Weekly subject quiz performance</p>
+          </div>
         </div>
-        <div>
-          <h3 className="font-bold text-lg text-black">Quiz Scores</h3>
-          <p className="text-xs text-gray-500 -mt-1">Weekly subject quiz performance</p>
+        <div className="flex gap-2 ml-3">
+          {timelineOptions.map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => setTimeline(opt.value)}
+              className={cn(
+                "rounded-full px-4 py-1.5 font-semibold text-sm border-2 transition-all shadow-sm",
+                timeline === opt.value
+                  ? "bg-orange-400 text-white border-orange-400"
+                  : "bg-white text-orange-500 border-orange-400 hover:bg-orange-50"
+              )}
+              style={{
+                minWidth: 44,
+                letterSpacing: "0.02em",
+                fontSize: "0.8rem"
+              }}
+            >
+              {opt.label}
+            </button>
+          ))}
         </div>
       </div>
-      <div className="flex flex-row items-center gap-2 mb-6">
-        <div className="flex-1">
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="bg-orange-50/60 p-3 rounded-lg">
+          <div className="text-xl font-bold text-orange-600">{averageScore}%</div>
+          <div className="text-xs text-gray-500">Average</div>
+        </div>
+        <div className="flex-1 col-span-2">
           <Select
             value={subject}
             onValueChange={setSubject}
@@ -144,32 +172,6 @@ const QuizScoreChart = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex gap-2 ml-2">
-          {timelineOptions.map(opt => (
-            <button
-              key={opt.value}
-              onClick={() => setTimeline(opt.value)}
-              className={cn(
-                "rounded-full px-5 py-1.5 font-semibold text-sm border-2 transition-all shadow-sm",
-                timeline === opt.value
-                  ? "bg-orange-400 text-white border-orange-400"
-                  : "bg-white text-orange-500 border-orange-400 hover:bg-orange-50"
-              )}
-              style={{
-                minWidth: 44,
-                letterSpacing: "0.02em"
-              }}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className="mb-4">
-        <div className="bg-orange-50/90 p-3 rounded-lg flex items-center justify-center gap-3">
-          <span className="text-3xl font-bold text-orange-500 tabular-nums">{averageScore}%</span>
-          <span className="text-base font-medium text-gray-600">Average</span>
-        </div>
       </div>
       <div className="h-56 w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -183,10 +185,16 @@ const QuizScoreChart = () => {
             }}
             barGap={7}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#fee5b9" vertical={false} />
+            <defs>
+              <linearGradient id="colorBar" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#FB923C" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#FB923C" stopOpacity={0.6}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" vertical={false} />
             <XAxis
               dataKey="week"
-              tick={{ fill: '#FB923C', fontWeight: 600, fontSize: 13 }}
+              tick={{ fill: '#888', fontWeight: 500, fontSize: 11 }}
               axisLine={false}
               tickLine={false}
             />
@@ -194,13 +202,14 @@ const QuizScoreChart = () => {
               domain={[0, 100]}
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#C1A667', fontWeight: 500, fontSize: 12 }}
-              width={34}
+              tick={{ fill: '#888', fontWeight: 500, fontSize: 11 }}
+              width={30}
             />
             <Tooltip content={<CustomTooltip />} />
+            <ReferenceLine y={averageScore} stroke="#777" strokeDasharray="3 3" />
             <Bar
               dataKey={subject}
-              fill="#FB923C"
+              fill="url(#colorBar)"
               radius={[8, 8, 0, 0]}
               barSize={28}
               name={subject}
@@ -208,9 +217,6 @@ const QuizScoreChart = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <p className="text-xs text-gray-500 tracking-wide font-medium text-center pt-1">
-        Showing weekly average score ({subject}) for the past {timeline} {timeline === "1" ? "month" : "months"}
-      </p>
     </div>
   );
 };

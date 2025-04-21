@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { ChartLine } from 'lucide-react';
+import { ChartBar } from 'lucide-react';
 import {
   ChartContainer,
   ChartTooltip,
@@ -64,7 +65,7 @@ const CompletionScoreChart = () => {
     <div className="flex flex-col space-y-2">
       <ChartCard
         title="Completion Score"
-        icon={require("lucide-react").ChartBar}
+        icon={ChartBar}
         stats={stats}
         legend="Weekly target completion"
         timeControls={

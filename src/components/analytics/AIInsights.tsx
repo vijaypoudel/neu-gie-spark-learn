@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card } from '@/components/ui/card';
-import { CircleInfo, Lightbulb, TrendingUp, TrendingDown } from 'lucide-react';
+import { CircleHelp, Lightbulb, TrendingUp, TrendingDown } from 'lucide-react';
 
 interface Insight {
   id: number;
@@ -31,7 +31,7 @@ const mockInsights: Insight[] = [
   {
     id: 4,
     type: 'neutral',
-    text: "Science knowledge is steadily improving, but there\'s opportunity to deepen understanding in physics concepts.",
+    text: "Science knowledge is steadily improving, but there's opportunity to deepen understanding in physics concepts.",
     subject: 'Science'
   },
   {
@@ -125,7 +125,7 @@ const AIInsights = () => {
         {neutralInsights.length > 0 && (
           <div>
             <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-              <CircleInfo className="h-4 w-4 text-blue-500" />
+              <CircleHelp className="h-4 w-4 text-blue-500" />
               <span>Additional Observations</span>
             </h3>
             
@@ -135,7 +135,7 @@ const AIInsights = () => {
                   <div className="flex">
                     <div className="mr-3 mt-1">
                       <div className="h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center">
-                        <CircleInfo className="h-3 w-3 text-blue-600" />
+                        <CircleHelp className="h-3 w-3 text-blue-600" />
                       </div>
                     </div>
                     <div>

@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, BugPlay, Inbox } from "lucide-react";
+import { Home, BugPlay, Inbox, BarChart3 } from "lucide-react";
 
 interface NavigationProps {
-  activeTab: 'home' | 'ai' | 'inbox' | 'learn';
+  activeTab: 'home' | 'ai' | 'inbox' | 'learn' | 'analytics';
 }
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
@@ -20,6 +20,12 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
       label: 'Ask CurioBee',
       icon: BugPlay,
       path: '/ai'
+    },
+    {
+      id: 'analytics',
+      label: 'Analytics',
+      icon: BarChart3,
+      path: '/analytics'
     },
     {
       id: 'inbox',

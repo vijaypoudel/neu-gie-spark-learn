@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,7 +18,6 @@ import {
   ReferenceLine
 } from 'recharts';
 
-// Mock data for the past 12 months
 const generateMockData = (months: number) => {
   const currentDate = new Date();
   const data = [];
@@ -28,7 +26,6 @@ const generateMockData = (months: number) => {
     const date = new Date(currentDate);
     date.setMonth(currentDate.getMonth() - i);
     
-    // Generate a random score between 60 and 100
     const score = Math.floor(Math.random() * 40) + 60;
     
     data.push({
@@ -44,11 +41,9 @@ const CompletionScoreChart = () => {
   const [timeRange, setTimeRange] = useState<3 | 6 | 12>(12);
   const data = generateMockData(timeRange);
   
-  // Find best and worst months
   const bestMonth = [...data].sort((a, b) => b.score - a.score)[0];
   const worstMonth = [...data].sort((a, b) => a.score - b.score)[0];
   
-  // Calculate average score
   const averageScore = Math.round(data.reduce((acc, item) => acc + item.score, 0) / data.length);
   
   return (
@@ -59,39 +54,50 @@ const CompletionScoreChart = () => {
             <ChartLine className="h-5 w-5 text-orange-500" />
           </div>
           <div>
-            <h3 className="font-bold text-lg">Completion Score</h3>
+            <h3 className="font-bold text-lg text-black">Completion Score</h3>
             <p className="text-xs text-gray-500">Weekly target completion</p>
           </div>
         </div>
-        <div className="flex gap-1">
-          <Button 
-            variant={timeRange === 3 ? "default" : "outline"}
-            size="sm"
+        <div className="flex gap-2 ml-3">
+          <button 
+            className={
+              (timeRange === 3
+                ? "bg-orange-400 text-white"
+                : "bg-white text-orange-500 border-orange-400") +
+              " rounded-full px-4 py-1.5 font-semibold text-sm border-2 transition-all shadow-sm"
+            }
+            style={{ minWidth: 47, letterSpacing: "0.02em" }}
             onClick={() => setTimeRange(3)}
-            className="h-8 px-3"
           >
             3M
-          </Button>
-          <Button 
-            variant={timeRange === 6 ? "default" : "outline"}
-            size="sm"
+          </button>
+          <button 
+            className={
+              (timeRange === 6
+                ? "bg-orange-400 text-white"
+                : "bg-white text-orange-500 border-orange-400") +
+              " rounded-full px-4 py-1.5 font-semibold text-sm border-2 transition-all shadow-sm"
+            }
+            style={{ minWidth: 47, letterSpacing: "0.02em" }}
             onClick={() => setTimeRange(6)}
-            className="h-8 px-3"
           >
             6M
-          </Button>
-          <Button 
-            variant={timeRange === 12 ? "default" : "outline"}
-            size="sm"
+          </button>
+          <button 
+            className={
+              (timeRange === 12
+                ? "bg-orange-400 text-white"
+                : "bg-white text-orange-500 border-orange-400") +
+              " rounded-full px-4 py-1.5 font-semibold text-sm border-2 transition-all shadow-sm"
+            }
+            style={{ minWidth: 47, letterSpacing: "0.02em" }}
             onClick={() => setTimeRange(12)}
-            className="h-8 px-3"
           >
             12M
-          </Button>
+          </button>
         </div>
       </div>
       
-      {/* Stats row */}
       <div className="grid grid-cols-3 gap-3 mb-6">
         <div className="bg-orange-50/60 p-3 rounded-lg">
           <div className="text-xl font-bold text-orange-600">{averageScore}%</div>
@@ -107,7 +113,6 @@ const CompletionScoreChart = () => {
         </div>
       </div>
       
-      {/* Chart */}
       <div className="h-56 w-full">
         <ChartContainer
           config={{

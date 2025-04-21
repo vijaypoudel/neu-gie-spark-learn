@@ -98,11 +98,11 @@ const AIInsights = () => {
     <Card className="p-6 rounded-2xl overflow-visible shadow-md bg-white/95 border border-purple-100 neumorphic">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-11 h-11 rounded-full bg-gradient-to-br from-neugie-blue/30 to-purple-100 flex items-center justify-center shadow">
-          <Lightbulb className="h-7 w-7 text-purple-600" />
+          <Lightbulb className="h-7 w-7 text-orange-500" />
         </div>
         <div>
-          <h3 className="font-bold text-lg text-purple-800 tracking-tight">AI Insights</h3>
-          <p className="text-xs text-purple-400">Personalized recommendations</p>
+          <h3 className="font-bold text-lg text-black tracking-tight">AI Insights</h3>
+          <p className="text-xs" style={{ color: "#FB923C" }}>Personalized recommendations</p>
         </div>
       </div>
 

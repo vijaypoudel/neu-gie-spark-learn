@@ -1,4 +1,3 @@
-
 import React, { useMemo, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import {
@@ -11,7 +10,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 
-// Mock data: weekly quiz scores per subject
 const weekData = [
   { week: "2024-03-18", Math: 78, Science: 66, Language: 80, Social: 70 },
   { week: "2024-03-25", Math: 82, Science: 74, Language: 89, Social: 75 },
@@ -43,7 +41,6 @@ const timelineOptions = [
 ];
 
 const getWeeksForTimeline = (timeline: number): string[] => {
-  // Returns array of week keys to use (latest N weeks, 4 per month)
   return weekData.slice(-timeline * 4).map(row => row.week);
 };
 
@@ -52,7 +49,6 @@ const averageScoresByWeek = (
   subject: string,
   weeks: string[],
 ) => {
-  // Returns: [{ week: "2024-05-06", avg: 88 }]
   return weeks.map((wk) => {
     const row = data.find(r => r.week === wk);
     return {
@@ -92,7 +88,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 function formatWeekLabel(week: string) {
-  // Ex: "2024-05-13" => "May 13"
   const date = new Date(week);
   return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
@@ -116,20 +111,21 @@ const QuizScoreChart = () => {
 
   return (
     <div className="bg-white/90 rounded-2xl p-6 shadow-premium border border-orange-100/60 hover:shadow-lg transition-all max-w-md mx-auto space-y-4">
-      {/* Header */}
       <div className="flex items-center gap-3 mb-2">
         <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
           <Star className="h-5 w-5 text-orange-400" />
         </div>
         <div>
-          <h3 className="font-extrabold text-lg text-orange-900">Quiz Scores</h3>
+          <h3 className="font-extrabold text-lg text-black">Quiz Scores</h3>
           <p className="text-xs text-gray-500 -mt-1">Weekly subject quiz performance</p>
         </div>
       </div>
-      {/* Dropdown + Timeline */}
       <div className="flex flex-col sm:flex-row items-center gap-3">
-        {/* Subject */}
-        <Select value={subject} onValueChange={setSubject}>
+        <Select
+          value={subject}
+          onValueChange={setSubject}
+          itemIndicator={false}
+        >
           <SelectTrigger
             className={cn(
               "w-40 border-orange-200 shadow bg-white/100 h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-orange-200"
@@ -139,31 +135,40 @@ const QuizScoreChart = () => {
           </SelectTrigger>
           <SelectContent className="z-[1110] mt-2 rounded-xl">
             {subjectList.map((sub) => (
-              <SelectItem key={sub} value={sub} className="rounded-md font-semibold text-base data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900 px-3 py-2">
+              <SelectItem
+                key={sub}
+                value={sub}
+                hideCheck={true}
+                className="rounded-md font-semibold text-base px-3 py-2 data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900"
+              >
                 {sub}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-        {/* Timeline Buttons */}
         <div className="flex gap-2 ml-auto mt-2 sm:mt-0">
-          {timelineOptions.map((opt) => (
+          {timelineOptions.map((opt, idx) => (
             <button
               key={opt.value}
               onClick={() => setTimeline(opt.value)}
               className={cn(
-                "rounded-full px-5 py-2 font-semibold transition-all text-sm border border-orange-200",
+                "rounded-full px-5 py-2 font-semibold transition-all text-sm border",
+                "border-orange-400",
                 timeline === opt.value
-                  ? "bg-orange-400 text-white border-transparent shadow-md"
-                  : "bg-white text-orange-900 hover:bg-orange-50"
+                  ? "bg-orange-400 text-white shadow"
+                  : "bg-white text-orange-500 hover:bg-orange-50"
               )}
+              style={{
+                minWidth: 47,
+                borderWidth: '2px',
+                letterSpacing: '0.02em'
+              }}
             >
-              {opt.label.toUpperCase()}
+              {["1M", "2M", "3M"][idx]}
             </button>
           ))}
         </div>
       </div>
-      {/* Average Stat Row */}
       <div className="bg-orange-50/75 rounded-xl flex items-center justify-center my-2 py-4">
         <div className="flex flex-row items-center gap-4">
           <div className="flex items-center">
@@ -172,7 +177,6 @@ const QuizScoreChart = () => {
           </div>
         </div>
       </div>
-      {/* Chart */}
       <div
         className="h-56 w-full px-2 flex items-center justify-center"
         style={{ minHeight: 220 }}

@@ -3,8 +3,8 @@ import React, { useMemo, useState } from "react";
 import { Star } from "lucide-react";
 import ChartCard from "./ChartCard";
 import TimeRangeSelector from "./TimeRangeSelector";
-import QuizScoreStat from "./QuizScoreStat";
-import QuizScoreBarChart from "./QuizScoreBarChart";
+import QuizScoreStats from "./QuizScoreStats";
+import QuizScoreBar from "./QuizScoreBar";
 import {
   weekData,
   subjectList,
@@ -37,21 +37,24 @@ const QuizScoreChart = () => {
         title="Quiz Scores"
         icon={Star}
         timeControls={
-          <TimeRangeSelector 
-            options={timelineOptions} 
-            currentValue={timeline}
-            onChange={handleTimelineChange}
-          />
+          <div className="flex flex-wrap gap-2 md:gap-2">
+            <TimeRangeSelector 
+              options={timelineOptions} 
+              currentValue={timeline}
+              onChange={handleTimelineChange}
+              className="!gap-2"
+            />
+          </div>
         }
         legend="Weekly subject quiz performance"
       >
-        <QuizScoreStat
+        <QuizScoreStats
           averageScore={averageScore}
           subject={subject}
           onSubjectChange={setSubject}
         />
 
-        <QuizScoreBarChart
+        <QuizScoreBar
           subject={subject}
           weeksToShow={weeksToShow}
           averageScore={averageScore}

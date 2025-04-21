@@ -114,65 +114,69 @@ const CompletionScoreChart = () => {
           </div>
         </div>
         
-        <div className="h-56 w-full">
-          <ChartContainer
-            config={{
-              completion: {
-                label: "Completion Score",
-                color: "#f97316",
-              },
-            }}
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data} margin={{ top: 20, right: 15, left: 5, bottom: 5 }}>
-                <defs>
-                  <linearGradient id="colorCompletion" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f97316" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#f97316" stopOpacity={0.1}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f5f5f5" />
-                <XAxis 
-                  dataKey="month"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#888', fontSize: 11 }}
-                />
-                <YAxis 
-                  domain={[0, 100]}
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#888', fontSize: 11 }}
-                  width={30}
-                />
-                <ChartTooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      return (
-                        <ChartTooltipContent
-                          className="bg-white shadow rounded-lg p-2 border border-gray-100"
-                          payload={payload}
-                        />
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <ReferenceLine y={averageScore} stroke="#777" strokeDasharray="3 3" />
-                <Area 
-                  type="monotone"
-                  dataKey="score"
-                  stroke="#f97316"
-                  fillOpacity={1}
-                  fill="url(#colorCompletion)"
-                  name="completion"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+        <div>
+          <div className="h-56 w-full">
+            <ChartContainer
+              config={{
+                completion: {
+                  label: "Completion Score",
+                  color: "#f97316",
+                },
+              }}
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={data} margin={{ top: 20, right: 15, left: 5, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="colorCompletion" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#f97316" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#f97316" stopOpacity={0.1}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f5f5f5" />
+                  <XAxis 
+                    dataKey="month"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#888', fontSize: 11 }}
+                  />
+                  <YAxis 
+                    domain={[0, 100]}
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#888', fontSize: 11 }}
+                    width={30}
+                  />
+                  <ChartTooltip
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <ChartTooltipContent
+                            className="bg-white shadow rounded-lg p-2 border border-gray-100"
+                            payload={payload}
+                          />
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <ReferenceLine y={averageScore} stroke="#777" strokeDasharray="3 3" />
+                  <Area 
+                    type="monotone"
+                    dataKey="score"
+                    stroke="#f97316"
+                    fillOpacity={1}
+                    fill="url(#colorCompletion)"
+                    name="completion"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </div>
+          {/* New: Text legend immediately below the chart */}
+          <div className="text-[13px] text-gray-500 text-center mt-2">Weekly target completion</div>
         </div>
       </Card>
-      <p className="text-sm text-gray-500 ml-1">Weekly target completion</p>
+      {/* Removed the text below the card */}
     </div>
   );
 };

@@ -1,11 +1,17 @@
 
 import React, { useMemo, useState } from "react";
-import { Card } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { Star } from "lucide-react";
 
-// Mock data: weekly quiz scores per subject (one per week)
+// Mock data: weekly quiz scores per subject
 const weekData = [
   { week: "2024-03-18", Math: 78, Science: 66, Language: 80, Social: 70 },
   { week: "2024-03-25", Math: 82, Science: 74, Language: 89, Social: 75 },
@@ -21,11 +27,10 @@ const weekData = [
   { week: "2024-06-03", Math: 90, Science: 85, Language: 80, Social: 87 },
 ];
 
-// Extract unique subjects
 const subjectList = Object.keys(weekData[0]).filter((key) => key !== "week");
 
 const subjectColors: Record<string, string> = {
-  Math: "#8884d8",
+  Math: "#9b87f5",
   Science: "#82ca9d",
   Language: "#ffc658",
   Social: "#ff8042",
@@ -38,8 +43,8 @@ const timelineOptions = [
 ];
 
 const getWeeksForTimeline = (timeline: number): string[] => {
-  // Returns array of week keys to use (latest N weeks)
-  return weekData.slice(-timeline * 4).map(row => row.week); // 4 weeks per month
+  // Returns array of week keys to use (latest N weeks, 4 per month)
+  return weekData.slice(-timeline * 4).map(row => row.week);
 };
 
 const averageScoresByWeek = (
@@ -49,7 +54,6 @@ const averageScoresByWeek = (
 ) => {
   // Returns: [{ week: "2024-05-06", avg: 88 }]
   return weeks.map((wk) => {
-    // Find all rows for this week (should be exactly one in mock)
     const row = data.find(r => r.week === wk);
     return {
       week: wk,
@@ -58,13 +62,26 @@ const averageScoresByWeek = (
   });
 };
 
+const averageScoreForTimeline = (
+  data: typeof weekData,
+  subject: string,
+  weeks: string[],
+) => {
+  const vals = weeks.map(wk => {
+    const row = data.find(r => r.week === wk);
+    return row && typeof row[subject] === "number" ? row[subject] : null;
+  }).filter(v => v !== null) as number[];
+  if (vals.length === 0) return 0;
+  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+};
+
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-2 rounded-lg shadow-lg border border-purple-100 flex flex-col">
-        <span className="text-xs font-bold text-purple-900 mb-1">{label}</span>
+        <span className="text-xs font-bold text-orange-600 mb-1">{label}</span>
         {payload.map((entry: any, idx: number) => (
-          <span key={idx} className="text-sm" style={{ color: entry.fill }}>
+          <span key={idx} className="text-sm text-black" style={{ color: entry.fill }}>
             {entry.name}: {entry.value}%
           </span>
         ))}
@@ -84,39 +101,50 @@ const QuizScoreChart = () => {
   const [subject, setSubject] = useState(subjectList[0]);
   const [timeline, setTimeline] = useState("3");
 
-  const weeksToShow = useMemo(() => {
-    return getWeeksForTimeline(Number(timeline));
-  }, [timeline]);
-
-  const avgData = useMemo(() => {
-    return averageScoresByWeek(weekData, subject, weeksToShow).map((row) => ({
-      week: formatWeekLabel(row.week),
-      [subject]: row.avg,
-    }));
-  }, [subject, weeksToShow]);
+  const weeksToShow = useMemo(() => getWeeksForTimeline(Number(timeline)), [timeline]);
+  const avgData = useMemo(
+    () =>
+      averageScoresByWeek(weekData, subject, weeksToShow).map((row) => ({
+        week: formatWeekLabel(row.week),
+        [subject]: row.avg,
+      })),
+    [subject, weeksToShow]
+  );
+  const averageScore = useMemo(() =>
+    averageScoreForTimeline(weekData, subject, weeksToShow), [subject, weeksToShow]
+  );
 
   return (
-    <div className="bg-white/90 rounded-2xl p-6 shadow-md border border-purple-100">
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-3">
-        <span className="text-lg font-bold text-purple-800 flex-1">Quiz Scores</span>
+    <div className="bg-white/90 rounded-2xl p-6 shadow-premium border border-orange-100/60 hover:shadow-lg transition-all max-w-md mx-auto space-y-4">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
+          <Star className="h-5 w-5 text-orange-400" />
+        </div>
+        <div>
+          <h3 className="font-extrabold text-lg text-orange-900">Quiz Scores</h3>
+          <p className="text-xs text-gray-500 -mt-1">Weekly subject quiz performance</p>
+        </div>
+      </div>
+      {/* Dropdown + Timeline */}
+      <div className="flex flex-col sm:flex-row items-center gap-3">
+        {/* Subject */}
         <Select value={subject} onValueChange={setSubject}>
           <SelectTrigger
             className={cn(
-              "w-40 border-purple-300 shadow-sm bg-white/95 h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-purple-300",
+              "w-40 border-orange-200 shadow bg-white/100 h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-orange-200"
             )}
           >
-            <SelectValue />
+            <SelectValue placeholder="Subject" />
           </SelectTrigger>
-          <SelectContent className="z-[1100] mt-2 rounded-xl">
+          <SelectContent className="z-[1110] mt-2 rounded-xl">
             {subjectList.map((sub) => (
-              <SelectItem key={sub} value={sub} className="rounded-md data-[state=checked]:bg-purple-50 data-[state=checked]:text-purple-800 font-semibold text-lg px-3 py-2">
+              <SelectItem key={sub} value={sub} className="rounded-md font-semibold text-base data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900 px-3 py-2">
                 {sub}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-
         {/* Timeline Buttons */}
         <div className="flex gap-2 ml-auto mt-2 sm:mt-0">
           {timelineOptions.map((opt) => (
@@ -124,46 +152,69 @@ const QuizScoreChart = () => {
               key={opt.value}
               onClick={() => setTimeline(opt.value)}
               className={cn(
-                "rounded-full px-5 py-2 font-semibold transition-all text-sm border border-purple-300",
+                "rounded-full px-5 py-2 font-semibold transition-all text-sm border border-orange-200",
                 timeline === opt.value
-                  ? "bg-orange-400 text-white border-transparent hover:bg-orange-500"
-                  : "bg-white text-purple-800 hover:bg-purple-100"
+                  ? "bg-orange-400 text-white border-transparent shadow-md"
+                  : "bg-white text-orange-900 hover:bg-orange-50"
               )}
             >
-              {opt.label.replace(" Months", "").toUpperCase()}
+              {opt.label.toUpperCase()}
             </button>
           ))}
         </div>
       </div>
+      {/* Average Stat Row */}
+      <div className="bg-orange-50/75 rounded-xl flex items-center justify-center my-2 py-4">
+        <div className="flex flex-row items-center gap-4">
+          <div className="flex items-center">
+            <span className="text-3xl font-bold text-orange-500 tabular-nums">{averageScore}%</span>
+            <span className="ml-2 text-sm font-medium text-gray-600">Average</span>
+          </div>
+        </div>
+      </div>
       {/* Chart */}
-      <div className="mb-2" style={{ minHeight: 260 }}>
-        <ResponsiveContainer width="100%" height={260}>
+      <div
+        className="h-56 w-full px-2 flex items-center justify-center"
+        style={{ minHeight: 220 }}
+      >
+        <ResponsiveContainer width="100%" height={220}>
           <BarChart
             data={avgData}
             margin={{
               top: 10,
-              right: 26,
-              left: 12,
-              bottom: 14,
+              right: 24,
+              left: 3,
+              bottom: 18,
             }}
-            barGap={6}
+            barGap={7}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#ece6fd" />
-            <XAxis dataKey="week" tick={{ fill: '#8884d8', fontWeight: 500 }} />
-            <YAxis domain={[0, 100]} tick={{ fill: '#666', fontWeight: 500 }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#FAD9BC" vertical={false} />
+            <XAxis
+              dataKey="week"
+              tick={{ fill: '#FB923C', fontWeight: 600, fontSize: 13 }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              domain={[0, 100]}
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: '#bbb', fontWeight: 500, fontSize: 12 }}
+              width={36}
+            />
             <Tooltip content={<CustomTooltip />} />
             <Bar
               dataKey={subject}
-              fill={subjectColors[subject] || "#7e69ab"}
+              fill={subjectColors[subject] || "#9b87f5"}
               radius={[8, 8, 0, 0]}
-              barSize={26}
+              barSize={30}
               name={subject}
             />
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <p className="text-xs text-gray-500 mt-0.5 tracking-wide font-medium">
-        Showing weekly average scores for the past {timeline} {timeline === "1" ? "month" : "months"}
+      <p className="text-xs text-gray-500 tracking-wide font-medium text-center pt-0">
+        Showing weekly average score ({subject}) for the past {timeline} {timeline === "1" ? "month" : "months"}
       </p>
     </div>
   );

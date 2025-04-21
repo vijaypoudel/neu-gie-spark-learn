@@ -110,6 +110,11 @@ const QuizScoreChart = () => {
     { value: "3", label: "3M" },
   ];
 
+  // Create a handler that explicitly converts the value to the expected type
+  const handleTimelineChange = (value: string | number) => {
+    setTimeline(String(value)); // Convert to string to match state type
+  };
+
   const weeksToShow = useMemo(() => getWeeksForTimeline(Number(timeline)), [timeline]);
   const avgData = useMemo(
     () =>
@@ -164,7 +169,7 @@ const QuizScoreChart = () => {
           <TimeRangeSelector 
             options={timelineOptions} 
             currentValue={timeline}
-            onChange={setTimeline}
+            onChange={handleTimelineChange}
           />
         }
         legend="Weekly subject quiz performance"

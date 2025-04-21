@@ -230,10 +230,13 @@ const QuizScoreChart = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        {/* Added text legend immediately below the chart inside the card */}
+        <div className="text-[13px] text-gray-500 text-center mt-2">Weekly subject quiz performance</div>
       </div>
-      <p className="text-sm text-gray-500 ml-1">Weekly subject quiz performance</p>
+      {/* Removed the text below the card */}
     </div>
   );
 };
 
 export default QuizScoreChart;
+

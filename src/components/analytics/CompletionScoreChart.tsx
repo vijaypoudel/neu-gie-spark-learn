@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { ChartLine, Trophy, TrendingDown } from 'lucide-react';
+import { ChartLine } from 'lucide-react';
 import {
   ChartContainer,
   ChartTooltip,
@@ -172,13 +172,13 @@ const CompletionScoreChart = () => {
               </ResponsiveContainer>
             </ChartContainer>
           </div>
-          {/* New: Text legend immediately below the chart */}
+          {/* Moved the text inside the card just below the graph */}
           <div className="text-[13px] text-gray-500 text-center mt-2">Weekly target completion</div>
         </div>
       </Card>
-      {/* Removed the text below the card */}
     </div>
   );
 };
 
 export default CompletionScoreChart;
+

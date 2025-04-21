@@ -31,7 +31,7 @@ const mockInsights: Insight[] = [
   {
     id: 4,
     type: 'neutral',
-    text: 'Science knowledge is steadily improving, but there's opportunity to deepen understanding in physics concepts.',
+    text: "Science knowledge is steadily improving, but there\'s opportunity to deepen understanding in physics concepts.",
     subject: 'Science'
   },
   {

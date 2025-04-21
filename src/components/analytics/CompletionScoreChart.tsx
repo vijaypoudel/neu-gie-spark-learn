@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ChartBar } from 'lucide-react';
 import {
   ChartContainer,
@@ -69,12 +69,12 @@ const CompletionScoreChart = () => {
         stats={stats}
         legend="Weekly target completion"
         timeControls={
-          <div className="flex flex-wrap gap-2 md:gap-2">
+          <div className="flex flex-wrap gap-1 md:gap-2">
             <TimeRangeSelector
               options={timeOptions}
               currentValue={timeRange}
               onChange={v => setTimeRange(Number(v) as 3 | 6 | 12)}
-              className="!gap-2"
+              className="!gap-1" // Reduced gap
             />
           </div>
         }

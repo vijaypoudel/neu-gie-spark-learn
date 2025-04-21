@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ChevronLeft, Plus, RotateCw, Save, XCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -61,17 +62,17 @@ const NewPlanCard: React.FC<NewPlanCardProps> = ({
         <CollapsibleContent>
           <CardContent className="pt-0 space-y-6">
             <div>
-              <h3 className="font-semibold mb-2">Select Subjects</h3>
+              <h3 className="brand-card-title mb-2">Select Subjects</h3>
               <div className="flex flex-wrap gap-2 mb-3">
                 {selectedSubjects.map(subjectId => {
                   const subject = subjects.find(s => s.id === subjectId);
                   return (
-                    <div key={subjectId} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center gap-1">
+                    <div key={subjectId} className="brand-chip flex items-center gap-1">
                       <span>{subject?.icon}</span>
                       <span>{subject?.name}</span>
                       <button 
                         onClick={() => onRemoveSubject(subjectId)}
-                        className="ml-1 text-blue-600 hover:text-blue-800"
+                        className="ml-1 text-orange-600 hover:text-orange-800"
                       >
                         <XCircle className="h-4 w-4" />
                       </button>
@@ -94,7 +95,7 @@ const NewPlanCard: React.FC<NewPlanCardProps> = ({
               <Button 
                 onClick={onGeneratePlan}
                 disabled={selectedSubjects.length === 0 || isGenerating}
-                className="w-full bg-gradient-to-r from-blue-500 to-purple-500"
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-400"
               >
                 {isGenerating ? (
                   <>

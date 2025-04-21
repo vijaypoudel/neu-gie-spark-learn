@@ -1,50 +1,70 @@
 
-/* CurioBee Brand Theme Utility Classes - for headings and strong card text */
-
+/* CurioBee Brand Theme Utility Classes - Headings, Card Text, Chips, Tags */
 @layer components {
-  /* Orange and Black Variables - override or use as needed */
   :root {
-    --curiobee-orange: 28.8 95.7% 54%;   /* #F97316 close */
+    --curiobee-orange: 28.8 95.7% 54%;   /* #F97316 */
     --curiobee-black: 0 0% 8%;           /* #161616 - deep black */
+    --curiobee-bg-black: 0 0% 7%;        /* #181818 - slightly lighter black */
   }
+
+  /* Orange/Black Main Heading */
   .brand-heading {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
     font-size: 2.2rem;
     letter-spacing: -0.02em;
     color: hsl(var(--curiobee-black));
-    line-height: 1.12;
+    background: none;
+    line-height: 1.1;
     margin-bottom: 0.25em;
   }
-  .brand-heading .brand-accent, 
+  .brand-heading .brand-accent,
   .brand-accent {
     color: hsl(var(--curiobee-orange));
   }
 
-  /* Responsive heading for cards, details */
+  /* Card/Section Title - Orange, Bold */
   .brand-card-title {
     font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: hsl(var(--curiobee-black));
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: hsl(var(--curiobee-orange));
     letter-spacing: -0.01em;
+    margin-bottom: 0.1em;
+    text-shadow: 0 1px 0 hsl(var(--curiobee-bg-black)/0.03);
   }
   .brand-card-title .brand-accent {
-    color: hsl(var(--curiobee-orange));
+    color: hsl(var(--curiobee-black));
   }
 
+  /* Card Description/Text */
   .brand-card-text {
-    color: hsl(var(--curiobee-orange));
+    color: hsl(var(--curiobee-black));
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 1rem;
     font-weight: 600;
+    margin-bottom: 0.3em;
   }
 
-  /* Card/stat orange-black for numbers/info */
+  /* Orange Stat/Num, for card numbers/info */
   .brand-num {
     color: hsl(var(--curiobee-orange));
-    font-weight: bold;
-    font-size: 1.2em;
+    font-weight: 700;
+    font-size: 1.18em;
     font-family: 'Inter', system-ui, sans-serif;
+    letter-spacing: 0.01em;
+  }
+
+  /* Orange Chip, for tags/subject pills */
+  .brand-chip {
+    background-color: hsl(var(--curiobee-orange)/0.08);
+    color: hsl(var(--curiobee-orange));
+    font-weight: 600;
+    border-radius: 9999px;
+    font-size: 0.97rem;
+    padding: 4px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.18em;
   }
 }

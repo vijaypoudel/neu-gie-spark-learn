@@ -1,6 +1,15 @@
 
 import React, { useMemo, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine
+} from "recharts";
 import {
   Select,
   SelectTrigger,
@@ -75,10 +84,13 @@ const averageScoreForTimeline = (
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-2 rounded-lg shadow-lg border border-orange-100 flex flex-col">
+      <div className="bg-white p-2 rounded-lg shadow-md border border-orange-200 flex flex-col">
         <span className="text-xs font-bold text-orange-600 mb-1">{label}</span>
         {payload.map((entry: any, idx: number) => (
-          <span key={idx} className="text-sm font-semibold" style={{ color: "#FB923C" }}>
+          <span
+            key={idx}
+            className="text-sm font-semibold text-orange-600"
+          >
             {entry.name}: {entry.value}%
           </span>
         ))}
@@ -111,7 +123,7 @@ const QuizScoreChart = () => {
   );
 
   return (
-    <div className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow">
+    <div className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow relative">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
@@ -128,15 +140,13 @@ const QuizScoreChart = () => {
               key={opt.value}
               onClick={() => setTimeline(opt.value)}
               className={cn(
-                "rounded-full px-4 py-1.5 font-semibold text-sm border-2 transition-all shadow-sm",
+                "rounded-full px-3 py-1.5 font-semibold text-xs border-2 transition-all shadow-sm min-w-[40px] select-none",
                 timeline === opt.value
                   ? "bg-orange-400 text-white border-orange-400"
                   : "bg-white text-orange-500 border-orange-400 hover:bg-orange-50"
               )}
               style={{
-                minWidth: 44,
                 letterSpacing: "0.02em",
-                fontSize: "0.8rem"
               }}
             >
               {opt.label}
@@ -144,6 +154,7 @@ const QuizScoreChart = () => {
           ))}
         </div>
       </div>
+
       <div className="grid grid-cols-3 gap-3 mb-6">
         <div className="bg-orange-50/60 p-3 rounded-lg">
           <div className="text-xl font-bold text-orange-600">{averageScore}%</div>
@@ -173,6 +184,7 @@ const QuizScoreChart = () => {
           </Select>
         </div>
       </div>
+
       <div className="h-56 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
@@ -187,8 +199,8 @@ const QuizScoreChart = () => {
           >
             <defs>
               <linearGradient id="colorBar" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#FB923C" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#FB923C" stopOpacity={0.6}/>
+                <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#f97316" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" vertical={false} />
@@ -217,8 +229,10 @@ const QuizScoreChart = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
+      {/* Removed floating "Showing data for the past 3 months" text here, consider if you want it under the chart */}
     </div>
   );
 };
 
 export default QuizScoreChart;
+

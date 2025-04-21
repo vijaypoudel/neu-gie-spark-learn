@@ -52,14 +52,23 @@ const CompletionScoreChart = () => {
   const averageScore = Math.round(data.reduce((acc, item) => acc + item.score, 0) / data.length);
   
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-xl font-bold">Completion Score</h2>
-        <div className="flex gap-2">
+    <Card className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+            <ChartLine className="h-5 w-5 text-orange-500" />
+          </div>
+          <div>
+            <h3 className="font-bold text-lg">Completion Score</h3>
+            <p className="text-xs text-gray-500">Weekly target completion</p>
+          </div>
+        </div>
+        <div className="flex gap-1">
           <Button 
             variant={timeRange === 3 ? "default" : "outline"}
             size="sm"
             onClick={() => setTimeRange(3)}
+            className="h-8 px-3"
           >
             3M
           </Button>
@@ -67,6 +76,7 @@ const CompletionScoreChart = () => {
             variant={timeRange === 6 ? "default" : "outline"}
             size="sm"
             onClick={() => setTimeRange(6)}
+            className="h-8 px-3"
           >
             6M
           </Button>
@@ -74,107 +84,88 @@ const CompletionScoreChart = () => {
             variant={timeRange === 12 ? "default" : "outline"}
             size="sm"
             onClick={() => setTimeRange(12)}
+            className="h-8 px-3"
           >
             12M
           </Button>
         </div>
       </div>
       
-      <Card className="p-4">
-        <div className="mb-4 flex justify-between items-center">
-          <div>
-            <div className="text-3xl font-bold">{averageScore}%</div>
-            <div className="text-sm text-muted-foreground">Avg. Completion</div>
-          </div>
-          <div className="flex items-center gap-2">
-            <ChartLine className="h-5 w-5 text-orange-500" />
-            <span className="font-medium">Weekly Target Completion</span>
-          </div>
+      {/* Stats row */}
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="bg-orange-50/60 p-3 rounded-lg">
+          <div className="text-xl font-bold text-orange-600">{averageScore}%</div>
+          <div className="text-xs text-gray-500">Average</div>
         </div>
-        
-        <div className="h-[300px] w-full">
-          <ChartContainer
-            config={{
-              completion: {
-                label: "Completion Score",
-                color: "#f97316",
-              },
-            }}
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorCompletion" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f97316" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#f97316" stopOpacity={0.1}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f5f5f5" />
-                <XAxis 
-                  dataKey="month"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#888', fontSize: 12 }}
-                />
-                <YAxis 
-                  domain={[0, 100]}
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#888', fontSize: 12 }}
-                />
-                <ChartTooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      return (
-                        <ChartTooltipContent
-                          className="bg-white shadow rounded-lg p-2 border border-gray-100"
-                          payload={payload}
-                        />
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <ReferenceLine y={averageScore} stroke="#000" strokeDasharray="3 3" />
-                <Area 
-                  type="monotone"
-                  dataKey="score"
-                  stroke="#f97316"
-                  fillOpacity={1}
-                  fill="url(#colorCompletion)"
-                  name="completion"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+        <div className="bg-green-50/60 p-3 rounded-lg">
+          <div className="text-xl font-bold text-green-600">{bestMonth?.score}%</div>
+          <div className="text-xs text-gray-500">Best: {bestMonth?.month}</div>
         </div>
-      </Card>
-      
-      {/* Best and worst month cards */}
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        <Card className="p-3 border-l-4 border-orange-500">
-          <div className="flex items-center gap-2 mb-1">
-            <Trophy className="h-4 w-4 text-orange-500" />
-            <h3 className="font-medium">Best Month</h3>
-          </div>
-          <div className="flex justify-between items-center">
-            <div className="font-bold">{bestMonth?.month}</div>
-            <div className="text-xl font-bold text-orange-500">{bestMonth?.score}%</div>
-          </div>
-        </Card>
-        
-        <Card className="p-3 border-l-4 border-black">
-          <div className="flex items-center gap-2 mb-1">
-            <TrendingDown className="h-4 w-4 text-black" />
-            <h3 className="font-medium">Worst Month</h3>
-          </div>
-          <div className="flex justify-between items-center">
-            <div className="font-bold">{worstMonth?.month}</div>
-            <div className="text-xl font-bold text-black">{worstMonth?.score}%</div>
-          </div>
-        </Card>
+        <div className="bg-red-50/60 p-3 rounded-lg">
+          <div className="text-xl font-bold text-red-600">{worstMonth?.score}%</div>
+          <div className="text-xs text-gray-500">Worst: {worstMonth?.month}</div>
+        </div>
       </div>
-    </div>
+      
+      {/* Chart */}
+      <div className="h-56 w-full">
+        <ChartContainer
+          config={{
+            completion: {
+              label: "Completion Score",
+              color: "#f97316",
+            },
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={data} margin={{ top: 20, right: 15, left: 5, bottom: 5 }}>
+              <defs>
+                <linearGradient id="colorCompletion" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#f97316" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#f97316" stopOpacity={0.1}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f5f5f5" />
+              <XAxis 
+                dataKey="month"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: '#888', fontSize: 11 }}
+              />
+              <YAxis 
+                domain={[0, 100]}
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: '#888', fontSize: 11 }}
+                width={30}
+              />
+              <ChartTooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <ChartTooltipContent
+                        className="bg-white shadow rounded-lg p-2 border border-gray-100"
+                        payload={payload}
+                      />
+                    );
+                  }
+                  return null;
+                }}
+              />
+              <ReferenceLine y={averageScore} stroke="#777" strokeDasharray="3 3" />
+              <Area 
+                type="monotone"
+                dataKey="score"
+                stroke="#f97316"
+                fillOpacity={1}
+                fill="url(#colorCompletion)"
+                name="completion"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </div>
+    </Card>
   );
 };
 

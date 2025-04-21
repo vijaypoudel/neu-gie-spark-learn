@@ -26,16 +26,9 @@ type TimeRange = 1 | 2 | 3;
 // 3 months is the max allowed always
 const ALLOWED_TIME_RANGES: TimeRange[] = [1, 2, 3];
 
-interface QuizScore {
-  week: string;
-  score: number;
-  subject: Subject;
-}
-
 // Mock data generator for quiz scores
 const generateQuizData = (timeRange: TimeRange, selectedSubject: Subject | 'All') => {
-  const maxRange = 3;
-  const weeks = (timeRange > maxRange ? maxRange : timeRange) * 4;
+  const weeks = timeRange * 4;
   const data = [];
   const subjects: Subject[] = ['Math', 'Science', 'Language', 'Social'];
   
@@ -54,29 +47,45 @@ const generateQuizData = (timeRange: TimeRange, selectedSubject: Subject | 'All'
 };
 
 const subjectColors = {
-  Math: "#f97316",
-  Science: "#22c55e",
-  Language: "#3b82f6",
-  Social: "#a855f7",
+  Math: "#f97316", // Orange
+  Science: "#22c55e", // Green
+  Language: "#3b82f6", // Blue
+  Social: "#a855f7", // Purple
 };
 
 const QuizScoreChart = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>(3);
   const [subject, setSubject] = useState<Subject | 'All'>('All');
-  // Allow only up to last 3 months
-  const cleanedTimeRange = (timeRange > 3 ? 3 : timeRange) as TimeRange;
-  const data = generateQuizData(cleanedTimeRange, subject);
+  const data = generateQuizData(timeRange, subject);
+  
+  // Calculate subject averages
+  const subjectAverages = {} as Record<Subject, number>;
+  if (subject === 'All') {
+    (['Math', 'Science', 'Language', 'Social'] as Subject[]).forEach(subj => {
+      const values = data.map(item => item[subj] || 0);
+      subjectAverages[subj] = Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
+    });
+  }
 
   return (
-    <div className="flex flex-col items-center gap-8 w-full">
-      <div className="w-full flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-        <h2 className="text-xl font-bold text-gray-800">Quiz Scores</h2>
-        <div className="flex items-center gap-3 flex-wrap">
+    <Card className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-blue-100/40 hover:shadow-md transition-shadow">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+            <ChartBar className="h-5 w-5 text-blue-500" />
+          </div>
+          <div>
+            <h3 className="font-bold text-lg">Quiz Scores</h3>
+            <p className="text-xs text-gray-500">Performance by subject</p>
+          </div>
+        </div>
+        
+        <div className="flex flex-wrap items-center gap-3">
           <Select
             value={subject}
             onValueChange={(value) => setSubject(value as Subject | 'All')}
           >
-            <SelectTrigger className="w-[150px] shadow-sm bg-white">
+            <SelectTrigger className="w-[120px] h-9 text-sm bg-white shadow-sm">
               <SelectValue placeholder="Subject" />
             </SelectTrigger>
             <SelectContent>
@@ -87,6 +96,7 @@ const QuizScoreChart = () => {
               <SelectItem value="Social">Social Studies</SelectItem>
             </SelectContent>
           </Select>
+          
           <div className="flex gap-1">
             {ALLOWED_TIME_RANGES.map(range => (
               <Button 
@@ -94,6 +104,7 @@ const QuizScoreChart = () => {
                 variant={timeRange === range ? "default" : "outline"}
                 size="sm"
                 onClick={() => setTimeRange(range)}
+                className="h-8 px-3"
               >
                 {range}M
               </Button>
@@ -101,131 +112,117 @@ const QuizScoreChart = () => {
           </div>
         </div>
       </div>
-      <Card className="shadow-xl rounded-xl w-full max-w-3xl p-4 md:p-8 bg-white/80 transition-all">
-        <div className="mb-6 flex items-center gap-3">
-          <ChartBar className="h-6 w-6 text-orange-500" />
-          <span className="font-semibold text-lg">Quiz Performance Timeline</span>
-        </div>
-        <div className="h-[280px] md:h-[360px] w-full">
-          <ChartContainer
-            config={{
-              Math: {
-                label: "Math",
-                color: subjectColors.Math,
-              },
-              Science: {
-                label: "Science",
-                color: subjectColors.Science,
-              },
-              Language: {
-                label: "Language",
-                color: subjectColors.Language,
-              },
-              Social: {
-                label: "Social",
-                color: subjectColors.Social,
-              },
-            }}
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data} margin={{ top: 28, right: 20, left: -6, bottom: 10 }}>
-                <CartesianGrid strokeDasharray="3 6" vertical={false} stroke="#f0f0f0" />
-                <XAxis 
-                  dataKey="week"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#999', fontSize: 13 }}
-                />
-                <YAxis 
-                  domain={[50, 100]}
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#999', fontSize: 13 }}
-                  width={32}
-                />
-                <ChartTooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      return (
-                        <ChartTooltipContent
-                          className="bg-white shadow rounded-lg p-3 border border-gray-100"
-                          payload={payload}
-                        />
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                {(subject === 'All' || subject === 'Math') && 
-                  <Line 
-                    type="monotone" 
-                    dataKey="Math" 
-                    stroke={subjectColors.Math}
-                    strokeWidth={3}
-                    dot={{ r: 3.5 }}
-                    name="Math"
-                  />
-                }
-                {(subject === 'All' || subject === 'Science') && 
-                  <Line 
-                    type="monotone" 
-                    dataKey="Science" 
-                    stroke={subjectColors.Science}
-                    strokeWidth={3}
-                    dot={{ r: 3.5 }}
-                    name="Science"
-                  />
-                }
-                {(subject === 'All' || subject === 'Language') && 
-                  <Line 
-                    type="monotone" 
-                    dataKey="Language" 
-                    stroke={subjectColors.Language}
-                    strokeWidth={3}
-                    dot={{ r: 3.5 }}
-                    name="Language"
-                  />
-                }
-                {(subject === 'All' || subject === 'Social') && 
-                  <Line 
-                    type="monotone" 
-                    dataKey="Social" 
-                    stroke={subjectColors.Social}
-                    strokeWidth={3}
-                    dot={{ r: 3.5 }}
-                    name="Social"
-                  />
-                }
-                <Legend wrapperStyle={{ paddingTop: 20 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </ChartContainer>
-        </div>
-        <div className="mt-6 text-base text-muted-foreground text-center">
-          Showing quiz scores for the past {cleanedTimeRange} month{cleanedTimeRange > 1 ? "s" : ""}
-        </div>
-      </Card>
-      {/* Subject performance summary */}
+      
+      {/* Subject averages cards - only show if All is selected */}
       {subject === 'All' && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 w-full max-w-3xl mx-auto">
-          {['Math', 'Science', 'Language', 'Social'].map((subj) => {
-            const avgScore = Math.round(
-              data.reduce((acc, item) => acc + (item[subj] || 0), 0) / data.length
-            );
-            return (
-              <Card key={subj} className="p-4 text-center shadow-sm hover:shadow-lg transition-all border bg-white/95">
-                <div 
-                  className="w-5 h-5 rounded-full mx-auto mb-2"
-                  style={{ backgroundColor: subjectColors[subj as Subject] }}
-                />
-                <div className="text-[15px] font-semibold">{subj}</div>
-                <div className="text-2xl md:text-3xl font-extrabold">{avgScore}%</div>
-              </Card>
-            );
-          })}
+        <div className="grid grid-cols-4 gap-2 mb-6">
+          {(['Math', 'Science', 'Language', 'Social'] as Subject[]).map(subj => (
+            <div key={subj} className="p-2 rounded-lg text-center" 
+                 style={{backgroundColor: `${subjectColors[subj]}15`}}>
+              <div className="flex items-center justify-center gap-1.5 mb-1">
+                <div className="w-3 h-3 rounded-full" style={{backgroundColor: subjectColors[subj]}}></div>
+                <span className="text-xs font-medium">{subj}</span>
+              </div>
+              <div className="text-lg font-bold" style={{color: subjectColors[subj]}}>
+                {subjectAverages[subj]}%
+              </div>
+            </div>
+          ))}
         </div>
       )}
-    </div>
+      
+      {/* Chart */}
+      <div className="h-56 w-full">
+        <ChartContainer
+          config={{
+            Math: { label: "Math", color: subjectColors.Math },
+            Science: { label: "Science", color: subjectColors.Science },
+            Language: { label: "Language", color: subjectColors.Language },
+            Social: { label: "Social", color: subjectColors.Social },
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data} margin={{ top: 20, right: 15, left: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+              <XAxis 
+                dataKey="week"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: '#888', fontSize: 11 }}
+              />
+              <YAxis 
+                domain={[50, 100]}
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: '#888', fontSize: 11 }}
+                width={30}
+              />
+              <ChartTooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <ChartTooltipContent
+                        className="bg-white shadow-lg rounded-lg p-2.5 border border-gray-100"
+                        payload={payload}
+                      />
+                    );
+                  }
+                  return null;
+                }}
+              />
+              {(subject === 'All' || subject === 'Math') && 
+                <Line 
+                  type="monotone" 
+                  dataKey="Math" 
+                  stroke={subjectColors.Math}
+                  strokeWidth={2.5}
+                  dot={{ r: 3 }}
+                  activeDot={{ r: 5 }}
+                  name="Math"
+                />
+              }
+              {(subject === 'All' || subject === 'Science') && 
+                <Line 
+                  type="monotone" 
+                  dataKey="Science" 
+                  stroke={subjectColors.Science}
+                  strokeWidth={2.5}
+                  dot={{ r: 3 }}
+                  activeDot={{ r: 5 }}
+                  name="Science"
+                />
+              }
+              {(subject === 'All' || subject === 'Language') && 
+                <Line 
+                  type="monotone" 
+                  dataKey="Language" 
+                  stroke={subjectColors.Language}
+                  strokeWidth={2.5}
+                  dot={{ r: 3 }}
+                  activeDot={{ r: 5 }}
+                  name="Language"
+                />
+              }
+              {(subject === 'All' || subject === 'Social') && 
+                <Line 
+                  type="monotone" 
+                  dataKey="Social" 
+                  stroke={subjectColors.Social}
+                  strokeWidth={2.5}
+                  dot={{ r: 3 }}
+                  activeDot={{ r: 5 }}
+                  name="Social"
+                />
+              }
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </div>
+      
+      <div className="mt-4 text-center text-xs text-gray-500">
+        Showing data for the past {timeRange} month{timeRange > 1 ? 's' : ''}
+      </div>
+    </Card>
   );
 };
 

@@ -14,146 +14,81 @@ const mockInsights: Insight[] = [
   {
     id: 1,
     type: 'positive',
-    text: 'Mathematics performance has improved by 12% in the last 3 months, with particularly strong results in algebra.',
+    text: 'Mathematics performance has improved by 12% in the last 3 months.',
     subject: 'Math'
   },
   {
     id: 2,
     type: 'negative',
-    text: 'Reading comprehension scores have been declining consistently for the last 2 months. Consider more guided reading practice.',
+    text: 'Reading comprehension scores have been declining for the last 2 months.',
     subject: 'Language'
   },
   {
     id: 3,
-    type: 'positive',
-    text: 'Your child consistently completes weekly targets ahead of schedule, showing excellent time management skills.',
-  },
-  {
-    id: 4,
     type: 'neutral',
-    text: "Science knowledge is steadily improving, but there's opportunity to deepen understanding in physics concepts.",
+    text: "Science knowledge is steadily improving, but there's opportunity to deepen physics concepts.",
     subject: 'Science'
-  },
-  {
-    id: 5,
-    type: 'negative',
-    text: 'Weekly spelling quiz scores have dropped below average for the first time in 6 months.',
-    subject: 'Language'
-  },
-  {
-    id: 6,
-    type: 'positive',
-    text: 'Social studies engagement has increased dramatically, with quiz scores rising from 72% to 89% in just one month.',
-    subject: 'Social'
   },
 ];
 
 const AIInsights = () => {
-  const positiveInsights = mockInsights.filter(insight => insight.type === 'positive');
-  const negativeInsights = mockInsights.filter(insight => insight.type === 'negative');
-  const neutralInsights = mockInsights.filter(insight => insight.type === 'neutral');
-  
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2">
-        <Lightbulb className="h-5 w-5 text-orange-500" />
-        <h2 className="text-xl font-bold">AI-Generated Insights</h2>
+    <Card className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-purple-100/40 hover:shadow-md transition-shadow">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+          <Lightbulb className="h-5 w-5 text-purple-500" />
+        </div>
+        <div>
+          <h3 className="font-bold text-lg">AI Insights</h3>
+          <p className="text-xs text-gray-500">Personalized recommendations</p>
+        </div>
       </div>
       
-      <div className="space-y-6">
-        {/* Positive Insights */}
-        <div>
-          <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-green-500" />
-            <span>Strengths & Improvements</span>
-          </h3>
-          
-          <div className="space-y-3">
-            {positiveInsights.map(insight => (
-              <Card key={insight.id} className="p-3 border-l-4 border-green-500">
-                <div className="flex">
-                  <div className="mr-3 mt-1">
-                    <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center">
-                      <TrendingUp className="h-3 w-3 text-green-600" />
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm">{insight.text}</p>
-                    {insight.subject && (
-                      <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded mt-1 inline-block">
-                        {insight.subject}
-                      </span>
-                    )}
-                  </div>
+      <div className="space-y-4">
+        {mockInsights.map(insight => (
+          <Card 
+            key={insight.id} 
+            className={`p-4 border-l-4 ${
+              insight.type === 'positive' ? 'border-green-500 bg-green-50/50' : 
+              insight.type === 'negative' ? 'border-orange-500 bg-orange-50/50' : 
+              'border-blue-400 bg-blue-50/50'
+            }`}
+          >
+            <div className="flex">
+              <div className="mr-3 mt-1">
+                <div className={`h-8 w-8 rounded-full flex items-center justify-center ${
+                  insight.type === 'positive' ? 'bg-green-100' : 
+                  insight.type === 'negative' ? 'bg-orange-100' : 
+                  'bg-blue-100'
+                }`}>
+                  {insight.type === 'positive' && <TrendingUp className="h-4 w-4 text-green-600" />}
+                  {insight.type === 'negative' && <TrendingDown className="h-4 w-4 text-orange-600" />}
+                  {insight.type === 'neutral' && <CircleHelp className="h-4 w-4 text-blue-600" />}
                 </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-        
-        {/* Negative Insights */}
-        <div>
-          <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-            <TrendingDown className="h-4 w-4 text-orange-500" />
-            <span>Areas for Improvement</span>
-          </h3>
-          
-          <div className="space-y-3">
-            {negativeInsights.map(insight => (
-              <Card key={insight.id} className="p-3 border-l-4 border-orange-500">
-                <div className="flex">
-                  <div className="mr-3 mt-1">
-                    <div className="h-6 w-6 rounded-full bg-orange-100 flex items-center justify-center">
-                      <TrendingDown className="h-3 w-3 text-orange-600" />
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm">{insight.text}</p>
-                    {insight.subject && (
-                      <span className="text-xs bg-orange-50 text-orange-700 px-2 py-0.5 rounded mt-1 inline-block">
-                        {insight.subject}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-        
-        {/* Neutral Insights */}
-        {neutralInsights.length > 0 && (
-          <div>
-            <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-              <CircleHelp className="h-4 w-4 text-blue-500" />
-              <span>Additional Observations</span>
-            </h3>
-            
-            <div className="space-y-3">
-              {neutralInsights.map(insight => (
-                <Card key={insight.id} className="p-3 border-l-4 border-blue-400">
-                  <div className="flex">
-                    <div className="mr-3 mt-1">
-                      <div className="h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center">
-                        <CircleHelp className="h-3 w-3 text-blue-600" />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm">{insight.text}</p>
-                      {insight.subject && (
-                        <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded mt-1 inline-block">
-                          {insight.subject}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </Card>
-              ))}
+              </div>
+              <div>
+                <p className="text-sm">{insight.text}</p>
+                {insight.subject && (
+                  <span className={`text-xs px-2 py-1 rounded mt-2 inline-block ${
+                    insight.type === 'positive' ? 'bg-green-100 text-green-700' : 
+                    insight.type === 'negative' ? 'bg-orange-100 text-orange-700' : 
+                    'bg-blue-100 text-blue-700'
+                  }`}>
+                    {insight.subject}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          </Card>
+        ))}
       </div>
-    </div>
+      
+      <div className="mt-4 text-center">
+        <button className="text-sm font-medium text-purple-500 hover:text-purple-700 transition-colors">
+          View all insights →
+        </button>
+      </div>
+    </Card>
   );
 };
 

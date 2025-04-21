@@ -15,29 +15,48 @@ const MOCK_CHANNELS = [
 const total = MOCK_CHANNELS.reduce((sum, ch) => sum + ch.minutes, 0);
 
 const TopYouTubeChannels = () => (
-  <Card className="p-6 md:p-8 shadow-lg rounded-xl w-full max-w-2xl mx-auto">
+  <Card className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow">
     <div className="flex items-center gap-3 mb-6">
-      <Youtube className="h-6 w-6 text-[#F97316]" />
-      <span className="font-bold text-xl">Top 5 Watched YouTube Channels (Past 14 Days)</span>
+      <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+        <Youtube className="h-5 w-5 text-orange-500" />
+      </div>
+      <div>
+        <h3 className="font-bold text-lg">Top YouTube Channels</h3>
+        <p className="text-xs text-gray-500">Past 14 days</p>
+      </div>
     </div>
-    <ul className="divide-y">
+    
+    <ul className="space-y-3">
       {MOCK_CHANNELS.map((channel, idx) => (
-        <li key={channel.name} className="flex items-center justify-between py-4 first:pt-0">
+        <li 
+          key={channel.name} 
+          className="flex items-center justify-between p-2 rounded-lg hover:bg-orange-50/50 transition-colors"
+        >
           <div className="flex items-center gap-3">
-            <span className={`w-6 h-6 flex items-center justify-center rounded-full font-bold text-white text-xs mr-3 ${idx === 0 ? 'bg-orange-500 scale-110 shadow' : (idx === 1 ? 'bg-orange-300' : 'bg-orange-100 text-orange-700')}`}>
+            <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-white text-xs
+              ${idx === 0 ? 'bg-orange-500' : 
+                idx === 1 ? 'bg-orange-400' : 
+                idx === 2 ? 'bg-orange-300' : 'bg-orange-200'}`}
+            >
               {idx + 1}
             </span>
-            <span className="font-semibold">{channel.name}</span>
+            <span className="font-medium text-sm">{channel.name}</span>
           </div>
-          <span className="text-lg font-mono font-bold text-orange-500">
-            {(channel.minutes / 60).toFixed(1)}h
-            <span className="text-gray-400 text-sm font-medium ml-1">
-              ({Math.round((channel.minutes / total) * 100)}%)
+          <div className="flex flex-col items-end">
+            <span className="text-sm font-mono font-bold text-orange-500">
+              {(channel.minutes / 60).toFixed(1)}h
             </span>
-          </span>
+            <span className="text-xs text-gray-400">
+              {Math.round((channel.minutes / total) * 100)}%
+            </span>
+          </div>
         </li>
       ))}
     </ul>
+    
+    <div className="mt-4 text-center text-sm text-gray-500 pt-3 border-t border-gray-100">
+      Total time: <span className="font-bold text-orange-500">{(total / 60).toFixed(1)} hours</span>
+    </div>
   </Card>
 );
 

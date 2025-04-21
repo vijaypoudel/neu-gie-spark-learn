@@ -21,18 +21,18 @@ const TimeRangeSelector = ({
   className 
 }: TimeRangeSelectorProps) => {
   return (
-    <div className={cn("flex gap-2", className)}>
+    <div className={cn("flex flex-nowrap gap-1", className)}>
       {options.map((option) => (
         <button 
           key={option.value}
           onClick={() => onChange(option.value)}
           className={cn(
-            "rounded-full px-4 py-1.5 font-semibold text-xs border-2 transition-all shadow-sm",
+            "rounded-full px-2 py-0.5 font-semibold text-xs border-2 transition-all shadow-sm whitespace-nowrap",
             currentValue === option.value
               ? "bg-orange-400 text-white border-orange-400"
               : "bg-white text-orange-500 border-orange-400"
           )}
-          style={{ minWidth: 40, letterSpacing: "0.02em" }}
+          style={{ minWidth: 32, letterSpacing: "0.02em" }}
         >
           {option.label}
         </button>

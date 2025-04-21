@@ -69,12 +69,12 @@ const CompletionScoreChart = () => {
         stats={stats}
         legend="Weekly target completion"
         timeControls={
-          <div className="flex flex-wrap gap-1 md:gap-2">
+          <div className="flex flex-nowrap gap-1 overflow-hidden max-w-full">
             <TimeRangeSelector
               options={timeOptions}
               currentValue={timeRange}
               onChange={v => setTimeRange(Number(v) as 3 | 6 | 12)}
-              className="!gap-1" // Reduced gap
+              className="!gap-1"
             />
           </div>
         }

@@ -116,22 +116,24 @@ const QuizScoreChart = () => {
             ))}
           </SelectContent>
         </Select>
-        <Select value={timeline} onValueChange={setTimeline}>
-          <SelectTrigger
-            className={cn(
-              "w-32 border-purple-300 shadow-sm bg-white/95 h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-purple-300",
-            )}
-          >
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="z-[1100] mt-2 rounded-xl">
-            {timelineOptions.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value} className="rounded-md font-semibold text-base">
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+
+        {/* Timeline Buttons */}
+        <div className="flex gap-2 ml-auto mt-2 sm:mt-0">
+          {timelineOptions.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => setTimeline(opt.value)}
+              className={cn(
+                "rounded-full px-5 py-2 font-semibold transition-all text-sm border border-purple-300",
+                timeline === opt.value
+                  ? "bg-orange-400 text-white border-transparent hover:bg-orange-500"
+                  : "bg-white text-purple-800 hover:bg-purple-100"
+              )}
+            >
+              {opt.label.replace(" Months", "").toUpperCase()}
+            </button>
+          ))}
+        </div>
       </div>
       {/* Chart */}
       <div className="mb-2" style={{ minHeight: 260 }}>

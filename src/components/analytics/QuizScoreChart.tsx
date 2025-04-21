@@ -28,16 +28,16 @@ const weekData = [
 const subjectList = Object.keys(weekData[0]).filter((key) => key !== "week");
 
 const subjectColors: Record<string, string> = {
-  Math: "#9b87f5",
-  Science: "#82ca9d",
-  Language: "#ffc658",
-  Social: "#ff8042",
+  Math: "#FB923C",
+  Science: "#BDE2B9",
+  Language: "#FFC26C",
+  Social: "#FFA99F",
 };
 
 const timelineOptions = [
-  { value: "1", label: "1 Month" },
-  { value: "2", label: "2 Months" },
-  { value: "3", label: "3 Months" },
+  { value: "1", label: "1M" },
+  { value: "2", label: "2M" },
+  { value: "3", label: "3M" },
 ];
 
 const getWeeksForTimeline = (timeline: number): string[] => {
@@ -74,10 +74,10 @@ const averageScoreForTimeline = (
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-2 rounded-lg shadow-lg border border-purple-100 flex flex-col">
+      <div className="bg-white p-2 rounded-lg shadow-lg border border-orange-100 flex flex-col">
         <span className="text-xs font-bold text-orange-600 mb-1">{label}</span>
         {payload.map((entry: any, idx: number) => (
-          <span key={idx} className="text-sm text-black" style={{ color: entry.fill }}>
+          <span key={idx} className="text-sm font-semibold" style={{ color: "#FB923C" }}>
             {entry.name}: {entry.value}%
           </span>
         ))}
@@ -110,89 +110,80 @@ const QuizScoreChart = () => {
   );
 
   return (
-    <div className="bg-white/90 rounded-2xl p-6 shadow-premium border border-orange-100/60 hover:shadow-lg transition-all max-w-md mx-auto space-y-4">
-      <div className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
-          <Star className="h-5 w-5 text-orange-400" />
+    <div className="p-6 overflow-hidden shadow-sm rounded-xl bg-white/80 backdrop-blur-sm border border-orange-100/40 hover:shadow-md transition-shadow">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+          <Star className="h-5 w-5 text-orange-500" />
         </div>
         <div>
-          <h3 className="font-extrabold text-lg text-black">Quiz Scores</h3>
+          <h3 className="font-bold text-lg text-black">Quiz Scores</h3>
           <p className="text-xs text-gray-500 -mt-1">Weekly subject quiz performance</p>
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row items-center gap-3">
-        <Select
-          value={subject}
-          onValueChange={setSubject}
-          itemIndicator={false}
-        >
-          <SelectTrigger
-            className={cn(
-              "w-40 border-orange-200 shadow bg-white/100 h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-orange-200"
-            )}
+      <div className="flex flex-row items-center gap-2 mb-6">
+        <div className="flex-1">
+          <Select
+            value={subject}
+            onValueChange={setSubject}
           >
-            <SelectValue placeholder="Subject" />
-          </SelectTrigger>
-          <SelectContent className="z-[1110] mt-2 rounded-xl">
-            {subjectList.map((sub) => (
-              <SelectItem
-                key={sub}
-                value={sub}
-                hideCheck={true}
-                className="rounded-md font-semibold text-base px-3 py-2 data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900"
-              >
-                {sub}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <div className="flex gap-2 ml-auto mt-2 sm:mt-0">
-          {timelineOptions.map((opt, idx) => (
+            <SelectTrigger
+              className="w-full border-orange-200 shadow bg-white h-10 rounded-xl font-medium text-base transition focus:ring-2 focus:ring-orange-200 px-3"
+            >
+              <SelectValue placeholder="Subject" />
+            </SelectTrigger>
+            <SelectContent className="z-[1110] mt-2 rounded-xl">
+              {subjectList.map((sub) => (
+                <SelectItem
+                  key={sub}
+                  value={sub}
+                  className="rounded-md font-semibold text-base px-3 py-2 transition-all hover:bg-orange-50 data-[state=checked]:bg-orange-50 data-[state=checked]:text-orange-900"
+                >
+                  {sub}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex gap-2 ml-2">
+          {timelineOptions.map(opt => (
             <button
               key={opt.value}
               onClick={() => setTimeline(opt.value)}
               className={cn(
-                "rounded-full px-5 py-2 font-semibold transition-all text-sm border",
-                "border-orange-400",
+                "rounded-full px-5 py-1.5 font-semibold text-sm border-2 transition-all shadow-sm",
                 timeline === opt.value
-                  ? "bg-orange-400 text-white shadow"
-                  : "bg-white text-orange-500 hover:bg-orange-50"
+                  ? "bg-orange-400 text-white border-orange-400"
+                  : "bg-white text-orange-500 border-orange-400 hover:bg-orange-50"
               )}
               style={{
-                minWidth: 47,
-                borderWidth: '2px',
-                letterSpacing: '0.02em'
+                minWidth: 44,
+                letterSpacing: "0.02em"
               }}
             >
-              {["1M", "2M", "3M"][idx]}
+              {opt.label}
             </button>
           ))}
         </div>
       </div>
-      <div className="bg-orange-50/75 rounded-xl flex items-center justify-center my-2 py-4">
-        <div className="flex flex-row items-center gap-4">
-          <div className="flex items-center">
-            <span className="text-3xl font-bold text-orange-500 tabular-nums">{averageScore}%</span>
-            <span className="ml-2 text-sm font-medium text-gray-600">Average</span>
-          </div>
+      <div className="mb-4">
+        <div className="bg-orange-50/90 p-3 rounded-lg flex items-center justify-center gap-3">
+          <span className="text-3xl font-bold text-orange-500 tabular-nums">{averageScore}%</span>
+          <span className="text-base font-medium text-gray-600">Average</span>
         </div>
       </div>
-      <div
-        className="h-56 w-full px-2 flex items-center justify-center"
-        style={{ minHeight: 220 }}
-      >
-        <ResponsiveContainer width="100%" height={220}>
+      <div className="h-56 w-full">
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={avgData}
             margin={{
-              top: 10,
-              right: 24,
-              left: 3,
-              bottom: 18,
+              top: 20,
+              right: 15,
+              left: 5,
+              bottom: 20,
             }}
             barGap={7}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#FAD9BC" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#fee5b9" vertical={false} />
             <XAxis
               dataKey="week"
               tick={{ fill: '#FB923C', fontWeight: 600, fontSize: 13 }}
@@ -203,21 +194,21 @@ const QuizScoreChart = () => {
               domain={[0, 100]}
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#bbb', fontWeight: 500, fontSize: 12 }}
-              width={36}
+              tick={{ fill: '#C1A667', fontWeight: 500, fontSize: 12 }}
+              width={34}
             />
             <Tooltip content={<CustomTooltip />} />
             <Bar
               dataKey={subject}
-              fill={subjectColors[subject] || "#9b87f5"}
+              fill="#FB923C"
               radius={[8, 8, 0, 0]}
-              barSize={30}
+              barSize={28}
               name={subject}
             />
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <p className="text-xs text-gray-500 tracking-wide font-medium text-center pt-0">
+      <p className="text-xs text-gray-500 tracking-wide font-medium text-center pt-1">
         Showing weekly average score ({subject}) for the past {timeline} {timeline === "1" ? "month" : "months"}
       </p>
     </div>

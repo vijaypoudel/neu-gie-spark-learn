@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import LoginForm from '@/components/LoginForm';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 
 const Index = () => {
   return (
@@ -30,18 +30,7 @@ const Index = () => {
         {/* Right side - Login Form - Mobile optimized */}
         <div className="md:w-1/2 w-full max-w-md">
           <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100">
-            <Tabs defaultValue="parent" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="parent">Parent Login</TabsTrigger>
-                <TabsTrigger value="child">Child Login</TabsTrigger>
-              </TabsList>
-              <TabsContent value="parent">
-                <LoginForm type="parent" />
-              </TabsContent>
-              <TabsContent value="child">
-                <LoginForm type="child" />
-              </TabsContent>
-            </Tabs>
+            <LoginForm />
             
             <div className="mt-6 text-center">
               <p className="text-gray-600 mb-4 font-playfair">

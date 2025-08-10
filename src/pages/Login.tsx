@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import LoginForm from '@/components/LoginForm';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 
 const Login = () => {
+  useEffect(() => {
+    document.title = 'Parent Login | CurioBee';
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-black/5 flex items-center justify-center p-4">
       <div className="container mx-auto px-4 py-8 h-full flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-5xl">
@@ -27,18 +30,7 @@ const Login = () => {
 
         <div className="md:w-1/2 w-full max-w-md">
           <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100">
-            <Tabs defaultValue="parent" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="parent">Parent Login</TabsTrigger>
-                <TabsTrigger value="child">Child Login</TabsTrigger>
-              </TabsList>
-              <TabsContent value="parent">
-                <LoginForm type="parent" />
-              </TabsContent>
-              <TabsContent value="child">
-                <LoginForm type="child" />
-              </TabsContent>
-            </Tabs>
+            <LoginForm />
             
             <div className="mt-6 text-center">
               <p className="text-gray-600 mb-4 font-playfair">

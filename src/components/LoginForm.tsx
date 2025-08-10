@@ -9,6 +9,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { toast } from "sonner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { hasChildProfiles } from "@/lib/profileStore";
 
 // Form validation schemas
 const parentSchema = z.object({
@@ -37,12 +38,15 @@ const LoginForm = ({ type }: LoginFormProps) => {
     },
   });
 
-  const onSubmit = (data: any) => {
+const onSubmit = (data: any) => {
     toast.success(`${type === 'parent' ? 'Parent' : 'Child'} login successful`);
-    
-    // Navigate to the appropriate home page based on user type
     if (type === 'parent') {
-      navigate('/home');
+      // If no child profiles exist, force onboarding to create at least one child
+      if (hasChildProfiles()) {
+        navigate('/profile-selection');
+      } else {
+        navigate('/onboarding');
+      }
     } else {
       navigate('/kids-home');
     }

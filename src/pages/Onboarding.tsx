@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ParentProfileForm from '@/components/ParentProfileForm';
 import ChildProfileForm from '@/components/ChildProfileForm';
-
+import { saveParentProfile, addChildProfile } from '@/lib/profileStore';
 const Onboarding = () => {
   const navigate = useNavigate();
   const [showSpouseForm, setShowSpouseForm] = useState(false);
@@ -13,9 +13,16 @@ const Onboarding = () => {
   const [parentData, setParentData] = useState<any>(null);
   const [spouseData, setSpouseData] = useState<any>(null);
   
-  // Function to handle parent profile submission
+// Function to handle parent profile submission
   const handleParentSubmit = (data: any) => {
     setParentData(data);
+    // Persist parent profile with PIN
+    saveParentProfile({
+      name: data.name,
+      email: data.email,
+      dateOfBirth: data.dateOfBirth,
+      pin: data.pin,
+    });
     if (showSpouseForm) {
       setCurrentStep('spouse');
     } else {
@@ -29,12 +36,13 @@ const Onboarding = () => {
     setCurrentStep('child');
   };
 
-  // Function to handle child profile submission
+// Function to handle child profile submission
   const handleChildSubmit = (data: any) => {
-    // Here you would typically save all the data
+    // Persist child profile
+    addChildProfile(data);
     console.log({ parentData, spouseData, childData: data });
     toast.success("Profile created successfully!");
-    navigate('/');
+    navigate('/profile-selection');
   };
 
   // Function to go back to previous step

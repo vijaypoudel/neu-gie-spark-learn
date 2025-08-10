@@ -13,7 +13,8 @@ const parentSchema = z.object({
   email: z.string().email("Invalid email address"),
   dateOfBirth: z.string().min(1, "Date of birth is required"),
   password: z.string().min(8, "Password must be at least 8 characters"),
-  confirmPassword: z.string()
+  confirmPassword: z.string(),
+  pin: z.string().length(4, "PIN must be 4 digits").regex(/^\d+$/, "PIN must be numeric"),
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"]
@@ -39,7 +40,8 @@ const ParentProfileForm = ({
       email: "",
       dateOfBirth: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      pin: ""
     }
   });
 
@@ -112,6 +114,28 @@ const ParentProfileForm = ({
               <FormLabel className="font-playfair">Confirm Password</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="Confirm password" className="h-12 rounded-xl bg-gray-50/50" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="pin"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-playfair">Parent PIN (4 digits)</FormLabel>
+              <FormControl>
+                <Input 
+                  type="password" 
+                  maxLength={4} 
+                  pattern="[0-9]*" 
+                  inputMode="numeric" 
+                  placeholder="Enter 4-digit PIN" 
+                  className="h-12 rounded-xl bg-gray-50/50" 
+                  {...field} 
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

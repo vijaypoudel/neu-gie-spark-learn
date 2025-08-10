@@ -16,6 +16,7 @@ import SetCurriculum from "./pages/SetCurriculum";
 import WorkInProgress from "./pages/WorkInProgress";
 import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
+import ProfileSelection from "./pages/ProfileSelection";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
           <Route path="/social" element={<WorkInProgress />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/calendar" element={<WorkInProgress />} />
+          <Route path="/profile-selection" element={<ProfileSelection />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

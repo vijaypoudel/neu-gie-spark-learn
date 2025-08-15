@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, Play, Pause, Volume2, VolumeX, SkipForward } from 'lucide-react';
+import { ChevronLeft, Play, Pause, Volume2, VolumeX, SkipForward, Clock, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import YouTube from 'react-youtube';
 
 // Mock curriculum topics with videos
 const curriculumTopics = [
@@ -19,7 +20,7 @@ const curriculumTopics = [
         title: "Fun with Times Tables",
         thumbnail: "/api/placeholder/320/180",
         duration: "5:30",
-        videoUrl: "https://www.youtube.com/embed/D0Ajq682yrA", // Sample educational video
+        videoUrl: "D0Ajq682yrA", // YouTube video ID for multiplication tables
         quizPoints: [90, 180] // Quiz at 1.5min and 3min
       },
       {
@@ -27,7 +28,7 @@ const curriculumTopics = [
         title: "Multiplication Tricks",
         thumbnail: "/api/placeholder/320/180",
         duration: "4:20",
-        videoUrl: "https://www.youtube.com/embed/sample2",
+        videoUrl: "3_baCGGYJfo", // Another educational math video ID
         quizPoints: [120, 200]
       }
     ]
@@ -43,7 +44,7 @@ const curriculumTopics = [
         title: "How Plants Grow",
         thumbnail: "/api/placeholder/320/180", 
         duration: "6:15",
-        videoUrl: "https://www.youtube.com/embed/sample3",
+        videoUrl: "tkFpylkzJRY", // Plant life cycle video ID
         quizPoints: [120, 240]
       },
       {
@@ -51,7 +52,7 @@ const curriculumTopics = [
         title: "Parts of a Plant",
         thumbnail: "/api/placeholder/320/180",
         duration: "4:45", 
-        videoUrl: "https://www.youtube.com/embed/sample4",
+        videoUrl: "wKaltBeitFk", // Parts of plant video ID
         quizPoints: [90, 180]
       }
     ]
@@ -67,7 +68,7 @@ const curriculumTopics = [
         title: "Characters and Setting",
         thumbnail: "/api/placeholder/320/180",
         duration: "5:00",
-        videoUrl: "https://www.youtube.com/embed/sample5", 
+        videoUrl: "HjQrJAUpvBk", // Story elements video ID 
         quizPoints: [100, 200]
       },
       {
@@ -75,7 +76,7 @@ const curriculumTopics = [
         title: "Plot and Theme",
         thumbnail: "/api/placeholder/320/180",
         duration: "5:30",
-        videoUrl: "https://www.youtube.com/embed/sample6",
+        videoUrl: "8_X7g2Y9e5c", // Plot and theme video ID
         quizPoints: [110, 220]
       }
     ]
@@ -145,54 +146,82 @@ const QuizModal: React.FC<QuizModalProps> = ({ question, onAnswer, onClose }) =>
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-white shadow-2xl border-2 border-orange-200">
-        <CardHeader className="bg-gradient-to-r from-orange-50 to-orange-100 border-b">
-          <CardTitle className="brand-card-title text-center flex items-center justify-center gap-2">
-            Quiz Time! 🎯
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-purple-600/20" />
+      <Card className="relative w-full max-w-lg bg-white/95 backdrop-blur-sm shadow-2xl border-0 ring-1 ring-orange-200/50">
+        <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white border-0 rounded-t-lg">
+          <CardTitle className="text-center flex items-center justify-center gap-3 text-xl font-bold">
+            <Award className="h-6 w-6" />
+            Quiz Challenge!
+            <Award className="h-6 w-6" />
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4 p-6 bg-white">
-          <p className="brand-card-text text-center text-lg">{question.question}</p>
+        <CardContent className="space-y-6 p-8 bg-white rounded-b-lg">
+          <div className="text-center p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200">
+            <p className="brand-card-text text-lg font-semibold">{question.question}</p>
+          </div>
           
           <div className="space-y-3">
             {question.options.map((option: string, index: number) => (
               <button
                 key={index}
                 onClick={() => !showResult && setSelectedAnswer(index)}
-                className={`w-full p-4 text-left rounded-lg border-2 transition-all font-medium ${
+                className={`w-full p-4 text-left rounded-xl border-2 transition-all duration-300 font-medium transform hover:scale-[1.02] ${
                   selectedAnswer === index 
                     ? showResult 
                       ? index === question.correct 
-                        ? 'bg-green-50 border-green-500 text-green-700 shadow-md'
-                        : 'bg-red-50 border-red-500 text-red-700 shadow-md'
-                      : 'bg-orange-50 border-orange-500 text-orange-700 shadow-md'
+                        ? 'bg-gradient-to-r from-green-50 to-green-100 border-green-500 text-green-700 shadow-lg ring-2 ring-green-200'
+                        : 'bg-gradient-to-r from-red-50 to-red-100 border-red-500 text-red-700 shadow-lg ring-2 ring-red-200'
+                      : 'bg-gradient-to-r from-orange-50 to-orange-100 border-orange-500 text-orange-700 shadow-lg ring-2 ring-orange-200'
                     : showResult && index === question.correct
-                      ? 'bg-green-50 border-green-500 text-green-700 shadow-md'
-                      : 'bg-white border-gray-300 hover:bg-gray-50 hover:border-gray-400 text-gray-700'
+                      ? 'bg-gradient-to-r from-green-50 to-green-100 border-green-500 text-green-700 shadow-lg ring-2 ring-green-200'
+                      : 'bg-white border-gray-300 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 hover:border-orange-300 text-gray-700 hover:shadow-md'
                 }`}
                 disabled={showResult}
               >
-                {option}
+                <div className="flex items-center gap-3">
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold ${
+                    selectedAnswer === index 
+                      ? showResult 
+                        ? index === question.correct 
+                          ? 'bg-green-500 border-green-500 text-white'
+                          : 'bg-red-500 border-red-500 text-white'
+                        : 'bg-orange-500 border-orange-500 text-white'
+                      : showResult && index === question.correct
+                        ? 'bg-green-500 border-green-500 text-white'
+                        : 'border-gray-400 text-gray-600'
+                  }`}>
+                    {String.fromCharCode(65 + index)}
+                  </div>
+                  {option}
+                </div>
               </button>
             ))}
           </div>
 
           {showResult ? (
-            <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
+            <div className="text-center p-6 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 rounded-xl border border-blue-200">
               {selectedAnswer === question.correct ? (
-                <p className="text-green-600 font-bold text-lg">🎉 Correct! Great job!</p>
+                <div className="space-y-2">
+                  <div className="text-4xl">🎉</div>
+                  <p className="text-green-600 font-bold text-xl">Excellent work!</p>
+                  <p className="text-sm text-gray-600">You're getting smarter every day!</p>
+                </div>
               ) : (
-                <p className="text-orange-600 font-bold text-lg">Good try! The correct answer is highlighted.</p>
+                <div className="space-y-2">
+                  <div className="text-4xl">💡</div>
+                  <p className="text-orange-600 font-bold text-xl">Good effort!</p>
+                  <p className="text-sm text-gray-600">Learning happens with every try!</p>
+                </div>
               )}
             </div>
           ) : (
             <Button 
               onClick={handleSubmit}
               disabled={selectedAnswer === null}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3"
+              className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
             >
-              Submit Answer
+              Submit Answer 🚀
             </Button>
           )}
         </CardContent>
@@ -213,28 +242,32 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
   const [quizIndex, setQuizIndex] = useState(0);
   const [completedQuizzes, setCompletedQuizzes] = useState<number[]>([]);
   const [wasPlayingBeforeQuiz, setWasPlayingBeforeQuiz] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playerReady, setPlayerReady] = useState(false);
+  const playerRef = useRef<any>(null);
 
-  // Mock video duration in seconds
-  const videoDuration = 330; // 5:30
+  // Convert duration string to seconds
+  const parseVideoDuration = (duration: string) => {
+    const [mins, secs] = duration.split(':').map(Number);
+    return mins * 60 + secs;
+  };
+
+  const videoDuration = parseVideoDuration(video.duration);
 
   // Pause video when quiz appears
   useEffect(() => {
-    if (showQuiz && isPlaying) {
+    if (showQuiz && isPlaying && playerRef.current && playerReady) {
       setWasPlayingBeforeQuiz(true);
-      if (videoRef.current) {
-        videoRef.current.pause();
-      }
+      playerRef.current.pauseVideo();
       setIsPlaying(false);
     }
-  }, [showQuiz, isPlaying]);
+  }, [showQuiz, isPlaying, playerReady]);
 
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || !playerReady) return;
 
     const interval = setInterval(() => {
-      if (videoRef.current) {
-        const realCurrentTime = Math.floor(videoRef.current.currentTime);
+      if (playerRef.current) {
+        const realCurrentTime = Math.floor(playerRef.current.getCurrentTime());
         setCurrentTime(realCurrentTime);
         
         // Check if we hit a quiz point
@@ -246,11 +279,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
           const quizPointIndex = video.quizPoints.indexOf(quizPoint);
           setQuizIndex(quizPointIndex);
           setShowQuiz(true);
-          // Video will be paused by the useEffect above
         }
         
-        // Video completed
-        if (realCurrentTime >= videoDuration) {
+        // Check if video completed
+        const duration = playerRef.current.getDuration();
+        if (realCurrentTime >= duration - 1) {
           setIsPlaying(false);
           onVideoComplete();
         }
@@ -258,28 +291,26 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isPlaying, video.quizPoints, completedQuizzes, videoDuration, onVideoComplete]);
+  }, [isPlaying, video.quizPoints, completedQuizzes, videoDuration, onVideoComplete, playerReady]);
 
   const handleQuizAnswer = (correct: boolean) => {
     setCompletedQuizzes(prev => [...prev, quizIndex]);
     setShowQuiz(false);
     // Resume video if it was playing before quiz
-    if (wasPlayingBeforeQuiz) {
-      if (videoRef.current) {
-        videoRef.current.play();
-      }
+    if (wasPlayingBeforeQuiz && playerRef.current && playerReady) {
+      playerRef.current.playVideo();
       setIsPlaying(true);
       setWasPlayingBeforeQuiz(false);
     }
   };
 
   const handlePlayPause = () => {
-    if (videoRef.current) {
+    if (playerRef.current && playerReady) {
       if (isPlaying) {
-        videoRef.current.pause();
+        playerRef.current.pauseVideo();
         setIsPlaying(false);
       } else {
-        videoRef.current.play();
+        playerRef.current.playVideo();
         setIsPlaying(true);
       }
     }
@@ -297,54 +328,99 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
     return sampleQuizzes.stories[quizIndex % 2];
   };
 
+  const onPlayerReady = (event: any) => {
+    playerRef.current = event.target;
+    setPlayerReady(true);
+  };
+
+  const onPlayerStateChange = (event: any) => {
+    // YouTube Player states: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (cued)
+    if (event.data === 1) { // playing
+      setIsPlaying(true);
+    } else if (event.data === 2) { // paused
+      setIsPlaying(false);
+    } else if (event.data === 0) { // ended
+      setIsPlaying(false);
+      onVideoComplete();
+    }
+  };
+
+  const youtubeOpts = {
+    height: '100%',
+    width: '100%',
+    playerVars: {
+      autoplay: 0,
+      controls: 0, // Hide default controls so we can use custom ones
+      disablekb: 1,
+      enablejsapi: 1,
+      fs: 0,
+      iv_load_policy: 3,
+      modestbranding: 1,
+      playsinline: 1,
+      rel: 0,
+    },
+  };
+
   return (
-    <div className="space-y-4">
-      <div className="relative bg-black rounded-lg overflow-hidden">
-        {/* Using a placeholder video since we can't control YouTube embeds easily */}
-        {/* Educational Video Player - Mock Implementation */}
-        <div className="w-full aspect-video bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-          <div className="text-center p-8">
-            <div className="text-6xl mb-4">🎬</div>
-            <h3 className="brand-card-title mb-2">{video.title}</h3>
-            <p className="brand-card-text">Educational Video Content</p>
-            <p className="text-sm text-gray-600 mt-2">Duration: {video.duration}</p>
-            <div className="mt-4 text-sm text-gray-500">
-              Video simulation - Progress tracked for learning
-            </div>
-          </div>
+    <div className="space-y-6">
+      <div className="relative bg-black rounded-xl overflow-hidden shadow-2xl ring-1 ring-orange-200/50">
+        {/* YouTube Player */}
+        <div className="w-full aspect-video">
+          <YouTube
+            videoId={video.videoUrl}
+            opts={youtubeOpts}
+            onReady={onPlayerReady}
+            onStateChange={onPlayerStateChange}
+            className="w-full h-full"
+          />
         </div>
         
-        {/* Custom Controls Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+        {/* Premium Custom Controls Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-6">
           <div className="flex items-center gap-4 text-white">
             <Button
               variant="ghost"
               size="icon"
               onClick={handlePlayPause}
-              className="text-white hover:bg-white/20"
+              className="text-white hover:bg-white/20 hover:scale-110 transition-all duration-200 bg-white/10 backdrop-blur-sm rounded-full"
+              disabled={!playerReady}
             >
-              {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+              {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
             </Button>
             
-            <div className="flex-1">
-              <Progress value={(currentTime / videoDuration) * 100} className="h-2" />
+            <div className="flex-1 space-y-2">
+              <Progress 
+                value={playerReady && playerRef.current ? (currentTime / (playerRef.current.getDuration() || videoDuration)) * 100 : 0} 
+                className="h-3 bg-white/20 border border-white/30 rounded-full overflow-hidden"
+              />
+              <div className="flex justify-between text-sm text-white/80">
+                <span>{formatTime(currentTime)}</span>
+                <span>{video.duration}</span>
+              </div>
             </div>
             
-            <span className="text-sm">
-              {formatTime(currentTime)} / {formatTime(videoDuration)}
-            </span>
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-2">
+              <Clock className="h-4 w-4" />
+              <span className="text-sm font-medium">{video.duration}</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="brand-card-title">{video.title}</h3>
-          <p className="text-sm text-gray-600">Duration: {video.duration}</p>
+      <div className="flex items-center justify-between bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-xl border border-orange-200">
+        <div className="space-y-1">
+          <h3 className="brand-card-title text-xl">{video.title}</h3>
+          <p className="text-sm text-gray-600 flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            Duration: {video.duration}
+          </p>
         </div>
-        <div className="text-right">
+        <div className="text-right space-y-1">
           <p className="brand-card-text">Quiz Progress</p>
-          <p className="brand-num">{completedQuizzes.length}/{video.quizPoints.length}</p>
+          <div className="flex items-center gap-2">
+            <Award className="h-5 w-5 text-orange-500" />
+            <p className="brand-num text-2xl">{completedQuizzes.length}/{video.quizPoints.length}</p>
+          </div>
         </div>
       </div>
 

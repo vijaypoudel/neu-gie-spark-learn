@@ -102,7 +102,7 @@ const ProfileSelection: React.FC = () => {
         <div className="w-full max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="brand-heading text-4xl mb-4">
-              Who's learning <span className="brand-accent">today</span>?
+              Who's using the app <span className="brand-accent">today</span>?
             </h2>
             <p className="brand-card-text text-lg opacity-80">
               Select your profile to continue your educational journey

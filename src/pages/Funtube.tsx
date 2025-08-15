@@ -301,28 +301,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
     <div className="space-y-4">
       <div className="relative bg-black rounded-lg overflow-hidden">
         {/* Using a placeholder video since we can't control YouTube embeds easily */}
-        <video
-          ref={videoRef}
-          className="w-full aspect-video"
-          poster="/api/placeholder/800/450"
-          onTimeUpdate={() => {
-            if (videoRef.current) {
-              setCurrentTime(Math.floor(videoRef.current.currentTime));
-            }
-          }}
-          onEnded={onVideoComplete}
-        >
-          <source src="/api/placeholder/video.mp4" type="video/mp4" />
-          {/* Fallback content */}
-          <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-            <div className="text-center p-8">
-              <div className="text-6xl mb-4">🎬</div>
-              <h3 className="brand-card-title mb-2">{video.title}</h3>
-              <p className="brand-card-text">Educational Video Content</p>
-              <p className="text-sm text-gray-600 mt-2">Duration: {video.duration}</p>
+        {/* Educational Video Player - Mock Implementation */}
+        <div className="w-full aspect-video bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
+          <div className="text-center p-8">
+            <div className="text-6xl mb-4">🎬</div>
+            <h3 className="brand-card-title mb-2">{video.title}</h3>
+            <p className="brand-card-text">Educational Video Content</p>
+            <p className="text-sm text-gray-600 mt-2">Duration: {video.duration}</p>
+            <div className="mt-4 text-sm text-gray-500">
+              Video simulation - Progress tracked for learning
             </div>
           </div>
-        </video>
+        </div>
         
         {/* Custom Controls Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
@@ -506,11 +496,9 @@ const Funtube: React.FC = () => {
                 <div className="space-y-3">
                   {topic.videos.map((video, index) => (
                     <div key={video.id} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
-                      <img 
-                        src={video.thumbnail} 
-                        alt={video.title}
-                        className="w-16 h-9 object-cover rounded"
-                      />
+                      <div className="w-16 h-9 bg-gradient-to-br from-orange-200 to-orange-300 rounded flex items-center justify-center">
+                        <span className="text-lg">🎬</span>
+                      </div>
                       <div className="flex-1">
                         <p className="text-sm font-medium">{video.title}</p>
                         <p className="text-xs text-gray-500">{video.duration}</p>

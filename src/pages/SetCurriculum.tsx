@@ -1,12 +1,18 @@
 
 import React, { useState } from 'react';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Brain, Calendar, Video, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from "sonner";
 import LastWeekSummaryCard from '@/components/curriculum/LastWeekSummaryCard';
 import NewPlanCard from '@/components/curriculum/NewPlanCard';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipProvider, 
+  TooltipTrigger 
+} from '@/components/ui/tooltip';
 
 const subjects = [
   { id: 'math', name: 'Mathematics', icon: '🧮' },
@@ -95,23 +101,71 @@ ${customGoals ? `4. ${customGoals}` : ''}
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 pb-20">
-      <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center shadow-sm sticky top-0 z-10 border-b border-blue-100/20">
-        <Link to="/home" className="mr-4">
-          <ChevronLeft className="h-5 w-5" />
-        </Link>
-        <h1 className="text-2xl font-bold font-playfair">
-          <span>Set Weekly Curriculum</span>
-        </h1>
-      </div>
+    <TooltipProvider>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30 pb-20">
+        <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center shadow-sm sticky top-0 z-10 border-b border-blue-100/20">
+          <Link to="/home" className="mr-4">
+            <ChevronLeft className="h-5 w-5" />
+          </Link>
+          <h1 className="text-2xl font-bold font-playfair flex-1">
+            <span>Set Weekly Curriculum</span>
+          </h1>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link 
+                to="/how-it-works" 
+                className="p-2 rounded-full hover:bg-orange-100 transition-colors"
+              >
+                <HelpCircle className="h-5 w-5 text-orange-500" />
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Learn how curriculum setting works</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
       
       <div className="p-6 md:p-8 max-w-3xl mx-auto">
+        {/* How It Works Explanation */}
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4 mb-4">
+              <Brain className="h-8 w-8 text-orange-500" />
+              <h2 className="text-xl font-bold font-playfair text-gray-800">
+                How Curriculum Setting Works
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-600">
+              <div className="flex items-start gap-3">
+                <Calendar className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-gray-800 mb-1">1. Your Input</h3>
+                  <p>Select subjects, add custom goals, and upload images. Our AI also checks your calendar for educational events.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Brain className="h-5 w-5 text-purple-500 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-gray-800 mb-1">2. AI Planning</h3>
+                  <p>AI combines your inputs with last week's analysis to create a personalized learning plan.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Video className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-gray-800 mb-1">3. Video Curation</h3>
+                  <p>AI selects 12-14 educational videos from trusted channels that match your weekly plan.</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <LastWeekSummaryCard 
           isOpen={isLastWeekOpen}
           onOpenChange={setIsLastWeekOpen}
           data={lastWeekData}
         />
-
 
         <NewPlanCard 
           isOpen={isNewPlanOpen || !isLastWeekOpen}
@@ -130,6 +184,7 @@ ${customGoals ? `4. ${customGoals}` : ''}
 
       </div>
     </div>
+    </TooltipProvider>
   );
 };
 

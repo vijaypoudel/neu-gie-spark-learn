@@ -1,8 +1,15 @@
 import React from 'react';
-import { Book, TrendingUp, Calendar, Users, Inbox } from 'lucide-react';
+import { Book, TrendingUp, Calendar, Users, Inbox, HelpCircle, Brain, ArrowRight } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import SectionCard from '@/components/home/SectionCard';
 import ProfileSheet from '@/components/home/ProfileSheet';
+import { Link } from 'react-router-dom';
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipProvider, 
+  TooltipTrigger 
+} from '@/components/ui/tooltip';
 
 const Home = () => {
   const sections = [
@@ -54,17 +61,33 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen premium-gradient-bg">
-      {/* Premium Header */}
-      <div className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
-        <div className="p-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold font-playfair">
-            <span className="text-orange-500">Neu</span>
-            <span className="text-gray-800">gie</span>
-          </h1>
-          <ProfileSheet />
+    <TooltipProvider>
+      <div className="min-h-screen premium-gradient-bg">
+        {/* Premium Header */}
+        <div className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
+          <div className="p-4 flex items-center justify-between">
+            <h1 className="text-2xl font-bold font-playfair">
+              <span className="text-orange-500">Neu</span>
+              <span className="text-gray-800">gie</span>
+            </h1>
+            <div className="flex items-center gap-3">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link 
+                    to="/how-it-works" 
+                    className="p-2 rounded-full hover:bg-orange-100 transition-colors"
+                  >
+                    <HelpCircle className="h-5 w-5 text-orange-500" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Learn how Neugie works</p>
+                </TooltipContent>
+              </Tooltip>
+              <ProfileSheet />
+            </div>
+          </div>
         </div>
-      </div>
       
       {/* Main Content */}
       <div className="px-6 pb-24">
@@ -74,9 +97,31 @@ const Home = () => {
             <h2 className="text-4xl font-bold mb-3 font-playfair">
               Welcome back, <span className="text-orange-500">Sarah!</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
               Continue your parenting journey with smart insights and educational tools
             </p>
+            
+            {/* How it Works Card */}
+            <div className="premium-card p-6 max-w-4xl mx-auto mb-8">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <Brain className="h-8 w-8 text-orange-500" />
+                <h3 className="text-xl font-bold font-playfair text-gray-800">
+                  AI-Powered Learning Journey
+                </h3>
+              </div>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                Neugie combines your curriculum inputs, calendar events, and child's learning patterns 
+                to create personalized weekly plans with 12-14 curated educational videos, 
+                interactive quizzes, and comprehensive analytics.
+              </p>
+              <Link 
+                to="/how-it-works" 
+                className="inline-flex items-center text-orange-500 font-semibold hover:text-orange-600 transition-colors"
+              >
+                Learn how it works
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </div>
           </div>
           
           {/* Premium Cards Grid */}
@@ -93,6 +138,7 @@ const Home = () => {
       
       <Navigation activeTab="home" />
     </div>
+    </TooltipProvider>
   );
 };
 

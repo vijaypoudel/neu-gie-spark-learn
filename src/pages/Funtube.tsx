@@ -210,11 +210,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
   const [completedQuizzes, setCompletedQuizzes] = useState<number[]>([]);
-  const [score, setScore] = useState(0);
+  const [wasPlayingBeforeQuiz, setWasPlayingBeforeQuiz] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // Mock video duration in seconds
   const videoDuration = 330; // 5:30
+
+  // Pause video when quiz appears
+  useEffect(() => {
+    if (showQuiz && isPlaying) {
+      setWasPlayingBeforeQuiz(true);
+      setIsPlaying(false);
+    }
+  }, [showQuiz, isPlaying]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -232,7 +240,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
           const quizPointIndex = video.quizPoints.indexOf(quizPoint);
           setQuizIndex(quizPointIndex);
           setShowQuiz(true);
-          setIsPlaying(false);
+          // Video will be paused by the useEffect above
         }
         
         // Video completed
@@ -250,12 +258,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
   }, [isPlaying, video.quizPoints, completedQuizzes, videoDuration, onVideoComplete]);
 
   const handleQuizAnswer = (correct: boolean) => {
-    if (correct) {
-      setScore(prev => prev + 10);
-    }
     setCompletedQuizzes(prev => [...prev, quizIndex]);
     setShowQuiz(false);
-    setIsPlaying(true);
+    // Resume video if it was playing before quiz
+    if (wasPlayingBeforeQuiz) {
+      setIsPlaying(true);
+      setWasPlayingBeforeQuiz(false);
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -310,8 +319,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ video, onVideoComplete }) => 
           <p className="text-sm text-gray-600">Duration: {video.duration}</p>
         </div>
         <div className="text-right">
-          <p className="brand-num">Score: {score} pts</p>
-          <p className="text-sm text-gray-600">Quizzes: {completedQuizzes.length}/{video.quizPoints.length}</p>
+          <p className="brand-card-text">Quiz Progress</p>
+          <p className="brand-num">{completedQuizzes.length}/{video.quizPoints.length}</p>
         </div>
       </div>
 

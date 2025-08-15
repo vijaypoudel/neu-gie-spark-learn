@@ -44,30 +44,43 @@ const KidsHome = () => {
   ];
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50/50 to-black/5 pb-20">
-      <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-orange-100/20">
-        <h1 className="text-2xl font-bold font-playfair">
-          <span className="text-orange-500">Neu</span>
-          <span className="text-black">gie</span>
-          <span className="text-orange-500 ml-2">Kids</span>
-        </h1>
-        <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-          <span className="text-orange-500 font-bold">TJ</span>
+    <div className="min-h-screen premium-gradient-bg">
+      {/* Premium Kids Header */}
+      <div className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
+        <div className="p-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold font-playfair">
+            <span className="neugie-text-gradient">Neu</span>
+            <span className="text-gray-800">gie</span>
+            <span className="text-orange-500 ml-2">Kids</span>
+          </h1>
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg">
+            <span className="text-white font-bold text-sm">TJ</span>
+          </div>
         </div>
       </div>
       
-      <div className="p-6 md:p-8 max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold mb-8 font-playfair bg-gradient-to-r from-orange-600 to-black bg-clip-text text-transparent">
-          Hello, Tommy!
-        </h2>
-        
-        <div className="grid grid-cols-1 gap-8">
-          {sections.map((section, index) => (
-            <SectionCard
-              key={index}
-              {...section}
-            />
-          ))}
+      {/* Main Content */}
+      <div className="px-6 pb-24">
+        <div className="max-w-6xl mx-auto">
+          {/* Welcome Header */}
+          <div className="mb-8 text-center">
+            <h2 className="text-4xl font-bold mb-3 font-playfair">
+              Hey there, <span className="neugie-text-gradient">Tommy!</span>
+            </h2>
+            <p className="text-lg text-gray-600">
+              Ready for some awesome learning adventures today?
+            </p>
+          </div>
+          
+          {/* Premium Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {sections.map((section, index) => (
+              <SectionCard
+                key={index}
+                {...section}
+              />
+            ))}
+          </div>
         </div>
       </div>
       

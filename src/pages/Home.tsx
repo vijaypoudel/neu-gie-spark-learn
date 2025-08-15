@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Book, TrendingUp, Calendar, Users, Inbox } from 'lucide-react';
 import Navigation from '@/components/Navigation';
@@ -12,70 +11,83 @@ const Home = () => {
       description: "Track and manage your child's weekly learning schedule",
       longDescription: "Access comprehensive curriculum plans, track progress, and explore learning materials organized by subject and grade level. Get personalized recommendations based on your child's learning style and interests.",
       icon: Book,
-      color: "bg-neugie-blue hover:bg-neugie-blue/90",
+      color: "premium",
       path: "/curriculum",
-      bgImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=600&h=400')",
+      gradient: "from-orange-400/20 to-orange-500/30"
     },
     {
-      title: "Analytics",
+      title: "Analytics", 
       description: "Monitor progress and performance insights",
       longDescription: "View detailed analytics on your child's learning journey. Track time spent, subjects mastered, and areas that need improvement with interactive charts and personalized reports.",
       icon: TrendingUp,
-      color: "bg-neugie-green hover:bg-neugie-green/90",
+      color: "success",
       path: "/analytics",
-      bgImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600&h=400')",
+      gradient: "from-emerald-400/20 to-emerald-500/30"
     },
     {
       title: "Calendar",
-      description: "Schedule learning activities and events",
+      description: "Schedule learning activities and events", 
       longDescription: "Organize your child's educational journey with our intuitive calendar. Plan study sessions, schedule educational activities, set reminders for assignments, and coordinate with tutors.",
       icon: Calendar,
-      color: "bg-neugie-purple hover:bg-neugie-purple/90",
+      color: "info",
       path: "/calendar",
-      bgImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&q=80&w=600&h=400')",
+      gradient: "from-blue-400/20 to-blue-500/30"
     },
     {
       title: "My Social Circle",
       description: "Connect with other parents and educators",
       longDescription: "Build a supportive network with other parents and educators. Share experiences, exchange resources, participate in discussions, and collaborate on educational initiatives.",
       icon: Users,
-      color: "bg-neugie-yellow hover:bg-neugie-yellow/90",
-      path: "/social",
-      bgImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=600&h=400')",
+      color: "secondary",
+      path: "/social", 
+      gradient: "from-purple-400/20 to-purple-500/30"
     },
     {
       title: "My Inbox",
       description: "Stay updated with important notifications",
       longDescription: "Receive and manage communications from teachers, educational institutions, and the Neugie platform. Get timely updates on your child's progress and important educational opportunities.",
       icon: Inbox,
-      color: "bg-neugie-red hover:bg-neugie-red/90",
+      color: "warning",
       path: "/inbox",
-      bgImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1555421689-3f034debb7a6?auto=format&fit=crop&q=80&w=600&h=400')",
+      gradient: "from-amber-400/20 to-amber-500/30"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50/50 to-black/5 pb-20">
-      <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-orange-100/20">
-        <h1 className="text-2xl font-bold font-playfair">
-          <span className="text-orange-500">Neu</span>
-          <span className="text-black">gie</span>
-        </h1>
-        <ProfileSheet />
+    <div className="min-h-screen premium-gradient-bg">
+      {/* Premium Header */}
+      <div className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
+        <div className="p-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold font-playfair">
+            <span className="neugie-text-gradient">Neu</span>
+            <span className="text-gray-800">gie</span>
+          </h1>
+          <ProfileSheet />
+        </div>
       </div>
       
-      <div className="p-6 md:p-8 max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold mb-8 font-playfair bg-gradient-to-r from-orange-600 to-black bg-clip-text text-transparent">
-          Welcome back, Sarah!
-        </h2>
-        
-        <div className="grid grid-cols-1 gap-8">
-          {sections.map((section, index) => (
-            <SectionCard
-              key={index}
-              {...section}
-            />
-          ))}
+      {/* Main Content */}
+      <div className="px-6 pb-24">
+        <div className="max-w-6xl mx-auto">
+          {/* Welcome Header */}
+          <div className="mb-8 text-center">
+            <h2 className="text-4xl font-bold mb-3 font-playfair">
+              Welcome back, <span className="neugie-text-gradient">Sarah!</span>
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Continue your parenting journey with smart insights and educational tools
+            </p>
+          </div>
+          
+          {/* Premium Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {sections.map((section, index) => (
+              <SectionCard
+                key={index}
+                {...section}
+              />
+            ))}
+          </div>
         </div>
       </div>
       

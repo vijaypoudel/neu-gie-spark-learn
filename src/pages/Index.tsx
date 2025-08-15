@@ -7,7 +7,7 @@ import LoginForm from '@/components/LoginForm';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen premium-gradient-bg">
       <div className="container mx-auto px-4 py-12 h-screen flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
         {/* Left side - Branding - Fixed for mobile */}
         <div className="md:w-1/2 text-center md:text-left space-y-6 max-w-sm">
@@ -29,7 +29,7 @@ const Index = () => {
 
         {/* Right side - Login Form - Mobile optimized */}
         <div className="md:w-1/2 w-full max-w-md">
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100">
+          <div className="premium-card p-6 md:p-8">
             <LoginForm />
             
             <div className="mt-6 text-center">

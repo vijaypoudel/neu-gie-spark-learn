@@ -77,9 +77,9 @@ const ProfileSelection: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50/30 to-orange-50/50">
+    <div className="min-h-screen premium-gradient-bg">
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-xl border-b border-orange-100/20 shadow-sm">
+      <div className="premium-card">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-center">
           <div className="flex items-center gap-4">
             <img 

@@ -9,7 +9,7 @@ const Login = () => {
     document.title = 'Parent Login | Neugie';
   }, []);
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-black/5 flex items-center justify-center p-4">
+    <div className="min-h-screen premium-gradient-bg flex items-center justify-center p-4">
       <div className="container mx-auto px-4 py-8 h-full flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-5xl">
         <div className="md:w-1/2 text-center md:text-left space-y-6 max-w-sm">
           <img 
@@ -29,7 +29,7 @@ const Login = () => {
         </div>
 
         <div className="md:w-1/2 w-full max-w-md">
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100">
+          <div className="premium-card p-6 md:p-8">
             <LoginForm />
             
             <div className="mt-6 text-center">

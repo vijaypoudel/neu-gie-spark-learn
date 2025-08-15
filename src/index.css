@@ -34,19 +34,25 @@
 
     --radius: 1rem;
 
-    /* Add Neugie specific colors */
-    --neugie-blue: 24 95% 50%; /* Orange */
-    --neugie-yellow: 0 0% 0%; /* Black */
-    --neugie-green: 24 95% 50%; /* Orange */
-    --neugie-purple: 0 0% 0%; /* Black */
-    --neugie-red: 24 95% 50%; /* Orange */
-    --neugie-orange: 24 95% 50%; /* Orange */
-
-    /* Add premium, softer color variations */
-    --premium-background: 24 40% 98%;
-    --premium-text: 0 0% 0%;
-    --premium-accent: 24 95% 50%;
-    --premium-highlight: 24 80% 55%;
+    /* Premium Neugie color palette */
+    --neugie-orange-primary: 24 95% 50%;      /* #F97316 - Main orange */
+    --neugie-orange-light: 24 95% 90%;        /* Light orange for backgrounds */
+    --neugie-orange-dark: 24 95% 35%;         /* Dark orange for accents */
+    
+    --neugie-cream: 45 100% 97%;              /* #FEFDF8 - Warm cream background */
+    --neugie-warm-white: 24 30% 98%;          /* #FCF9F6 - Warm white */
+    --neugie-soft-gray: 220 9% 46%;           /* #6B7280 - Soft gray text */
+    --neugie-charcoal: 0 0% 15%;              /* #262626 - Deep charcoal */
+    
+    /* Premium gradients */
+    --premium-gradient-warm: linear-gradient(135deg, hsl(24 95% 97%) 0%, hsl(45 100% 95%) 50%, hsl(24 90% 92%) 100%);
+    --premium-gradient-orange: linear-gradient(135deg, hsl(24 95% 55%) 0%, hsl(24 100% 50%) 100%);
+    --premium-glass: rgba(255, 255, 255, 0.85);
+    
+    /* Premium shadows */
+    --shadow-premium-soft: 0 4px 20px -2px hsl(24 95% 50% / 0.08);
+    --shadow-premium-medium: 0 8px 30px -4px hsl(24 95% 50% / 0.12);
+    --shadow-premium-strong: 0 20px 40px -8px hsl(24 95% 50% / 0.15);
   }
 
   .dark {
@@ -121,23 +127,38 @@
 }
 
 @layer components {
-  .premium-gradient {
-    background: linear-gradient(
-      to right, 
-      hsla(210, 80%, 95%, 0.6), 
-      hsla(240, 60%, 95%, 0.6)
-    );
+  .premium-card {
+    background: var(--premium-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-premium-medium);
+    border-radius: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  .glass-card {
-    @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-lg rounded-2xl;
+  .premium-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-premium-strong);
   }
   
-  .brand-gradient-text {
-    @apply bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent;
+  .premium-gradient-bg {
+    background: var(--premium-gradient-warm);
   }
   
-  .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  .premium-orange-gradient {
+    background: var(--premium-gradient-orange);
+  }
+  
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .neugie-text-gradient {
+    background: linear-gradient(135deg, hsl(24 95% 50%) 0%, hsl(24 100% 45%) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }

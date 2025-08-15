@@ -141,7 +141,7 @@ const Calendar = () => {
     return (
       <Card key={month.toISOString()} className="backdrop-blur-xl bg-white/80 border-0 shadow-xl">
         <CardHeader className="pb-4">
-          <CardTitle className="text-center font-playfair text-xl bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+          <CardTitle className="text-center font-playfair text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             {format(month, 'MMMM yyyy')}
           </CardTitle>
         </CardHeader>
@@ -208,7 +208,7 @@ const Calendar = () => {
           </Link>
           <div className="flex items-center gap-3">
             <CalendarIcon className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold font-playfair bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold font-playfair bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Learning Calendar
             </h1>
           </div>
@@ -216,7 +216,7 @@ const Calendar = () => {
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-gradient-primary hover:opacity-90 text-white font-medium">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
               <Plus className="mr-2 h-4 w-4" />
               Add Event
             </Button>
@@ -289,7 +289,7 @@ const Calendar = () => {
         {/* Upcoming Events */}
         <Card className="backdrop-blur-xl bg-white/80 border-0 shadow-xl">
           <CardHeader>
-            <CardTitle className="font-playfair bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+            <CardTitle className="font-playfair bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Upcoming Events
             </CardTitle>
           </CardHeader>

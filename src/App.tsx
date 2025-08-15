@@ -15,6 +15,7 @@ import KidsHome from "./pages/KidsHome";
 import SetCurriculum from "./pages/SetCurriculum";
 import Calendar from "./pages/Calendar";
 import WeeklyCurriculum from "./pages/WeeklyCurriculum";
+import MyPassion from "./pages/MyPassion";
 import Funtube from "./pages/Funtube";
 import WorkInProgress from "./pages/WorkInProgress";
 import Analytics from "./pages/Analytics";
@@ -42,7 +43,7 @@ const App = () => (
           <Route path="/set-curriculum" element={<SetCurriculum />} />
           <Route path="/weekly-curriculum" element={<WeeklyCurriculum />} />
           <Route path="/my-badges" element={<WorkInProgress />} />
-          <Route path="/my-passion" element={<WorkInProgress />} />
+          <Route path="/my-passion" element={<MyPassion />} />
           <Route path="/funtube" element={<Funtube />} />
           <Route path="/social" element={<WorkInProgress />} />
           <Route path="/analytics" element={<Analytics />} />

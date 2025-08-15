@@ -18,8 +18,8 @@ const Index = () => {
           />
           
           <h1 className="text-4xl md:text-6xl font-bold font-playfair">
-            <span className="text-yellow-500">Curio</span>
-            <span className="text-orange-500">Bee</span>
+            <span className="text-yellow-500">Neu</span>
+            <span className="text-orange-500">gie</span>
           </h1>
           
           <p className="text-xl text-gray-600 max-w-md font-playfair">

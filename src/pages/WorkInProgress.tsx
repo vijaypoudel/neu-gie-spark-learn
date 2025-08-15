@@ -23,7 +23,7 @@ const WorkInProgress = () => {
       </h1>
       
       <p className="text-xl mb-8 text-center text-gray-600 max-w-md font-playfair">
-        Our busy bees are working hard to build this feature. Check back soon!
+        Our busy team is working hard to build this feature. Check back soon!
       </p>
       
       <Button 

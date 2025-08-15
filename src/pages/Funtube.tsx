@@ -145,29 +145,31 @@ const QuizModal: React.FC<QuizModalProps> = ({ question, onAnswer, onClose }) =>
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="brand-card-title text-center">Quiz Time! 🎯</CardTitle>
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-white shadow-2xl border-2 border-orange-200">
+        <CardHeader className="bg-gradient-to-r from-orange-50 to-orange-100 border-b">
+          <CardTitle className="brand-card-title text-center flex items-center justify-center gap-2">
+            Quiz Time! 🎯
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="brand-card-text text-center">{question.question}</p>
+        <CardContent className="space-y-4 p-6 bg-white">
+          <p className="brand-card-text text-center text-lg">{question.question}</p>
           
-          <div className="space-y-2">
+          <div className="space-y-3">
             {question.options.map((option: string, index: number) => (
               <button
                 key={index}
                 onClick={() => !showResult && setSelectedAnswer(index)}
-                className={`w-full p-3 text-left rounded-lg border transition-colors ${
+                className={`w-full p-4 text-left rounded-lg border-2 transition-all font-medium ${
                   selectedAnswer === index 
                     ? showResult 
                       ? index === question.correct 
-                        ? 'bg-green-100 border-green-500 text-green-700'
-                        : 'bg-red-100 border-red-500 text-red-700'
-                      : 'bg-orange-100 border-orange-500'
+                        ? 'bg-green-50 border-green-500 text-green-700 shadow-md'
+                        : 'bg-red-50 border-red-500 text-red-700 shadow-md'
+                      : 'bg-orange-50 border-orange-500 text-orange-700 shadow-md'
                     : showResult && index === question.correct
-                      ? 'bg-green-100 border-green-500 text-green-700'
-                      : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                      ? 'bg-green-50 border-green-500 text-green-700 shadow-md'
+                      : 'bg-white border-gray-300 hover:bg-gray-50 hover:border-gray-400 text-gray-700'
                 }`}
                 disabled={showResult}
               >
@@ -177,18 +179,18 @@ const QuizModal: React.FC<QuizModalProps> = ({ question, onAnswer, onClose }) =>
           </div>
 
           {showResult ? (
-            <div className="text-center">
+            <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
               {selectedAnswer === question.correct ? (
-                <p className="text-green-600 font-semibold">🎉 Correct! Great job!</p>
+                <p className="text-green-600 font-bold text-lg">🎉 Correct! Great job!</p>
               ) : (
-                <p className="text-orange-600 font-semibold">Good try! The correct answer is highlighted.</p>
+                <p className="text-orange-600 font-bold text-lg">Good try! The correct answer is highlighted.</p>
               )}
             </div>
           ) : (
             <Button 
               onClick={handleSubmit}
               disabled={selectedAnswer === null}
-              className="w-full"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3"
             >
               Submit Answer
             </Button>

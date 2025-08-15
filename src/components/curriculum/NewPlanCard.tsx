@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/collapsible";
 import SubjectSelector from './SubjectSelector';
 import GoalInput from './GoalInput';
+import CurriculumSkeleton from './CurriculumSkeleton';
 
 interface Subject {
   id: string;
@@ -52,29 +53,32 @@ const NewPlanCard: React.FC<NewPlanCardProps> = ({
       onOpenChange={onOpenChange}
       className="mb-8"
     >
-      <Card>
-        <CollapsibleTrigger asChild>
-          <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50">
-            <h2 className="brand-card-title">Create New Weekly Plan</h2>
-            <ChevronLeft className={`transform transition-transform ${isOpen ? 'rotate-90' : '-rotate-90'}`} />
-          </div>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <CardContent className="pt-0 space-y-6">
+      <div className="premium-card">
+        <div 
+          className="p-6 flex items-center justify-between cursor-pointer hover:bg-orange-50 transition-colors rounded-t-2xl"
+          onClick={() => onOpenChange(!isOpen)}
+        >
+          <h2 className="brand-card-title">Create New Weekly Plan</h2>
+          <ChevronLeft className={`h-6 w-6 text-orange-500 transform transition-transform ${isOpen ? 'rotate-90' : '-rotate-90'}`} />
+        </div>
+        
+        {isOpen && (
+          <div className="px-6 pb-6 space-y-6">
             <div>
-              <h3 className="brand-card-title mb-2">Select Subjects</h3>
-              <div className="flex flex-wrap gap-2 mb-3">
+              <h3 className="brand-card-title mb-4">Select Subjects</h3>
+              <div className="flex flex-wrap gap-3 mb-4">
                 {selectedSubjects.map(subjectId => {
                   const subject = subjects.find(s => s.id === subjectId);
                   return (
-                    <div key={subjectId} className="brand-chip flex items-center gap-1">
-                      <span>{subject?.icon}</span>
-                      <span>{subject?.name}</span>
+                    <div key={subjectId} className="brand-chip flex items-center gap-2 py-2 px-4">
+                      <span className="text-lg">{subject?.icon}</span>
+                      <span className="font-medium">{subject?.name}</span>
                       <button 
                         onClick={() => onRemoveSubject(subjectId)}
-                        className="ml-1 text-orange-600 hover:text-orange-800"
+                        className="ml-2 p-1 text-orange-600 hover:text-orange-800 hover:bg-orange-100 rounded-full transition-colors"
+                        aria-label={`Remove ${subject?.name}`}
                       >
-                        <XCircle className="h-4 w-4" />
+                        <XCircle className="h-5 w-5" />
                       </button>
                     </div>
                   );
@@ -91,53 +95,57 @@ const NewPlanCard: React.FC<NewPlanCardProps> = ({
               onChange={onGoalsChange} 
             />
 
-            {!generatedPlan && (
+            {!generatedPlan && !isGenerating && (
               <Button 
                 onClick={onGeneratePlan}
-                disabled={selectedSubjects.length === 0 || isGenerating}
-                className="w-full bg-gradient-to-r from-orange-500 to-orange-400"
+                disabled={selectedSubjects.length === 0}
+                className="w-full h-12 bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500 text-white font-semibold rounded-xl shadow-lg"
               >
-                {isGenerating ? (
-                  <>
-                    <RotateCw className="mr-2 h-4 w-4 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Plus className="mr-2 h-4 w-4" />
-                    Generate Weekly Plan
-                  </>
-                )}
+                <Plus className="mr-2 h-5 w-5" />
+                Generate Weekly Plan
               </Button>
+            )}
+
+            {isGenerating && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-center py-4">
+                  <RotateCw className="h-6 w-6 animate-spin text-orange-500 mr-3" />
+                  <span className="text-orange-600 font-medium">Generating your personalized plan...</span>
+                </div>
+                <CurriculumSkeleton />
+              </div>
             )}
 
             {generatedPlan && (
               <div className="space-y-4">
-                <div className="border rounded-md bg-gray-50 p-4 whitespace-pre-line">
-                  {generatedPlan}
+                <div className="premium-card p-4">
+                  <h4 className="brand-card-title mb-3">Your Generated Plan</h4>
+                  <div className="text-sm whitespace-pre-line text-gray-700 leading-relaxed">
+                    {generatedPlan}
+                  </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <Button 
                     onClick={onGeneratePlan} 
                     variant="outline"
-                    className="flex-1"
+                    className="flex-1 h-12 border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl"
                   >
-                    <RotateCw className="mr-2 h-4 w-4" />
+                    <RotateCw className="mr-2 h-5 w-5" />
                     Regenerate
                   </Button>
                   <Button 
                     onClick={onSavePlan}
-                    className="flex-1 bg-gradient-to-r from-green-500 to-teal-500"
+                    className="flex-1 h-12 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold rounded-xl shadow-lg"
                   >
-                    <Save className="mr-2 h-4 w-4" />
+                    <Save className="mr-2 h-5 w-5" />
                     Save & Publish
                   </Button>
                 </div>
               </div>
             )}
-          </CardContent>
-        </CollapsibleContent>
-      </Card>
+          </div>
+        )}
+      </div>
     </Collapsible>
   );
 };

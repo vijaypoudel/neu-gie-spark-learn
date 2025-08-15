@@ -8,19 +8,30 @@ interface GoalInputProps {
 }
 
 const GoalInput: React.FC<GoalInputProps> = ({ value, onChange }) => {
+  const characterCount = value.length;
+  const maxCharacters = 500;
+  
   return (
-    <div className="space-y-2">
-      <h3 className="font-semibold">Custom Learning Goals</h3>
-      <p className="text-sm text-gray-500">
-        Add any specific learning goals or activities you'd like included in the weekly plan.
-      </p>
-      <Textarea 
-        placeholder="e.g., Work on multiplication tables, read a chapter book, practice piano..."
-        value={value}
-        onChange={onChange}
-        rows={4}
-        className="w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-      />
+    <div className="space-y-3">
+      <div>
+        <h3 className="brand-card-title">Custom Learning Goals</h3>
+        <p className="text-sm text-gray-600 mt-1">
+          Add specific learning goals or activities for this week's plan.
+        </p>
+      </div>
+      <div className="relative">
+        <Textarea 
+          placeholder="e.g., Focus on multiplication tables, read a chapter book, practice piano for 30 minutes daily..."
+          value={value}
+          onChange={onChange}
+          rows={4}
+          maxLength={maxCharacters}
+          className="w-full rounded-xl border-gray-200 focus:border-orange-500 focus:ring-orange-500/20 resize-none text-base leading-relaxed"
+        />
+        <div className="absolute bottom-3 right-3 text-xs text-gray-400">
+          {characterCount}/{maxCharacters}
+        </div>
+      </div>
     </div>
   );
 };

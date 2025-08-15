@@ -37,7 +37,7 @@ const SubjectSelector: React.FC<SubjectSelectorProps> = ({ subjects, onSelect })
           {subjects.map((subject) => (
             <button
               key={subject.id}
-              className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-blue-50 rounded-md"
+              className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-accent/50 rounded-md transition-colors"
               onClick={() => {
                 onSelect(subject.id);
                 setOpen(false);

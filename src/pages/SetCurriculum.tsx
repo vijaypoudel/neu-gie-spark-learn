@@ -112,36 +112,6 @@ ${customGoals ? `4. ${customGoals}` : ''}
           data={lastWeekData}
         />
 
-        {/* Multi-modal inputs: allow parents to upload reference images */}
-        <Card className="mb-8">
-          <CardContent className="pt-6">
-            <h2 className="text-xl font-semibold mb-3 font-playfair">Add reference images (optional)</h2>
-            <Input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={async (e) => {
-                const files = Array.from(e.target.files || []);
-                const readers = await Promise.all(files.map(f => new Promise<string>((resolve) => {
-                  const reader = new FileReader();
-                  reader.onload = () => resolve(reader.result as string);
-                  reader.readAsDataURL(f);
-                })));
-                setImages(prev => [...prev, ...readers]);
-                toast.success(`${files.length} image(s) added`);
-              }}
-            />
-            {images.length > 0 && (
-              <div className="grid grid-cols-3 gap-3 mt-4">
-                {images.map((src, idx) => (
-                  <div key={idx} className="aspect-square rounded-md overflow-hidden border">
-                    <img src={src} alt={`reference-${idx}`} className="w-full h-full object-cover" loading="lazy" />
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
 
         <NewPlanCard 
           isOpen={isNewPlanOpen || !isLastWeekOpen}
@@ -158,9 +128,6 @@ ${customGoals ? `4. ${customGoals}` : ''}
           onSavePlan={handleSavePlan}
         />
 
-        {images.length > 0 && (
-          <p className="text-sm text-gray-600 mt-4">Attached images will be considered by our AI assistant when refining the plan.</p>
-        )}
       </div>
     </div>
   );

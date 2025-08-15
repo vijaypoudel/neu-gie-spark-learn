@@ -13,6 +13,7 @@ import Learn from "./pages/Learn";
 import AIChat from "./pages/AIChat";
 import KidsHome from "./pages/KidsHome";
 import SetCurriculum from "./pages/SetCurriculum";
+import Calendar from "./pages/Calendar";
 import WorkInProgress from "./pages/WorkInProgress";
 import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
@@ -43,7 +44,7 @@ const App = () => (
           <Route path="/funtube" element={<WorkInProgress />} />
           <Route path="/social" element={<WorkInProgress />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/calendar" element={<WorkInProgress />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/profile-selection" element={<ProfileSelection />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

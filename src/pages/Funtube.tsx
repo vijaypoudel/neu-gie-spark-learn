@@ -485,46 +485,47 @@ const Funtube: React.FC = () => {
         <div className="px-6 pb-24">
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <div className="lg:col-span-3">
-              <div className="premium-card p-6">
-                <VideoPlayer 
-                  video={currentVideo}
-                  onVideoComplete={handleVideoComplete}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="premium-card p-5">
-                <h3 className="brand-card-title mb-4">Video Progress</h3>
-                <div className="space-y-3">
-                  <p className="brand-card-text">{currentVideo.title}</p>
-                  <Progress 
-                    value={(currentVideoIndex / selectedTopic.videos.length) * 100} 
-                    className="w-full"
+              <div className="lg:col-span-3">
+                <div className="premium-card p-6">
+                  <VideoPlayer 
+                    video={currentVideo}
+                    onVideoComplete={handleVideoComplete}
                   />
-                  <p className="text-sm text-gray-600">
-                    Video {currentVideoIndex + 1} of {selectedTopic.videos.length}
-                  </p>
                 </div>
               </div>
 
-              <div className="premium-card p-5">
-                <h3 className="brand-card-title mb-4">Topic Videos</h3>
-                <div className="space-y-2">
-                  {selectedTopic.videos.map((video, index) => (
-                    <div 
-                      key={video.id} 
-                      className={`p-3 rounded-lg border ${
-                        index === currentVideoIndex 
-                          ? 'bg-orange-100 border-orange-300' 
-                          : 'bg-gray-50 border-gray-200'
-                      }`}
-                    >
-                      <p className="text-sm font-medium">{video.title}</p>
-                      <p className="text-xs text-gray-500">{video.duration}</p>
-                    </div>
-                  ))}
+              <div className="space-y-4">
+                <div className="premium-card p-5">
+                  <h3 className="brand-card-title mb-4">Video Progress</h3>
+                  <div className="space-y-3">
+                    <p className="brand-card-text">{currentVideo.title}</p>
+                    <Progress 
+                      value={(currentVideoIndex / selectedTopic.videos.length) * 100} 
+                      className="w-full"
+                    />
+                    <p className="text-sm text-gray-600">
+                      Video {currentVideoIndex + 1} of {selectedTopic.videos.length}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="premium-card p-5">
+                  <h3 className="brand-card-title mb-4">Topic Videos</h3>
+                  <div className="space-y-2">
+                    {selectedTopic.videos.map((video, index) => (
+                      <div 
+                        key={video.id} 
+                        className={`p-3 rounded-lg border ${
+                          index === currentVideoIndex 
+                            ? 'bg-orange-100 border-orange-300' 
+                            : 'bg-gray-50 border-gray-200'
+                        }`}
+                      >
+                        <p className="text-sm font-medium">{video.title}</p>
+                        <p className="text-xs text-gray-500">{video.duration}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -554,56 +555,56 @@ const Funtube: React.FC = () => {
       <div className="px-6 pb-24">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {curriculumTopics.map((topic) => (
-            <div key={topic.id} className="premium-card">
-              <div className="p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-3xl">{topic.icon}</span>
-                  <div>
-                    <h3 className="brand-card-title">{topic.subject}</h3>
-                    <p className="text-gray-600 text-sm">{topic.topic}</p>
-                  </div>
-                </div>
-
-                <div className="space-y-3 mb-4">
-                  {topic.videos.map((video, index) => (
-                    <div key={video.id} className="flex items-center gap-3 p-3 bg-orange-50 rounded-xl border border-orange-100">
-                      <div className="w-16 h-10 bg-gradient-to-br from-orange-200 to-orange-400 rounded-lg flex items-center justify-center shadow-sm">
-                        <span className="text-lg">🎬</span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-800">{video.title}</p>
-                        <p className="text-xs text-gray-500 flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {video.duration}
-                        </p>
-                      </div>
-                      {completedVideos.includes(video.id) && (
-                        <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
-                          ✓
-                        </Badge>
-                      )}
+            {curriculumTopics.map((topic) => (
+              <div key={topic.id} className="premium-card">
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-3xl">{topic.icon}</span>
+                    <div>
+                      <h3 className="brand-card-title">{topic.subject}</h3>
+                      <p className="text-gray-600 text-sm">{topic.topic}</p>
                     </div>
-                  ))}
-                </div>
-                
-                <div className="pt-3 border-t border-orange-100">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-600">
-                      {topic.videos.filter(v => completedVideos.includes(v.id)).length} / {topic.videos.length} completed
-                    </p>
-                    <Button 
-                      onClick={() => handleTopicSelect(topic)}
-                      className="bg-orange-500 hover:bg-orange-600 text-white text-sm px-4 py-2 rounded-xl shadow-md"
-                    >
-                      Start Learning
-                    </Button>
+                  </div>
+
+                  <div className="space-y-3 mb-4">
+                    {topic.videos.map((video, index) => (
+                      <div key={video.id} className="flex items-center gap-3 p-3 bg-orange-50 rounded-xl border border-orange-100">
+                        <div className="w-16 h-10 bg-gradient-to-br from-orange-200 to-orange-400 rounded-lg flex items-center justify-center shadow-sm">
+                          <span className="text-lg">🎬</span>
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-800">{video.title}</p>
+                          <p className="text-xs text-gray-500 flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            {video.duration}
+                          </p>
+                        </div>
+                        {completedVideos.includes(video.id) && (
+                          <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
+                            ✓
+                          </Badge>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="pt-3 border-t border-orange-100">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-gray-600">
+                        {topic.videos.filter(v => completedVideos.includes(v.id)).length} / {topic.videos.length} completed
+                      </p>
+                      <Button 
+                        onClick={() => handleTopicSelect(topic)}
+                        className="bg-orange-500 hover:bg-orange-600 text-white text-sm px-4 py-2 rounded-xl shadow-md"
+                      >
+                        Start Learning
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

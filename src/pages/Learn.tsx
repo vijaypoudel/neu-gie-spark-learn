@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ChevronLeft, BookOpen, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import LearningCard from '@/components/LearningCard';
 import Navigation from '@/components/Navigation';
 
@@ -149,113 +151,115 @@ const Learn = () => {
     : passionContent.filter(item => item.category === category);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
-      {/* Header */}
-      <div className="bg-white p-4 shadow-sm">
-        <h1 className="text-2xl font-bold">Learn</h1>
-      </div>
+    <div className="min-h-screen premium-gradient-bg">
+      {/* Premium Header */}
+      <header className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
+        <div className="p-4 flex items-center">
+          <Link to="/kids-home" className="mr-5 -ml-2 flex items-center">
+            <ChevronLeft className="h-5 w-5 text-orange-500" />
+            <span className="text-orange-500 font-semibold ml-1 hidden sm:inline">Back</span>
+          </Link>
+          <div className="flex items-center gap-3 flex-1">
+            <BookOpen className="h-6 w-6 text-orange-500" />
+            <h1 className="brand-heading text-xl">
+              <span className="brand-accent">Learning</span>{" "}
+              <span>Adventure</span>
+            </h1>
+          </div>
+        </div>
+      </header>
       
-      {/* Category filter */}
-      <div className="p-4 overflow-x-auto">
-        <div className="flex space-x-2 min-w-max pb-2">
-          <button 
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              category === 'all' 
-                ? 'bg-neugie-blue text-white' 
-                : 'bg-white text-gray-600'
-            }`}
-            onClick={() => setCategory('all')}
-          >
-            All
-          </button>
-          <button 
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              category === 'math' 
-                ? 'bg-neugie-blue text-white' 
-                : 'bg-white text-gray-600'
-            }`}
-            onClick={() => setCategory('math')}
-          >
-            Math
-          </button>
-          <button 
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              category === 'science' 
-                ? 'bg-neugie-green text-white' 
-                : 'bg-white text-gray-600'
-            }`}
-            onClick={() => setCategory('science')}
-          >
-            Science
-          </button>
-          <button 
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              category === 'language' 
-                ? 'bg-neugie-purple text-white' 
-                : 'bg-white text-gray-600'
-            }`}
-            onClick={() => setCategory('language')}
-          >
-            Language
-          </button>
-          <button 
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              category === 'art' 
-                ? 'bg-neugie-yellow text-white' 
-                : 'bg-white text-gray-600'
-            }`}
-            onClick={() => setCategory('art')}
-          >
-            Art
-          </button>
-          <button 
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              category === 'music' 
-                ? 'bg-neugie-red text-white' 
-                : 'bg-white text-gray-600'
-            }`}
-            onClick={() => setCategory('music')}
-          >
-            Music
-          </button>
+      {/* Category Filter */}
+      <div className="px-6 mb-6">
+        <div className="premium-card p-4">
+          <h3 className="brand-card-title mb-3">Choose Subject</h3>
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {[
+              { id: 'all', label: 'All', color: 'bg-orange-500' },
+              { id: 'math', label: 'Math', color: 'bg-blue-500' },
+              { id: 'science', label: 'Science', color: 'bg-green-500' },
+              { id: 'language', label: 'Language', color: 'bg-purple-500' },
+              { id: 'art', label: 'Art', color: 'bg-yellow-500' },
+              { id: 'music', label: 'Music', color: 'bg-red-500' }
+            ].map(({ id, label, color }) => (
+              <button 
+                key={id}
+                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                  category === id 
+                    ? `${color} text-white shadow-lg transform scale-105` 
+                    : 'bg-white text-gray-600 hover:bg-gray-50 shadow-md'
+                }`}
+                onClick={() => setCategory(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
       
-      <div className="p-4">
-        <Tabs defaultValue="curriculum" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-4">
-            <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
-            <TabsTrigger value="passion">Passions</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="curriculum">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filteredCurriculum.map(item => (
-                <LearningCard
-                  key={item.id}
-                  title={item.title}
-                  description={item.description}
-                  category={item.category}
-                  onClick={() => {/* Would navigate to learning content */}}
-                />
-              ))}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="passion">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filteredPassion.map(item => (
-                <LearningCard
-                  key={item.id}
-                  title={item.title}
-                  description={item.description}
-                  category={item.category}
-                  onClick={() => {/* Would navigate to learning content */}}
-                />
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+      {/* Main Content */}
+      <div className="px-6 pb-24">
+        <div className="premium-card p-6">
+          <Tabs defaultValue="curriculum" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-orange-50 p-1 rounded-xl">
+              <TabsTrigger 
+                value="curriculum" 
+                className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md font-semibold"
+              >
+                <BookOpen className="h-4 w-4 mr-2" />
+                Curriculum
+              </TabsTrigger>
+              <TabsTrigger 
+                value="passion" 
+                className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md font-semibold"
+              >
+                <Heart className="h-4 w-4 mr-2" />
+                Passions
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="curriculum" className="space-y-4">
+              <div className="mb-4">
+                <h3 className="brand-card-title mb-2">📚 Learning Activities</h3>
+                <p className="text-gray-600 text-sm">
+                  Educational content aligned with your curriculum
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                {filteredCurriculum.map(item => (
+                  <LearningCard
+                    key={item.id}
+                    title={item.title}
+                    description={item.description}
+                    category={item.category}
+                    onClick={() => {/* Navigate to learning content */}}
+                  />
+                ))}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="passion" className="space-y-4">
+              <div className="mb-4">
+                <h3 className="brand-card-title mb-2">🎨 Creative Pursuits</h3>
+                <p className="text-gray-600 text-sm">
+                  Fun activities based on your child's interests
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                {filteredPassion.map(item => (
+                  <LearningCard
+                    key={item.id}
+                    title={item.title}
+                    description={item.description}
+                    category={item.category}
+                    onClick={() => {/* Navigate to learning content */}}
+                  />
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
       
       <Navigation activeTab="learn" />

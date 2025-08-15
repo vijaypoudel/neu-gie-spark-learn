@@ -462,74 +462,71 @@ const Funtube: React.FC = () => {
     const currentVideo = selectedTopic.videos[currentVideoIndex];
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-4 mb-6">
+      <div className="min-h-screen premium-gradient-bg">
+        <header className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
+          <div className="p-4 flex items-center">
             <Button 
               variant="ghost" 
               size="icon"
               onClick={() => setSelectedTopic(null)}
+              className="mr-3 -ml-2"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-5 w-5 text-orange-500" />
             </Button>
             <div>
               <h1 className="brand-heading">
                 {selectedTopic.icon} <span className="brand-accent">{selectedTopic.subject}</span>
               </h1>
-              <p className="brand-card-text">{selectedTopic.topic}</p>
+              <p className="text-gray-600 text-sm">{selectedTopic.topic}</p>
             </div>
           </div>
+        </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="px-6 pb-24">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div className="lg:col-span-3">
-              <Card>
-                <CardContent className="p-6">
-                  <VideoPlayer 
-                    video={currentVideo}
-                    onVideoComplete={handleVideoComplete}
-                  />
-                </CardContent>
-              </Card>
+              <div className="premium-card p-6">
+                <VideoPlayer 
+                  video={currentVideo}
+                  onVideoComplete={handleVideoComplete}
+                />
+              </div>
             </div>
 
             <div className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="brand-card-title">Video Progress</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {selectedTopic.videos.map((video: any, index: number) => (
-                    <div key={video.id} className="flex items-center gap-3 p-2">
-                      <div className={`w-3 h-3 rounded-full ${
-                        completedVideos.includes(video.id) 
-                          ? 'bg-green-500' 
-                          : index === currentVideoIndex 
-                            ? 'bg-orange-500' 
-                            : 'bg-gray-300'
-                      }`} />
-                      <span className={`text-sm ${
-                        index === currentVideoIndex ? 'brand-card-text font-semibold' : 'text-gray-600'
-                      }`}>
-                        {video.title}
-                      </span>
+              <div className="premium-card p-5">
+                <h3 className="brand-card-title mb-4">Video Progress</h3>
+                <div className="space-y-3">
+                  <p className="brand-card-text">{currentVideo.title}</p>
+                  <Progress 
+                    value={(currentVideoIndex / selectedTopic.videos.length) * 100} 
+                    className="w-full"
+                  />
+                  <p className="text-sm text-gray-600">
+                    Video {currentVideoIndex + 1} of {selectedTopic.videos.length}
+                  </p>
+                </div>
+              </div>
+
+              <div className="premium-card p-5">
+                <h3 className="brand-card-title mb-4">Topic Videos</h3>
+                <div className="space-y-2">
+                  {selectedTopic.videos.map((video, index) => (
+                    <div 
+                      key={video.id} 
+                      className={`p-3 rounded-lg border ${
+                        index === currentVideoIndex 
+                          ? 'bg-orange-100 border-orange-300' 
+                          : 'bg-gray-50 border-gray-200'
+                      }`}
+                    >
+                      <p className="text-sm font-medium">{video.title}</p>
+                      <p className="text-xs text-gray-500">{video.duration}</p>
                     </div>
                   ))}
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="brand-card-title">Learning Tips</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="text-sm text-gray-600 space-y-2">
-                    <li>• Watch carefully and listen</li>
-                    <li>• Answer quiz questions honestly</li>
-                    <li>• Ask questions if confused</li>
-                    <li>• Have fun learning!</li>
-                  </ul>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -538,49 +535,51 @@ const Funtube: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white p-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
-          <Link to="/kids-home">
-            <Button variant="ghost" size="icon">
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
+    <div className="min-h-screen premium-gradient-bg">
+      <header className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
+        <div className="p-4 flex items-center">
+          <Link to="/kids-home" className="mr-5 -ml-2 flex items-center">
+            <ChevronLeft className="h-5 w-5 text-orange-500" />
+            <span className="text-orange-500 font-semibold ml-1 hidden sm:inline">Back</span>
           </Link>
           <div>
             <h1 className="brand-heading">
               Fun<span className="brand-accent">Tube</span> 📺
             </h1>
-            <p className="brand-card-text">Learn with fun videos and quizzes!</p>
+            <p className="text-gray-600 text-sm">Learn with fun videos and quizzes!</p>
           </div>
         </div>
+      </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="px-6 pb-24">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {curriculumTopics.map((topic) => (
-            <Card 
-              key={topic.id}
-              className="cursor-pointer hover:shadow-lg transition-shadow"
-              onClick={() => handleTopicSelect(topic)}
-            >
-              <CardHeader>
-                <CardTitle className="brand-card-title flex items-center gap-2">
-                  <span className="text-2xl">{topic.icon}</span>
-                  {topic.subject}
-                </CardTitle>
-                <p className="brand-card-text">{topic.topic}</p>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
+            <div key={topic.id} className="premium-card">
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-3xl">{topic.icon}</span>
+                  <div>
+                    <h3 className="brand-card-title">{topic.subject}</h3>
+                    <p className="text-gray-600 text-sm">{topic.topic}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 mb-4">
                   {topic.videos.map((video, index) => (
-                    <div key={video.id} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
-                      <div className="w-16 h-9 bg-gradient-to-br from-orange-200 to-orange-300 rounded flex items-center justify-center">
+                    <div key={video.id} className="flex items-center gap-3 p-3 bg-orange-50 rounded-xl border border-orange-100">
+                      <div className="w-16 h-10 bg-gradient-to-br from-orange-200 to-orange-400 rounded-lg flex items-center justify-center shadow-sm">
                         <span className="text-lg">🎬</span>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium">{video.title}</p>
-                        <p className="text-xs text-gray-500">{video.duration}</p>
+                        <p className="font-medium text-gray-800">{video.title}</p>
+                        <p className="text-xs text-gray-500 flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {video.duration}
+                        </p>
                       </div>
                       {completedVideos.includes(video.id) && (
-                        <Badge variant="secondary" className="bg-green-100 text-green-700">
+                        <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
                           ✓
                         </Badge>
                       )}
@@ -588,14 +587,23 @@ const Funtube: React.FC = () => {
                   ))}
                 </div>
                 
-                <div className="mt-4 pt-3 border-t">
-                  <p className="text-sm text-gray-600">
-                    {topic.videos.filter(v => completedVideos.includes(v.id)).length} / {topic.videos.length} videos completed
-                  </p>
+                <div className="pt-3 border-t border-orange-100">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-gray-600">
+                      {topic.videos.filter(v => completedVideos.includes(v.id)).length} / {topic.videos.length} completed
+                    </p>
+                    <Button 
+                      onClick={() => handleTopicSelect(topic)}
+                      className="bg-orange-500 hover:bg-orange-600 text-white text-sm px-4 py-2 rounded-xl shadow-md"
+                    >
+                      Start Learning
+                    </Button>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
+        </div>
         </div>
       </div>
     </div>

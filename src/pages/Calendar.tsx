@@ -139,16 +139,14 @@ const Calendar = () => {
     const emptyDays = Array.from({ length: firstDayOfWeek }, (_, i) => i);
 
     return (
-      <Card key={month.toISOString()} className="backdrop-blur-xl bg-white/80 border-0 shadow-xl">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-center font-playfair text-xl text-orange-600 font-bold">
+      <div key={month.toISOString()} className="premium-card">
+        <div className="p-6">
+          <h3 className="text-center brand-card-title mb-4">
             {format(month, 'MMMM yyyy')}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </h3>
           <div className="grid grid-cols-7 gap-1 mb-2">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-              <div key={day} className="text-center text-sm font-medium text-muted-foreground p-2">
+              <div key={day} className="text-center text-sm font-medium text-gray-500 p-2">
                 {day}
               </div>
             ))}
@@ -170,8 +168,8 @@ const Calendar = () => {
                     setIsDialogOpen(true);
                   }}
                   className={`h-12 p-1 rounded-lg text-sm relative transition-all hover:bg-orange-100 ${
-                    isToday ? 'bg-orange-500 text-white font-bold' : 
-                    isCurrentMonth ? 'text-gray-800' : 'text-gray-400'
+                    isToday ? 'bg-orange-500 text-white font-bold shadow-lg' : 
+                    isCurrentMonth ? 'text-gray-800 hover:shadow-md' : 'text-gray-400'
                   }`}
                 >
                   <div className="w-full h-full flex flex-col items-center justify-center">
@@ -194,150 +192,158 @@ const Calendar = () => {
               );
             })}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50/30 to-gray-50">
-      <div className="bg-white/90 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-orange-200/30">
-        <div className="flex items-center">
-          <Link to="/home" className="mr-4">
-            <ChevronLeft className="h-5 w-5" />
-          </Link>
-          <div className="flex items-center gap-3">
-            <CalendarIcon className="h-6 w-6 text-orange-500" />
-            <h1 className="text-2xl font-bold font-playfair text-gray-800">
-              Learning Calendar
-            </h1>
+    <div className="min-h-screen premium-gradient-bg">
+      <header className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
+        <div className="p-4 flex items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/home" className="mr-4 -ml-2 flex items-center">
+              <ChevronLeft className="h-5 w-5 text-orange-500" />
+              <span className="text-orange-500 font-semibold ml-1 hidden sm:inline">Back</span>
+            </Link>
+            <div className="flex items-center gap-3">
+              <CalendarIcon className="h-6 w-6 text-orange-500" />
+              <h1 className="brand-heading">
+                <span className="brand-accent">Learning</span>{" "}
+                <span>Calendar</span>
+              </h1>
+            </div>
           </div>
-        </div>
         
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white font-medium">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Event
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>
-                {editingEvent ? 'Edit Event' : 'Add New Event'}
-              </DialogTitle>
-              <DialogDescription>
-                {selectedDate && !editingEvent && 
-                  `Adding event for ${format(selectedDate, 'MMMM d, yyyy')}`
-                }
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="title">Event Title</Label>
-                <Input
-                  id="title"
-                  value={newEvent.title}
-                  onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
-                  placeholder="e.g., Math Exam, Storytelling on Giraffes"
-                />
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-xl shadow-lg">
+                <Plus className="mr-2 h-4 w-4" />
+                Add Event
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>
+                  {editingEvent ? 'Edit Event' : 'Add New Event'}
+                </DialogTitle>
+                <DialogDescription>
+                  {selectedDate && !editingEvent && 
+                    `Adding event for ${format(selectedDate, 'MMMM d, yyyy')}`
+                  }
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="title">Event Title</Label>
+                  <Input
+                    id="title"
+                    value={newEvent.title}
+                    onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
+                    placeholder="e.g., Math Exam, Storytelling on Giraffes"
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="type">Event Type</Label>
+                  <Select
+                    value={newEvent.type}
+                    onValueChange={(value) => setNewEvent({...newEvent, type: value as Event['type']})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select event type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {eventTypes.map(type => (
+                        <SelectItem key={type.value} value={type.value}>
+                          <div className="flex items-center gap-2">
+                            <div className={`w-3 h-3 rounded-full ${type.color}`} />
+                            {type.label}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="type">Event Type</Label>
-                <Select
-                  value={newEvent.type}
-                  onValueChange={(value) => setNewEvent({...newEvent, type: value as Event['type']})}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select event type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {eventTypes.map(type => (
-                      <SelectItem key={type.value} value={type.value}>
-                        <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${type.color}`} />
-                          {type.label}
+              <DialogFooter>
+                <Button variant="outline" onClick={() => {
+                  setIsDialogOpen(false);
+                  setEditingEvent(null);
+                  setNewEvent({ title: '', type: 'other', date: new Date() });
+                  setSelectedDate(null);
+                }}>
+                  Cancel
+                </Button>
+                <Button onClick={editingEvent ? handleUpdateEvent : handleAddEvent}>
+                  {editingEvent ? 'Update Event' : 'Add Event'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </header>
+
+      <div className="px-6 pb-24">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {months.map(renderCalendarMonth)}
+          </div>
+
+          {/* Upcoming Events */}
+          <div className="premium-card">
+            <div className="p-6">
+              <h2 className="brand-card-title mb-4">
+                Upcoming Events
+              </h2>
+              <div>
+                {events.length === 0 ? (
+                  <p className="text-gray-500 text-center py-8">
+                    No events scheduled. Click on a date to add your first event!
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {events
+                      .sort((a, b) => a.date.getTime() - b.date.getTime())
+                      .map(event => (
+                        <div key={event.id} className="flex items-center justify-between p-4 rounded-xl bg-orange-50 border border-orange-100">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-4 h-4 rounded-full ${event.color}`} />
+                            <div>
+                              <h4 className="font-semibold brand-card-text">{event.title}</h4>
+                              <p className="text-sm text-gray-500">
+                                {format(event.date, 'MMMM d, yyyy')}
+                              </p>
+                            </div>
+                            <Badge variant="secondary" className="ml-2 bg-white shadow-sm">
+                              {eventTypes.find(t => t.value === event.type)?.label}
+                            </Badge>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEditEvent(event)}
+                              className="hover:bg-white/80"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeleteEvent(event.id)}
+                              className="hover:bg-red-50 hover:text-red-600"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => {
-                setIsDialogOpen(false);
-                setEditingEvent(null);
-                setNewEvent({ title: '', type: 'other', date: new Date() });
-                setSelectedDate(null);
-              }}>
-                Cancel
-              </Button>
-              <Button onClick={editingEvent ? handleUpdateEvent : handleAddEvent}>
-                {editingEvent ? 'Update Event' : 'Add Event'}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      <div className="p-6 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {months.map(renderCalendarMonth)}
+          </div>
         </div>
-
-        {/* Upcoming Events */}
-        <Card className="backdrop-blur-xl bg-white/80 border-0 shadow-xl">
-          <CardHeader>
-            <CardTitle className="font-playfair text-orange-600 font-bold">
-              Upcoming Events
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {events.length === 0 ? (
-              <p className="text-muted-foreground text-center py-8">
-                No events scheduled. Click on a date to add your first event!
-              </p>
-            ) : (
-              <div className="space-y-3">
-                {events
-                  .sort((a, b) => a.date.getTime() - b.date.getTime())
-                  .map(event => (
-                    <div key={event.id} className="flex items-center justify-between p-3 rounded-lg bg-accent/30">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-4 h-4 rounded-full ${event.color}`} />
-                        <div>
-                          <h4 className="font-medium">{event.title}</h4>
-                          <p className="text-sm text-muted-foreground">
-                            {format(event.date, 'MMMM d, yyyy')}
-                          </p>
-                        </div>
-                        <Badge variant="secondary" className="ml-2">
-                          {eventTypes.find(t => t.value === event.type)?.label}
-                        </Badge>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleEditEvent(event)}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDeleteEvent(event.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

@@ -591,33 +591,33 @@ const MyPassion: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {passionTopics.map((topic) => (
-            <Card 
-              key={topic.id}
-              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-2 border-transparent hover:border-pink-200"
-              onClick={() => handleTopicSelect(topic)}
-            >
-              <CardHeader>
-                <CardTitle className="brand-card-title flex items-center gap-2">
-                  <span className="text-2xl">{topic.icon}</span>
-                  {topic.subject}
-                </CardTitle>
-                <p className="brand-card-text">{topic.topic}</p>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
+            <div key={topic.id} className="premium-card">
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-3xl">{topic.icon}</span>
+                  <div>
+                    <h3 className="brand-card-title">{topic.subject}</h3>
+                    <p className="text-gray-600 text-sm">{topic.topic}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 mb-4">
                   {topic.videos.map((video, index) => (
-                    <div key={video.id} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
-                      <div className="w-16 h-9 bg-gradient-to-br from-pink-200 to-purple-300 rounded flex items-center justify-center">
+                    <div key={video.id} className="flex items-center gap-3 p-3 bg-pink-50 rounded-xl border border-pink-100">
+                      <div className="w-16 h-10 bg-gradient-to-br from-pink-200 to-purple-300 rounded-lg flex items-center justify-center shadow-sm">
                         <span className="text-lg">🎬</span>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium">{video.title}</p>
-                        <p className="text-xs text-gray-500">{video.duration}</p>
+                        <p className="font-medium text-gray-800">{video.title}</p>
+                        <p className="text-xs text-gray-500 flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {video.duration}
+                        </p>
                       </div>
                       {completedVideos.includes(video.id) && (
-                        <Badge variant="secondary" className="bg-green-100 text-green-700">
+                        <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
                           ✓
                         </Badge>
                       )}
@@ -625,13 +625,21 @@ const MyPassion: React.FC = () => {
                   ))}
                 </div>
                 
-                <div className="mt-4 pt-3 border-t">
-                  <p className="text-sm text-gray-600">
-                    {topic.videos.filter(v => completedVideos.includes(v.id)).length} / {topic.videos.length} videos completed
-                  </p>
+                <div className="pt-3 border-t border-pink-100">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-gray-600">
+                      {topic.videos.filter(v => completedVideos.includes(v.id)).length} / {topic.videos.length} completed
+                    </p>
+                    <Button 
+                      onClick={() => handleTopicSelect(topic)}
+                      className="bg-pink-500 hover:bg-pink-600 text-white text-sm px-4 py-2 rounded-xl shadow-md"
+                    >
+                      Start Creating
+                    </Button>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>

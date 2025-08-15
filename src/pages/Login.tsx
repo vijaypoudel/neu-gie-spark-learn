@@ -19,8 +19,8 @@ const Login = () => {
           />
           
           <h1 className="text-4xl md:text-6xl font-bold font-playfair">
-            <span className="text-orange-500">Curio</span>
-            <span className="text-black">Bee</span>
+            <span className="text-orange-500">Neu</span>
+            <span className="text-black">gie</span>
           </h1>
           
           <p className="text-xl text-gray-600 max-w-md font-playfair">

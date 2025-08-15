@@ -14,6 +14,7 @@ import AIChat from "./pages/AIChat";
 import KidsHome from "./pages/KidsHome";
 import SetCurriculum from "./pages/SetCurriculum";
 import Calendar from "./pages/Calendar";
+import WeeklyCurriculum from "./pages/WeeklyCurriculum";
 import WorkInProgress from "./pages/WorkInProgress";
 import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
@@ -38,7 +39,7 @@ const App = () => (
           <Route path="/inbox" element={<WorkInProgress />} />
           <Route path="/kids-home" element={<KidsHome />} />
           <Route path="/set-curriculum" element={<SetCurriculum />} />
-          <Route path="/weekly-curriculum" element={<WorkInProgress />} />
+          <Route path="/weekly-curriculum" element={<WeeklyCurriculum />} />
           <Route path="/my-badges" element={<WorkInProgress />} />
           <Route path="/my-passion" element={<WorkInProgress />} />
           <Route path="/funtube" element={<WorkInProgress />} />

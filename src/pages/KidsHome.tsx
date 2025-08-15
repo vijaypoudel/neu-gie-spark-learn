@@ -49,7 +49,7 @@ const KidsHome = () => {
       <div className="premium-card sticky top-0 z-50 mx-4 mt-4 mb-6">
         <div className="p-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold font-playfair">
-            <span className="neugie-text-gradient">Neu</span>
+            <span className="text-orange-500">Neu</span>
             <span className="text-gray-800">gie</span>
             <span className="text-orange-500 ml-2">Kids</span>
           </h1>
@@ -65,7 +65,7 @@ const KidsHome = () => {
           {/* Welcome Header */}
           <div className="mb-8 text-center">
             <h2 className="text-4xl font-bold mb-3 font-playfair">
-              Hey there, <span className="neugie-text-gradient">Tommy!</span>
+              Hey there, <span className="text-orange-500">Tommy!</span>
             </h2>
             <p className="text-lg text-gray-600">
               Ready for some awesome learning adventures today?

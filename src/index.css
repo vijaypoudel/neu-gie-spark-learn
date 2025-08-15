@@ -13,11 +13,11 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 217 91.2% 59.8%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 24 95% 50%;           /* Orange as primary */
+    --primary-foreground: 0 0% 100%;     /* White text on orange */
 
-    --secondary: 42 95.8% 50.2%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 15%;           /* Black/charcoal as secondary */
+    --secondary-foreground: 0 0% 100%;   /* White text on black */
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;

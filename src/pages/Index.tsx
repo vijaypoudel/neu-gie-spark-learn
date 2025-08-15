@@ -18,8 +18,8 @@ const Index = () => {
           />
           
           <h1 className="text-4xl md:text-6xl font-bold font-playfair">
-            <span className="text-yellow-500">Neu</span>
-            <span className="text-orange-500">gie</span>
+            <span className="text-orange-500">Neu</span>
+            <span className="text-gray-800">gie</span>
           </h1>
           
           <p className="text-xl text-gray-600 max-w-md font-playfair">
@@ -39,7 +39,7 @@ const Index = () => {
               <Link to="/onboarding">
                 <Button 
                   variant="outline"
-                  className="w-full border-yellow-500 text-yellow-600 hover:bg-yellow-50 h-12 rounded-xl font-playfair"
+                  className="w-full border-orange-500 text-orange-600 hover:bg-orange-50 h-12 rounded-xl font-playfair"
                 >
                   Create Account
                 </Button>

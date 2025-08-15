@@ -13,7 +13,7 @@ const AIChat = () => {
         </Link>
         <h1 className="text-2xl font-bold font-playfair">
           <span className="text-orange-500">Ask</span>{" "}
-          <span className="text-black">NeuGie</span>
+          <span className="text-gray-800">NeuGie</span>
         </h1>
       </div>
       

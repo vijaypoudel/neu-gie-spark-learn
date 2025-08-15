@@ -141,7 +141,7 @@ const Calendar = () => {
     return (
       <Card key={month.toISOString()} className="backdrop-blur-xl bg-white/80 border-0 shadow-xl">
         <CardHeader className="pb-4">
-          <CardTitle className="text-center font-playfair text-xl text-primary font-bold">
+          <CardTitle className="text-center font-playfair text-xl text-orange-600 font-bold">
             {format(month, 'MMMM yyyy')}
           </CardTitle>
         </CardHeader>
@@ -169,9 +169,9 @@ const Calendar = () => {
                     setSelectedDate(day);
                     setIsDialogOpen(true);
                   }}
-                  className={`h-12 p-1 rounded-lg text-sm relative transition-all hover:bg-accent/50 ${
-                    isToday ? 'bg-primary text-primary-foreground font-bold' : 
-                    isCurrentMonth ? 'text-foreground' : 'text-muted-foreground'
+                  className={`h-12 p-1 rounded-lg text-sm relative transition-all hover:bg-orange-100 ${
+                    isToday ? 'bg-orange-500 text-white font-bold' : 
+                    isCurrentMonth ? 'text-gray-800' : 'text-gray-400'
                   }`}
                 >
                   <div className="w-full h-full flex flex-col items-center justify-center">
@@ -200,15 +200,15 @@ const Calendar = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <div className="bg-white/70 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-border/20">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50/30 to-gray-50">
+      <div className="bg-white/90 backdrop-blur-xl p-4 flex items-center justify-between shadow-sm sticky top-0 z-10 border-b border-orange-200/30">
         <div className="flex items-center">
           <Link to="/home" className="mr-4">
             <ChevronLeft className="h-5 w-5" />
           </Link>
           <div className="flex items-center gap-3">
-            <CalendarIcon className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold font-playfair text-primary">
+            <CalendarIcon className="h-6 w-6 text-orange-500" />
+            <h1 className="text-2xl font-bold font-playfair text-gray-800">
               Learning Calendar
             </h1>
           </div>
@@ -216,7 +216,7 @@ const Calendar = () => {
         
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white font-medium">
               <Plus className="mr-2 h-4 w-4" />
               Add Event
             </Button>
@@ -289,7 +289,7 @@ const Calendar = () => {
         {/* Upcoming Events */}
         <Card className="backdrop-blur-xl bg-white/80 border-0 shadow-xl">
           <CardHeader>
-            <CardTitle className="font-playfair text-primary font-bold">
+            <CardTitle className="font-playfair text-orange-600 font-bold">
               Upcoming Events
             </CardTitle>
           </CardHeader>

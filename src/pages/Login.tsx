@@ -6,7 +6,7 @@ import LoginForm from '@/components/LoginForm';
 
 const Login = () => {
   useEffect(() => {
-    document.title = 'Parent Login | CurioBee';
+    document.title = 'Parent Login | Neugie';
   }, []);
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-black/5 flex items-center justify-center p-4">
@@ -14,7 +14,7 @@ const Login = () => {
         <div className="md:w-1/2 text-center md:text-left space-y-6 max-w-sm">
           <img 
             src="/lovable-uploads/8a2bf812-5023-41f7-aef5-bff84f9a8786.png" 
-            alt="CurioBee Mascot" 
+            alt="Neugie Mascot" 
             className="w-24 h-24 mx-auto md:mx-0"
           />
           

@@ -59,7 +59,7 @@ const Onboarding = () => {
       <div className="max-w-md mx-auto">
         <img 
           src="/lovable-uploads/8a2bf812-5023-41f7-aef5-bff84f9a8786.png" 
-          alt="CurioBee Mascot" 
+          alt="Neugie Mascot" 
           className="w-24 h-24 mx-auto mb-6"
         />
         
@@ -91,7 +91,7 @@ const Onboarding = () => {
               {currentStep === 'child' && 'Add Your Child'}
             </h1>
             <p className="text-gray-600 mt-2 text-sm font-playfair">
-              {currentStep === 'parent' && 'Start your journey with CurioBee'}
+              {currentStep === 'parent' && 'Start your journey with Neugie'}
               {currentStep === 'spouse' && 'Optional: Add another parent'}
               {currentStep === 'child' && 'Help us personalize the learning experience'}
             </p>

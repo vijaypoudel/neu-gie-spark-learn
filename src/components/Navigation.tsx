@@ -17,7 +17,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab }) => {
     },
     {
       id: 'ai',
-      label: 'Ask CurioBee',
+      label: 'Ask Neugie',
       icon: BugPlay,
       path: '/ai'
     },

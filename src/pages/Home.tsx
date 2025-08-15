@@ -46,7 +46,7 @@ const Home = () => {
     {
       title: "My Inbox",
       description: "Stay updated with important notifications",
-      longDescription: "Receive and manage communications from teachers, educational institutions, and the CurioBee platform. Get timely updates on your child's progress and important educational opportunities.",
+      longDescription: "Receive and manage communications from teachers, educational institutions, and the Neugie platform. Get timely updates on your child's progress and important educational opportunities.",
       icon: Inbox,
       color: "bg-neugie-red hover:bg-neugie-red/90",
       path: "/inbox",

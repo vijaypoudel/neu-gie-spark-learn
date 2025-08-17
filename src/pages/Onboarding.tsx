@@ -8,7 +8,7 @@ import ChildProfileForm from '@/components/ChildProfileForm';
 import { saveParentProfile, addChildProfile } from '@/lib/profileStore';
 const Onboarding = () => {
   const navigate = useNavigate();
-  const [showSpouseForm, setShowSpouseForm] = useState(false);
+  const [showSpouseForm] = useState(false);
   const [currentStep, setCurrentStep] = useState<'parent' | 'spouse' | 'child'>('parent');
   const [parentData, setParentData] = useState<any>(null);
   const [spouseData, setSpouseData] = useState<any>(null);
@@ -23,11 +23,7 @@ const Onboarding = () => {
       dateOfBirth: data.dateOfBirth,
       pin: data.pin,
     });
-    if (showSpouseForm) {
-      setCurrentStep('spouse');
-    } else {
-      setCurrentStep('child');
-    }
+    setCurrentStep('child');
   };
 
   // Function to handle spouse profile submission
@@ -101,8 +97,7 @@ const Onboarding = () => {
             <div className="space-y-6">
               <ParentProfileForm 
                 onSubmit={handleParentSubmit} 
-                showSpouseOption={true}
-                onSpouseOptionChange={setShowSpouseForm}
+                showSpouseOption={false}
               />
             </div>
           )}

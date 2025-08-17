@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { toast } from "sonner";
 import LastWeekSummaryCard from '@/components/curriculum/LastWeekSummaryCard';
 import NewPlanCard from '@/components/curriculum/NewPlanCard';
+import HabitCreation from '@/components/curriculum/HabitCreation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { 
@@ -131,34 +132,16 @@ ${customGoals ? `4. ${customGoals}` : ''}
       
       <div className="px-6 pb-24">
         <div className="max-w-3xl mx-auto">
-          {/* How It Works Explanation */}
-          <div className="premium-card p-6 mb-6">
-            <div className="flex items-center gap-4 mb-4">
-              <Brain className="h-8 w-8 text-orange-500" />
-              <h2 className="brand-card-title">
-                How Curriculum Setting Works
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-600">
+          {/* Weekly Schedule Notice */}
+          <div className="premium-card mb-6 border-l-4 border-orange-500">
+            <div className="p-6">
               <div className="flex items-start gap-3">
-                <Calendar className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                <Calendar className="h-6 w-6 text-orange-500 shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">1. Your Input</h3>
-                  <p>Select subjects, add custom goals, and upload images. Our AI also checks your calendar for educational events.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Brain className="h-5 w-5 text-purple-500 mt-1 flex-shrink-0" />
-                <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">2. AI Planning</h3>
-                  <p>AI combines your inputs with last week's analysis to create a personalized learning plan.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Video className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">3. Video Curation</h3>
-                  <p>AI selects 12-14 educational videos from trusted channels that match your weekly plan.</p>
+                  <h3 className="font-semibold text-gray-800 mb-2">📅 Weekly Schedule</h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    <strong>Your learning week runs from Saturday to Sunday.</strong> This gives you the weekend to plan ahead and start fresh every Saturday with new goals and activities.
+                  </p>
                 </div>
               </div>
             </div>
@@ -169,6 +152,8 @@ ${customGoals ? `4. ${customGoals}` : ''}
           onOpenChange={setIsLastWeekOpen}
           data={lastWeekData}
         />
+
+        <HabitCreation />
 
         <NewPlanCard 
           isOpen={isNewPlanOpen || !isLastWeekOpen}

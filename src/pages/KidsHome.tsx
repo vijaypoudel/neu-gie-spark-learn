@@ -1,5 +1,5 @@
 import React from 'react';
-import { Book, Award, Heart, Youtube } from 'lucide-react';
+import { Book, Award, Heart, Youtube, Calendar } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import SectionCard from '@/components/home/SectionCard';
 
@@ -31,6 +31,15 @@ const KidsHome = () => {
       color: "bg-neugie-purple hover:bg-neugie-purple/90",
       path: "/my-passion",
       bgImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&q=80&w=600&h=400')",
+    },
+    {
+      title: "My Calendar",
+      description: "Check your learning schedule and activities",
+      longDescription: "See all your upcoming learning activities, exams, and fun events. Stay organized and never miss anything important in your learning journey!",
+      icon: Calendar,
+      color: "bg-neugie-orange hover:bg-neugie-orange/90",
+      path: "/calendar",
+      bgImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80&w=600&h=400')",
     },
     {
       title: "FunTube",

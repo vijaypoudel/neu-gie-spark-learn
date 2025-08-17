@@ -16,11 +16,9 @@ const childSchema = z.object({
   curriculum: z.string().min(1, "Curriculum is required"),
   subjects: z.array(z.string()).min(1, "Select at least one subject"),
   passions: z.array(z.string()).min(1, "Select at least one passion"),
-  passcode: z.string().length(8, "Passcode must be 8 digits").regex(/^\d+$/, "Passcode must contain only numbers"),
-  confirmPasscode: z.string().length(8, "Passcode must be 8 digits")
-}).refine(data => data.passcode === data.confirmPasscode, {
-  message: "Passcodes don't match",
-  path: ["confirmPasscode"]
+  class: z.string().min(1, "Class is required"),
+  schoolName: z.string().min(2, "School name must be at least 2 characters"),
+  section: z.string().optional()
 });
 
 // List of subjects
@@ -58,8 +56,9 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
       curriculum: "",
       subjects: [],
       passions: [],
-      passcode: "",
-      confirmPasscode: ""
+      class: "",
+      schoolName: "",
+      section: ""
     }
   });
 
@@ -214,17 +213,46 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
 
         <FormField
           control={form.control}
-          name="passcode"
+          name="class"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-playfair">Create Passcode (8 digits)</FormLabel>
+              <FormLabel className="font-playfair">Class/Grade</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="h-12 rounded-xl bg-gray-50/50">
+                    <SelectValue placeholder="Select class/grade" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="nursery">Nursery</SelectItem>
+                  <SelectItem value="lkg">LKG</SelectItem>
+                  <SelectItem value="ukg">UKG</SelectItem>
+                  <SelectItem value="1">Class 1</SelectItem>
+                  <SelectItem value="2">Class 2</SelectItem>
+                  <SelectItem value="3">Class 3</SelectItem>
+                  <SelectItem value="4">Class 4</SelectItem>
+                  <SelectItem value="5">Class 5</SelectItem>
+                  <SelectItem value="6">Class 6</SelectItem>
+                  <SelectItem value="7">Class 7</SelectItem>
+                  <SelectItem value="8">Class 8</SelectItem>
+                  <SelectItem value="9">Class 9</SelectItem>
+                  <SelectItem value="10">Class 10</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="schoolName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-playfair">School Name</FormLabel>
               <FormControl>
                 <Input 
-                  type="password" 
-                  maxLength={8} 
-                  pattern="[0-9]*" 
-                  inputMode="numeric" 
-                  placeholder="Enter 8-digit passcode" 
+                  placeholder="Enter school name" 
                   className="h-12 rounded-xl bg-gray-50/50"
                   {...field} 
                 />
@@ -236,17 +264,13 @@ const ChildProfileForm = ({ onSubmit }: ChildProfileFormProps) => {
 
         <FormField
           control={form.control}
-          name="confirmPasscode"
+          name="section"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-playfair">Confirm Passcode</FormLabel>
+              <FormLabel className="font-playfair">Section (Optional)</FormLabel>
               <FormControl>
                 <Input 
-                  type="password" 
-                  maxLength={8} 
-                  pattern="[0-9]*" 
-                  inputMode="numeric" 
-                  placeholder="Confirm 8-digit passcode" 
+                  placeholder="e.g., A, B, Blue, Red" 
                   className="h-12 rounded-xl bg-gray-50/50"
                   {...field} 
                 />

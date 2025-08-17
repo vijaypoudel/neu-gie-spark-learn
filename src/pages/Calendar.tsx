@@ -29,7 +29,8 @@ interface Event {
   id: string;
   title: string;
   date: Date;
-  type: 'exam' | 'assignment' | 'storytelling' | 'activity' | 'other';
+  time: string;
+  type: 'exam' | 'assignment' | 'storytelling' | 'swimming' | 'activity' | 'other';
   color: string;
 }
 
@@ -37,6 +38,7 @@ const eventTypes = [
   { value: 'exam', label: 'Exam', color: 'bg-red-500' },
   { value: 'assignment', label: 'Assignment', color: 'bg-orange-500' },
   { value: 'storytelling', label: 'Storytelling', color: 'bg-purple-500' },
+  { value: 'swimming', label: 'Swimming', color: 'bg-cyan-500' },
   { value: 'activity', label: 'Activity', color: 'bg-blue-500' },
   { value: 'other', label: 'Other', color: 'bg-gray-500' },
 ];
@@ -48,6 +50,7 @@ const Calendar = () => {
       id: '1',
       title: 'Math Exam',
       date: new Date(today.getFullYear(), today.getMonth(), 15),
+      time: '10:00 AM',
       type: 'exam',
       color: 'bg-red-500'
     },
@@ -55,8 +58,17 @@ const Calendar = () => {
       id: '2',
       title: 'Storytelling on Giraffes',
       date: new Date(today.getFullYear(), today.getMonth(), 22),
+      time: '3:30 PM',
       type: 'storytelling',
       color: 'bg-purple-500'
+    },
+    {
+      id: '3',
+      title: 'Swimming Class',
+      date: new Date(today.getFullYear(), today.getMonth(), 20),
+      time: '4:00 PM',
+      type: 'swimming',
+      color: 'bg-cyan-500'
     }
   ]);
   
@@ -66,7 +78,8 @@ const Calendar = () => {
   const [newEvent, setNewEvent] = useState({
     title: '',
     type: 'other' as Event['type'],
-    date: new Date()
+    date: new Date(),
+    time: ''
   });
 
   const months = [today, addMonths(today, 1), addMonths(today, 2)];
@@ -80,18 +93,23 @@ const Calendar = () => {
       toast.error("Please enter an event title");
       return;
     }
+    if (!newEvent.time.trim()) {
+      toast.error("Please enter event time");
+      return;
+    }
 
     const eventType = eventTypes.find(type => type.value === newEvent.type);
     const event: Event = {
       id: Date.now().toString(),
       title: newEvent.title,
       date: selectedDate || newEvent.date,
+      time: newEvent.time,
       type: newEvent.type,
       color: eventType?.color || 'bg-gray-500'
     };
 
     setEvents([...events, event]);
-    setNewEvent({ title: '', type: 'other', date: new Date() });
+    setNewEvent({ title: '', type: 'other', date: new Date(), time: '' });
     setIsDialogOpen(false);
     setSelectedDate(null);
     toast.success("Event added successfully!");
@@ -102,7 +120,8 @@ const Calendar = () => {
     setNewEvent({
       title: event.title,
       type: event.type,
-      date: event.date
+      date: event.date,
+      time: event.time
     });
     setIsDialogOpen(true);
   };
@@ -115,12 +134,13 @@ const Calendar = () => {
       ...editingEvent,
       title: newEvent.title,
       type: newEvent.type,
+      time: newEvent.time,
       color: eventType?.color || 'bg-gray-500'
     };
 
     setEvents(events.map(e => e.id === editingEvent.id ? updatedEvent : e));
     setEditingEvent(null);
-    setNewEvent({ title: '', type: 'other', date: new Date() });
+    setNewEvent({ title: '', type: 'other', date: new Date(), time: '' });
     setIsDialogOpen(false);
     toast.success("Event updated successfully!");
   };
@@ -244,6 +264,16 @@ const Calendar = () => {
                   />
                 </div>
                 <div className="grid gap-2">
+                  <Label htmlFor="time">Event Time</Label>
+                  <Input
+                    id="time"
+                    type="time"
+                    value={newEvent.time}
+                    onChange={(e) => setNewEvent({...newEvent, time: e.target.value})}
+                    placeholder="Select time"
+                  />
+                </div>
+                <div className="grid gap-2">
                   <Label htmlFor="type">Event Type</Label>
                   <Select
                     value={newEvent.type}
@@ -269,7 +299,7 @@ const Calendar = () => {
                 <Button variant="outline" onClick={() => {
                   setIsDialogOpen(false);
                   setEditingEvent(null);
-                  setNewEvent({ title: '', type: 'other', date: new Date() });
+                  setNewEvent({ title: '', type: 'other', date: new Date(), time: '' });
                   setSelectedDate(null);
                 }}>
                   Cancel
@@ -311,7 +341,7 @@ const Calendar = () => {
                             <div>
                               <h4 className="font-semibold brand-card-text">{event.title}</h4>
                               <p className="text-sm text-gray-500">
-                                {format(event.date, 'MMMM d, yyyy')}
+                                {format(event.date, 'MMMM d, yyyy')} at {event.time}
                               </p>
                             </div>
                             <Badge variant="secondary" className="ml-2 bg-white shadow-sm">

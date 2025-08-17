@@ -18,7 +18,9 @@ export type ChildProfile = {
   curriculum: string;
   subjects: string[];
   passions: string[];
-  passcode: string; // 8-digit
+  class: string;
+  schoolName: string;
+  section?: string;
   avatar?: string;
 };
 
@@ -53,7 +55,9 @@ export const addChildProfile = (data: Partial<ChildProfile>) => {
     curriculum: data.curriculum || '',
     subjects: data.subjects || [],
     passions: data.passions || [],
-    passcode: data.passcode || '',
+    class: data.class || '',
+    schoolName: data.schoolName || '',
+    section: data.section,
     avatar: data.avatar,
   };
   const children = getChildProfiles();

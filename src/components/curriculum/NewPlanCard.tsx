@@ -9,7 +9,7 @@ import {
   CollapsibleTrigger 
 } from "@/components/ui/collapsible";
 import SubjectSelector from './SubjectSelector';
-import GoalInput from './GoalInput';
+import MultimodalGoalInput from './MultimodalGoalInput';
 import CurriculumSkeleton from './CurriculumSkeleton';
 
 interface Subject {
@@ -90,7 +90,7 @@ const NewPlanCard: React.FC<NewPlanCardProps> = ({
               />
             </div>
 
-            <GoalInput 
+            <MultimodalGoalInput 
               value={customGoals} 
               onChange={onGoalsChange} 
             />
